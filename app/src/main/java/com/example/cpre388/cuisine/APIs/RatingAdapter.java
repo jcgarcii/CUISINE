@@ -7,8 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import import com.example.cpre388.cuisine.R;
+import com.example.cpre388.cuisine.R;
 import com.example.cpre388.cuisine.Models.rating_model;
 import com.google.firebase.firestore.Query;
 
