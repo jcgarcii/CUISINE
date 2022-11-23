@@ -4,9 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/gohsh/OneDrive/W/Documents/ISU/Fall 2022/CPRE 388/NewProject2/CUISINE/app/src/main/res/layout/activity_customer_main.xml" value="0.22" />
+        <entry key="..\:/Users/gohsh/OneDrive/W/Documents/ISU/Fall 2022/CPRE 388/NewProject2/CUISINE/app/src/main/res/layout/activity_customer_reciepts.xml" value="0.35688405797101447" />
+        <entry key="..\:/Users/gohsh/OneDrive/W/Documents/ISU/Fall 2022/CPRE 388/NewProject2/CUISINE/app/src/main/res/layout/activity_customer_request.xml" value="0.35688405797101447" />
         <entry key="..\:/Users/gohsh/OneDrive/W/Documents/ISU/Fall 2022/CPRE 388/NewProject2/CUISINE/app/src/main/res/layout/activity_main.xml" value="0.31354166666666666" />
+        <entry key="..\:/Users/gohsh/OneDrive/W/Documents/ISU/Fall 2022/CPRE 388/NewProject2/CUISINE/app/src/main/res/layout/activity_restaurant_detail.xml" value="0.4734375" />
         <entry key="..\:/Users/gohsh/OneDrive/W/Documents/ISU/Fall 2022/CPRE 388/NewProject2/CUISINE/app/src/main/res/layout/customer_header.xml" value="0.1" />
         <entry key="..\:/Users/gohsh/OneDrive/W/Documents/ISU/Fall 2022/CPRE 388/NewProject2/CUISINE/app/src/main/res/menu/customer_menu.xml" value="0.1703125" />
+        <entry key="..\:/Users/gohsh/OneDrive/W/Documents/ISU/Fall 2022/CPRE 388/NewProject2/CUISINE/app/src/main/res/menu/menu_main.xml" value="0.4734375" />
       </map>
     </option>
   </component>

@@ -15,6 +15,12 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".CustomerRecieptsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CustomerRequestActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.activity_customer_main"
             android:exported="false" />
         <activity
@@ -26,8 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".Activities.RestaurantDetailActivity" />
     </application>
 
