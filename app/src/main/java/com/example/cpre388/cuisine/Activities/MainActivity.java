@@ -244,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onFilterClicked() {
         // Show the dialog containing filter options
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
+        //startActivity(new Intent(MainActivity.this, activity_customer_main.class));
     }
 
     public void onClearFilterClicked() {
