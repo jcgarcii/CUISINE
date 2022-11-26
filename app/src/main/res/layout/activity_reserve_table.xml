@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:fontFamily="@font/gothic_a1"
+        android:gravity="clip_horizontal|center"
+        android:text="@string/reserve_table_page"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="409dp"
+        android:layout_height="414dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <ImageView
+            android:id="@+id/set_reservation_table_size_img"
+            android:layout_width="match_parent"
+            android:layout_height="413dp"
+            android:contentDescription="@string/reserve_table_page"
+            app:srcCompat="@drawable/table_for_one" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="244dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+
+        <Spinner
+            android:id="@+id/table_size_selector"
+            android:layout_width="match_parent"
+            android:layout_height="55sp"
+            android:background="@color/colorAccent"
+            android:spinnerMode="dropdown"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
+            android:id="@+id/reservation_for_name"
+            android:layout_width="match_parent"
+            android:layout_height="55sp"
+            android:ems="10"
+            android:background="@color/white"
+            android:inputType="textPersonName"
+            android:hint="@string/reserve_name" />
+
+        <EditText
+            android:id="@+id/reservation_for_phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="55sp"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:hint="@string/reserve_phone_number"
+            android:ems="10"
+            android:inputType="phone" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/submit_reservation"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:textColor="@color/white"
+            android:background="@color/purple_200"
+            android:text="@string/submit" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

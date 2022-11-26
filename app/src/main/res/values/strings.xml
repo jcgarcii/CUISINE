@@ -13,6 +13,19 @@
     <string name="price_2">$$</string>
     <string name="price_3">$$$</string>
 
+    <string name="reserve_table_page">Reservation</string>
+    <string name="how_many_tables">How Many Will Be Dining?</string>
+    <string name="reserve_name">Name: </string>
+    <string name="reserve_phone_number">Phone Number: </string>
+    <string name="table_for_one">Party of One</string>
+    <string name="table_for_two">Party of Two</string>
+    <string name="table_for_three">Party of Three</string>
+    <string name="table_for_four">Party of Four</string>
+    <string name="table_for_five">Party of Five</string>
+    <string name="table_for_six">Party of Six</string>
+    <string name="table_for_seven">Party of Seven</string>
+    <string name="table_for_eight">Party of Eight</string>
+
     <string name="label_category">Category</string>
     <string name="label_city">City</string>
     <string name="label_price">Price</string>
