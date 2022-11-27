@@ -39,10 +39,10 @@ public class SelectTableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_table);
 
-        table_array_room_one = new int[3][4];
-        table_array_room_two = new int[3][4];
-        table_array_room_three = new int[3][4];
-        table_array_room_four = new int[3][4];
+        table_array_room_one = new int[4][3];
+        table_array_room_two = new int[4][3];
+        table_array_room_three = new int[4][3];
+        table_array_room_four = new int[4][3];
 
         spinner = (Spinner) this.findViewById(R.id.room_selector);
         list = new ArrayList<String>();
@@ -122,9 +122,9 @@ public class SelectTableActivity extends AppCompatActivity {
     }
 
     private void init_tables(){
-        for(int x = 0; x < 3; x++){
+        for(int x = 0; x < 4; x++){
             String currX = String.format("%d", x + 1);
-            for(int y = 0; y < 4; y++){
+            for(int y = 0; y < 3; y++){
                 String currY = String.format("%d",y + 1);
                 String val = currX + "_" + currY;
 
@@ -156,6 +156,15 @@ public class SelectTableActivity extends AppCompatActivity {
                     case "3_3":
                         mTable_3_3.setImageResource(R.drawable.table_for_default);
                         break;
+                    case "4_1":
+                        mTable_4_1.setImageResource(R.drawable.table_for_default);
+                        break;
+                    case "4_2":
+                        mTable_4_2.setImageResource(R.drawable.table_for_default);
+                        break;
+                    case "4_3":
+                        mTable_4_3.setImageResource(R.drawable.table_for_default);
+                        break;
                     case "default":
                         Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
                         break;
@@ -165,11 +174,11 @@ public class SelectTableActivity extends AppCompatActivity {
     }
 
     private void set_tables(int[][] table_array, int room_num){
-        for(int x = 0; x < 3; x++){
+        for(int x = 0; x < 4; x++){
             String currX = String.format("%d", x + 1);
-            for(int y = 0; y < 4; y++){
+            for(int y = 0; y < 3; y++){
                 String currY = String.format("%d",y + 1);
-                String val = currY + "_" + currX;
+                String val = currX + "_" + currY;
                 String logged = String.format("Value: %d", table_array[x][y]);
                 Log.d("CURR_VAL", val + logged);
                 if(table_array[x][y] > 0){
@@ -200,6 +209,15 @@ public class SelectTableActivity extends AppCompatActivity {
                             break;
                         case "3_3":
                             mTable_3_3.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "4_1":
+                            mTable_4_1.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "4_2":
+                            mTable_4_2.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "4_3":
+                            mTable_4_3.setImageResource(R.drawable.table_for_default);
                             break;
                         case "default":
                             Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
@@ -235,6 +253,15 @@ public class SelectTableActivity extends AppCompatActivity {
                         case "3_3":
                             mTable_3_3.setImageResource(R.drawable.empty_space);
                             break;
+                        case "4_1":
+                            mTable_4_1.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "4_2":
+                            mTable_4_2.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "4_3":
+                            mTable_4_3.setImageResource(R.drawable.empty_space);
+                            break;
                         default:
                             Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
                             break;
@@ -249,15 +276,52 @@ public class SelectTableActivity extends AppCompatActivity {
      * Fills Array with dummy values for testing purposes;
      */
     private int[][] dummy_array(){
-        int[][] toReturn = new int[3][4];
+        int[][] toReturn = new int[4][3];
         Random rand = new Random();
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 4; j++){
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 3; j++){
                 int k = rand.nextInt(8) - 5;
                 toReturn[i][j] = k;
             }
         }
         return toReturn;
+    }
+
+    public void on_1_1_clicked(View view){
+
+    }
+    public void on_1_2_clicked(View view){
+
+    }
+    public void on_1_3_clicked(View view){
+
+    }
+    public void on_2_1_clicked(View view){
+
+    }
+    public void on_2_2_clicked(View view){
+
+    }
+    public void on_2_3_clicked(View view){
+
+    }
+    public void on_3_1_clicked(View view){
+
+    }
+    public void on_3_2_clicked(View view){
+
+    }
+    public void on_3_3_clicked(View view){
+
+    }
+    public void on_4_1_clicked(View view){
+
+    }
+    public void on_4_2_clicked(View view){
+
+    }
+    public void on_4_3_clicked(View view){
+
     }
 
 }
