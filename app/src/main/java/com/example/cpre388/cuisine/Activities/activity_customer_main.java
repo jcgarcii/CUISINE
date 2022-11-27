@@ -75,6 +75,10 @@ public class activity_customer_main extends AppCompatActivity implements Navigat
                 break;
             case R.id.nav_review:
                 break;
+            case R.id.nav_calculator:
+                Intent calcIntent = new Intent(this, tip_activity.class);
+                startActivity(calcIntent);
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
