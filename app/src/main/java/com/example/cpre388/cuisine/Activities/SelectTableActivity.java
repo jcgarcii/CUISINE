@@ -27,13 +27,15 @@ public class SelectTableActivity extends AppCompatActivity {
     private int[][] table_array_room_two;
     private int[][] table_array_room_three;
     private int[][] table_array_room_four;
-
+    private int[][] current_table_array;
 
     private Spinner spinner;
     private ArrayList<String> list;
     //String Values for View purposes:
     private String one, two, three, four;
 
+    //String Value for the Selected Table:
+    private String selection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,7 @@ public class SelectTableActivity extends AppCompatActivity {
         table_array_room_two = new int[4][3];
         table_array_room_three = new int[4][3];
         table_array_room_four = new int[4][3];
+        current_table_array = new int[4][3];
 
         spinner = (Spinner) this.findViewById(R.id.room_selector);
         list = new ArrayList<String>();
@@ -52,25 +55,38 @@ public class SelectTableActivity extends AppCompatActivity {
 
         //Table Matrix: Row 1
         mTable_1_1 = findViewById(R.id.table_1_1);
+        mTable_1_1.setOnClickListener(this::on_1_1_clicked);
         mTable_1_2 = findViewById(R.id.table_1_2);
+        mTable_1_2.setOnClickListener(this::on_1_2_clicked);
         mTable_1_3 = findViewById(R.id.table_1_3);
+        mTable_1_3.setOnClickListener(this::on_1_3_clicked);
         //Row 2:
         mTable_2_1 = findViewById(R.id.table_2_1);
+        mTable_2_1.setOnClickListener(this::on_2_1_clicked);
         mTable_2_2 = findViewById(R.id.table_2_2);
+        mTable_2_2.setOnClickListener(this::on_2_2_clicked);
         mTable_2_3 = findViewById(R.id.table_2_3);
+        mTable_2_3.setOnClickListener(this::on_2_3_clicked);
         //Row 3:
         mTable_3_1 = findViewById(R.id.table_3_1);
+        mTable_3_1.setOnClickListener(this::on_3_1_clicked);
         mTable_3_2 = findViewById(R.id.table_3_2);
+        mTable_3_2.setOnClickListener(this::on_3_2_clicked);
         mTable_3_3 = findViewById(R.id.table_3_3);
+        mTable_3_3.setOnClickListener(this::on_3_3_clicked);
         //Row 4:
         mTable_4_1 = findViewById(R.id.table_4_1);
+        mTable_4_1.setOnClickListener(this::on_4_1_clicked);
         mTable_4_2 = findViewById(R.id.table_4_2);
+        mTable_4_2.setOnClickListener(this::on_4_2_clicked);
         mTable_4_3 = findViewById(R.id.table_4_3);
+        mTable_4_3.setOnClickListener(this::on_4_3_clicked);
 
         table_array_room_one = dummy_array();
         table_array_room_two = dummy_array();
         table_array_room_three = dummy_array();
         table_array_room_four = dummy_array();
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -79,29 +95,31 @@ public class SelectTableActivity extends AppCompatActivity {
 
                 switch (selected){
                     case "Room One":
-                        init_tables();
+                        current_table_array = table_array_room_one;
                         set_tables(table_array_room_one, 1);
                         break;
                     case "Room Two":
-                        init_tables();
+                        current_table_array = table_array_room_two;
                         set_tables(table_array_room_two, 2);
                         break;
                     case "Room Three":
-                        init_tables();
+                        current_table_array = table_array_room_three;
                         set_tables(table_array_room_three, 3);
                         break;
                     case "Room Four":
-                        init_tables();
+                        current_table_array = table_array_room_four;
                         set_tables(table_array_room_four, 4);
                         break;
                     default:
+                        //One is the default is there is only one room at a restaurant
+                        current_table_array = table_array_room_one;
+                        set_tables(table_array_room_one, 0);
                         break;
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 init_tables();
-
             }
         });
 
@@ -122,9 +140,9 @@ public class SelectTableActivity extends AppCompatActivity {
     }
 
     private void init_tables(){
-        for(int x = 0; x < 4; x++){
+        for(int x = 0; x < table_array_room_one.length; x++){
             String currX = String.format("%d", x + 1);
-            for(int y = 0; y < 3; y++){
+            for(int y = 0; y < table_array_room_one[x].length; y++){
                 String currY = String.format("%d",y + 1);
                 String val = currX + "_" + currY;
 
@@ -174,9 +192,9 @@ public class SelectTableActivity extends AppCompatActivity {
     }
 
     private void set_tables(int[][] table_array, int room_num){
-        for(int x = 0; x < 4; x++){
+        for(int x = 0; x < table_array.length ; x++){
             String currX = String.format("%d", x + 1);
-            for(int y = 0; y < 3; y++){
+            for(int y = 0; y < table_array[x].length ; y++){
                 String currY = String.format("%d",y + 1);
                 String val = currX + "_" + currY;
                 String logged = String.format("Value: %d", table_array[x][y]);
@@ -278,8 +296,8 @@ public class SelectTableActivity extends AppCompatActivity {
     private int[][] dummy_array(){
         int[][] toReturn = new int[4][3];
         Random rand = new Random();
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 3; j++){
+        for(int i = 0; i < toReturn.length; i++){
+            for(int j = 0; j < toReturn[i].length; j++){
                 int k = rand.nextInt(8) - 5;
                 toReturn[i][j] = k;
             }
@@ -288,40 +306,125 @@ public class SelectTableActivity extends AppCompatActivity {
     }
 
     public void on_1_1_clicked(View view){
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if(current_table_array[0][0] > 0) {
+            mTable_1_1.setImageResource(R.drawable.current_table_selection);
+        }
 
     }
-    public void on_1_2_clicked(View view){
-
+    public void on_1_2_clicked(View view) {
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[0][1] > 0) {
+            mTable_1_2.setImageResource(R.drawable.current_table_selection);
+        }
     }
+
     public void on_1_3_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[0][2] > 0) {
+            mTable_1_3.setImageResource(R.drawable.current_table_selection);
+        }
     }
     public void on_2_1_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[1][0] > 0) {
+            mTable_2_1.setImageResource(R.drawable.current_table_selection);
+        }
     }
     public void on_2_2_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[1][1] > 0) {
+            mTable_2_2.setImageResource(R.drawable.current_table_selection);
+        }
     }
     public void on_2_3_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[1][2] >= 0) {
+            mTable_2_3.setImageResource(R.drawable.current_table_selection);
+        }
     }
     public void on_3_1_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[2][0] > 0) {
+            mTable_3_1.setImageResource(R.drawable.current_table_selection);
+        }
     }
     public void on_3_2_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[2][1] > 0) {
+            mTable_3_2.setImageResource(R.drawable.current_table_selection);
+        }
     }
     public void on_3_3_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[2][2] > 0) {
+            mTable_3_3.setImageResource(R.drawable.current_table_selection);
+        }
     }
     public void on_4_1_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[3][0] > 0) {
+            mTable_4_1.setImageResource(R.drawable.current_table_selection);
+        }
     }
     public void on_4_2_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[3][1] > 0) {
+            mTable_4_2.setImageResource(R.drawable.current_table_selection);
+        }
     }
     public void on_4_3_clicked(View view){
-
+        /*
+        if(EMPTY){}
+        elseif(RESERVED){}
+        else{}
+         */
+        if (current_table_array[3][2] > 0) {
+            mTable_4_3.setImageResource(R.drawable.current_table_selection);
+        }
     }
-
 }
