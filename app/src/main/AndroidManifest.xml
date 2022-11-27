@@ -31,7 +31,7 @@
             android:name=".Activities.activity_customer_main"
             android:exported="false" />
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.SelectTableActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
