@@ -213,7 +213,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/confirm_table_selection_btn"
         android:layout_width="match_parent"
-        android:layout_height="100sp"
+        android:layout_height="70sp"
         android:textColor="@color/white"
         android:textSize="50sp"
         android:text="@string/submit"

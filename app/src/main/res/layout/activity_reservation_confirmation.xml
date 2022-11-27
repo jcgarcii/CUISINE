@@ -81,7 +81,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/submit_reservation"
+            android:id="@+id/to_home_menu"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:background="@color/purple_200"

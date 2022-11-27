@@ -31,6 +31,12 @@
             android:name=".Activities.activity_customer_main"
             android:exported="false" />
         <activity
+            android:name=".Activities.ReserveTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ReservationConfirmationActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.SelectTableActivity"
             android:exported="true">
             <intent-filter>
