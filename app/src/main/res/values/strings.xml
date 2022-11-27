@@ -29,8 +29,11 @@
 
     <!--These are for the Reservation Confirmation Activity -->
     <string name="reserve_confirmation">Confirmation</string>
-    <string name="reserve_details">We have received your reservation. You will receive a text when your table is ready!</string>
+    <string name="reserve_next_steps">We have received your reservation. You will receive a text when your table is ready!</string>
     <string name="reserve_name_confirmation">Thank you, NAME</string>
+    <string name="reserve_details">Your Table for NUM will be ready for you soon!</string>
+    <string name="to_main_hub">Sweet!</string>
+
 
     <string name="label_category">Category</string>
     <string name="label_city">City</string>
