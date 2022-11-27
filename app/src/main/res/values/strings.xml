@@ -13,6 +13,7 @@
     <string name="price_2">$$</string>
     <string name="price_3">$$$</string>
 
+    <!--These are for the Reservation Activity -->
     <string name="reserve_table_page">Reservation</string>
     <string name="how_many_tables">How Many Will Be Dining?</string>
     <string name="reserve_name">Name: </string>
@@ -25,6 +26,11 @@
     <string name="table_for_six">Party of Six</string>
     <string name="table_for_seven">Party of Seven</string>
     <string name="table_for_eight">Party of Eight</string>
+
+    <!--These are for the Reservation Confirmation Activity -->
+    <string name="reserve_confirmation">Confirmation</string>
+    <string name="reserve_details">We have received your reservation. You will receive a text when your table is ready!</string>
+    <string name="reserve_name_confirmation">Thank you, NAME</string>
 
     <string name="label_category">Category</string>
     <string name="label_city">City</string>

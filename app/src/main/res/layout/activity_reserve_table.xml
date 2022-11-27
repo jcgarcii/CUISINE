@@ -83,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:textColor="@color/white"
+            android:textSize="40sp"
             android:background="@color/purple_200"
             android:text="@string/submit" />
     </LinearLayout>

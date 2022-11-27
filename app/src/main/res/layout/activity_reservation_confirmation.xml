@@ -13,7 +13,7 @@
         android:layout_height="70sp"
         android:fontFamily="@font/gothic_a1"
         android:gravity="clip_horizontal|center"
-        android:text="@string/reserve_table_page"
+        android:text="@string/reserve_confirmation"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="50sp"
@@ -23,8 +23,8 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="409dp"
-        android:layout_height="414dp"
+        android:layout_width="match_parent"
+        android:layout_height="300sp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="2dp"
@@ -35,14 +35,14 @@
         <ImageView
             android:id="@+id/set_reservation_table_size_img"
             android:layout_width="match_parent"
-            android:layout_height="413dp"
+            android:layout_height="match_parent"
             android:contentDescription="@string/reserve_table_page"
-            app:srcCompat="@drawable/table_for_one" />
+            app:srcCompat="@drawable/reservation_confirmation" />
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="244dp"
+        android:layout_width="match_parent"
+        android:layout_height="300sp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
@@ -51,40 +51,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
-        <Spinner
-            android:id="@+id/table_size_selector"
-            android:layout_width="match_parent"
-            android:layout_height="55sp"
-            android:background="@color/colorAccent"
-            android:spinnerMode="dropdown"
-            tools:ignore="SpeakableTextPresentCheck" />
 
-        <EditText
-            android:id="@+id/reservation_for_name"
+        <TextView
+            android:id="@+id/reservation_for_name_confirm"
             android:layout_width="match_parent"
-            android:layout_height="55sp"
-            android:ems="10"
-            android:background="@color/white"
-            android:inputType="textPersonName"
-            android:hint="@string/reserve_name" />
+            android:layout_height="60sp"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:text="@string/reserve_name_confirmation" />
+        <TextView
+            android:id="@+id/reservation_details"
+            android:layout_width="match_parent"
+            android:layout_height="130sp"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:text="@string/reserve_details" />
 
-        <EditText
-            android:id="@+id/reservation_for_phoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="55sp"
-            android:background="@color/white"
-            android:textColor="@color/black"
-            android:hint="@string/reserve_phone_number"
-            android:ems="10"
-            android:inputType="phone" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/submit_reservation"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:textColor="@color/white"
             android:background="@color/purple_200"
-            android:text="@string/submit" />
+            android:textSize="40sp"
+            android:text="@string/submit"
+            android:textColor="#311B92" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
