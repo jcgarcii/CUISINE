@@ -29,6 +29,9 @@ public class SelectTableActivity extends AppCompatActivity {
     private int[][] table_array_room_four;
     private int[][] current_table_array;
 
+    private Boolean selected;
+    private String currSelection;
+
     private Spinner spinner;
     private ArrayList<String> list;
     //String Values for View purposes:
@@ -40,6 +43,9 @@ public class SelectTableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_table);
+
+        selected = false;
+        currSelection = "CLEAR";
 
         table_array_room_one = new int[4][3];
         table_array_room_two = new int[4][3];
@@ -289,7 +295,6 @@ public class SelectTableActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * Fills Array with dummy values for testing purposes;
      */
@@ -311,10 +316,29 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if(current_table_array[0][0] > 0) {
-            mTable_1_1.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "1_1"){
+            if(current_table_array[0][0] > 0) {
+                mTable_1_1.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "1_1";
+            }
         }
-
+        else if(selected == true && selection == "1_1"){
+            if(current_table_array[0][0] > 0) {
+                mTable_1_1.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if(current_table_array[0][0] > 0) {
+                mTable_1_1.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "1_1";
+            }
+        }
     }
     public void on_1_2_clicked(View view) {
         /*
@@ -322,8 +346,28 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[0][1] > 0) {
-            mTable_1_2.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "1_2"){
+            if (current_table_array[0][1] > 0) {
+                mTable_1_2.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "1_2";
+            }
+        }
+        else if(selected == true && selection == "1_2"){
+            if (current_table_array[0][1] > 0) {
+                mTable_1_2.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[0][1] > 0) {
+                mTable_1_2.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "1_2";
+            }
         }
     }
 
@@ -333,8 +377,28 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[0][2] > 0) {
-            mTable_1_3.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "1_3"){
+            if (current_table_array[0][2] > 0) {
+                mTable_1_3.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "1_3";
+            }
+        }
+        else if(selected == true && selection == "1_3"){
+            if (current_table_array[0][2] > 0) {
+                mTable_1_3.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[0][2] > 0) {
+                mTable_1_3.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "1_3";
+            }
         }
     }
     public void on_2_1_clicked(View view){
@@ -343,8 +407,28 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[1][0] > 0) {
-            mTable_2_1.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "2_1"){
+            if (current_table_array[1][0] > 0) {
+                mTable_2_1.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "2_1";
+            }
+        }
+        else if(selected == true && selection == "2_1"){
+            if (current_table_array[1][0] > 0) {
+                mTable_2_1.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[1][0] > 0) {
+                mTable_2_1.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "2_1";
+            }
         }
     }
     public void on_2_2_clicked(View view){
@@ -353,8 +437,28 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[1][1] > 0) {
-            mTable_2_2.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "2_2"){
+            if (current_table_array[1][1] > 0) {
+                mTable_2_2.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "2_2";
+            }
+        }
+        else if(selected == true && selection == "2_2"){
+            if (current_table_array[1][1] > 0) {
+                mTable_2_2.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[1][1] > 0) {
+                mTable_2_2.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "2_2";
+            }
         }
     }
     public void on_2_3_clicked(View view){
@@ -363,18 +467,56 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[1][2] >= 0) {
-            mTable_2_3.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "2_3"){
+            if (current_table_array[1][2] >= 0) {
+                mTable_2_3.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "2_3";
+            }
+        }
+        else if(selected == true && selection == "2_3"){
+            if (current_table_array[1][2] >= 0) {
+                mTable_2_3.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[1][2] >= 0) {
+                mTable_2_3.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "2_3";
+            }
         }
     }
-    public void on_3_1_clicked(View view){
+    public void on_3_1_clicked(View view) {
         /*
         if(EMPTY){}
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[2][0] > 0) {
-            mTable_3_1.setImageResource(R.drawable.current_table_selection);
+        if (selected == true && selection != "3_1") {
+            if (current_table_array[2][0] > 0) {
+                mTable_3_1.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "3_1";
+            }
+        } else if (selected == true && selection == "3_1") {
+            if (current_table_array[2][0] > 0) {
+                mTable_3_1.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        } else {
+            if (current_table_array[2][0] > 0) {
+                mTable_3_1.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "3_1";
+            }
         }
     }
     public void on_3_2_clicked(View view){
@@ -383,8 +525,28 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[2][1] > 0) {
-            mTable_3_2.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "3_2"){
+            if (current_table_array[2][1] > 0) {
+                mTable_3_2.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "3_2";
+            }
+        }
+        else if(selected == true && selection == "3_2"){
+            if (current_table_array[2][1] > 0) {
+                mTable_3_2.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[2][1] > 0) {
+                mTable_3_2.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "3_2";
+            }
         }
     }
     public void on_3_3_clicked(View view){
@@ -393,8 +555,28 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[2][2] > 0) {
-            mTable_3_3.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "3_3"){
+            if (current_table_array[2][2] > 0) {
+                mTable_3_3.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "3_3";
+            }
+        }
+        else if(selected == true && selection == "3_3"){
+            if (current_table_array[2][2] > 0) {
+                mTable_3_3.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[2][2] > 0) {
+                mTable_3_3.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "3_3";
+            }
         }
     }
     public void on_4_1_clicked(View view){
@@ -403,8 +585,28 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[3][0] > 0) {
-            mTable_4_1.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "4_1"){
+            if (current_table_array[3][0] > 0) {
+                mTable_4_1.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "4_1";
+            }
+        }
+        else if(selected == true && selection == "4_1"){
+            if (current_table_array[3][0] > 0) {
+                mTable_4_1.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[3][0] > 0) {
+                mTable_4_1.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "4_1";
+            }
         }
     }
     public void on_4_2_clicked(View view){
@@ -413,8 +615,28 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[3][1] > 0) {
-            mTable_4_2.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "4_2"){
+            if (current_table_array[3][1] > 0) {
+                mTable_4_2.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "4_2";
+            }
+        }
+        else if(selected == true && selection == "4_2"){
+            if (current_table_array[3][1] > 0) {
+                mTable_4_2.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[3][1] > 0) {
+                mTable_4_2.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "4_2";
+            }
         }
     }
     public void on_4_3_clicked(View view){
@@ -423,8 +645,28 @@ public class SelectTableActivity extends AppCompatActivity {
         elseif(RESERVED){}
         else{}
          */
-        if (current_table_array[3][2] > 0) {
-            mTable_4_3.setImageResource(R.drawable.current_table_selection);
+        if(selected == true && selection != "4_3"){
+            if (current_table_array[3][2] > 0) {
+                mTable_4_3.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = true;
+                selection = "4_3";
+            }
+        }
+        else if(selected == true && selection == "4_3"){
+            if (current_table_array[3][2] > 0) {
+                mTable_4_3.setImageResource(R.drawable.current_table_selection);
+                set_tables(current_table_array, 1);
+                selected = false;
+                selection = "CLEAR";
+            }
+        }
+        else{
+            if (current_table_array[3][2] > 0) {
+                mTable_4_3.setImageResource(R.drawable.current_table_selection);
+                selected = true;
+                selection = "4_3";
+            }
         }
     }
 }
