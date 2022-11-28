@@ -37,7 +37,7 @@
             android:name=".Activities.ReservationConfirmationActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.SelectTableActivity"
+            android:name=".Activities.RestaurantSelectionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
