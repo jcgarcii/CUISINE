@@ -13,6 +13,13 @@
     <string name="price_2">$$</string>
     <string name="price_3">$$$</string>
 
+    <!--These are for the Welcome Screen Activity -->
+    <string name="GREETING_1">Hello, I am CUISINE...</string>
+    <string name="GREETING_2">Here to make it easier for you to grab a bite!</string>
+    <string name="GREETING_3">And you are?</string>
+    <string name="assign_customer_role">seeking a bite!</string>
+    <string name="assign_owner_role">serving my customers!</string>
+
     <!--These are for the Restaurant Details Activity -->
     <string name="reserve_rest_details_activity">Reserve a Table</string>
     <string name="the_word_reserve">RESERVE</string>

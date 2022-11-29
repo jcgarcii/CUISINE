@@ -3,5 +3,6 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/aguafina_script</item>
         <item>@font/gothic_a1</item>
+        <item>@font/source_code_pro</item>
     </array>
 </resources>
