@@ -13,6 +13,10 @@
     <string name="price_2">$$</string>
     <string name="price_3">$$$</string>
 
+    <!--These are for the Restaurant Details Activity -->
+    <string name="reserve_rest_details_activity">Reserve a Table</string>
+    <string name="the_word_reserve">RESERVE</string>
+
     <!--These are for the Reservation Activity -->
     <string name="reserve_table_page">Reservation</string>
     <string name="how_many_tables">How Many Will Be Dining?</string>

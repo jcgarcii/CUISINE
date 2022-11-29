@@ -144,9 +144,9 @@
     <LinearLayout
         android:id="@+id/view_empty_ratings"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="435dp"
+        android:layout_below="@+id/reservation_launcher_layout"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/restaurant_top_card"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:orientation="vertical"
@@ -154,8 +154,8 @@
         tools:visibility="visible">
 
         <ImageView
-            android:src="@drawable/pizza_monster"
-            style="@style/AppTheme.PizzaGuy" />
+            style="@style/AppTheme.PizzaGuy"
+            android:src="@drawable/pizza_monster" />
 
         <TextView
             style="@style/AppTheme.Body1"
@@ -164,6 +164,45 @@
             android:text="@string/message_no_reviews"
             android:textColor="@color/greyDisabled" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reservation_launcher_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:layout_below="@+id/restaurant_top_card"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/launch_table_selection_btn"
+                android:layout_width="110sp"
+                android:layout_height="50sp"
+                android:layout_marginTop="30sp"
+                android:background="@color/colorAccent"
+                android:text="@string/the_word_reserve"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:text="@string/reserve_rest_details_activity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
 </RelativeLayout>

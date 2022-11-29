@@ -1,6 +1,7 @@
 package com.example.cpre388.cuisine.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,11 +66,14 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
 
     private RatingAdapter mRatingAdapter;
 
+    private AppCompatButton reserve_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_detail);
-        
+
+        reserve_btn = findViewById(R.id.launch_table_selection_btn);
         mImageView = findViewById(R.id.restaurant_image);
         mNameView = findViewById(R.id.restaurant_name);
         mRatingIndicator = findViewById(R.id.restaurant_rating);
@@ -81,6 +86,8 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
 
         findViewById(R.id.restaurant_button_back).setOnClickListener(this);
         findViewById(R.id.fab_show_rating_dialog).setOnClickListener(this);
+
+        reserve_btn.setOnClickListener(this::onReservePressed);
 
         // Get restaurant ID from extras
         String restaurantId = getIntent().getExtras().getString(KEY_RESTAURANT_ID);
@@ -185,6 +192,11 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
                 return null;
             }
         });
+    }
+
+    private void onReservePressed(View view){
+        Intent reservation = new Intent(this, SelectTableActivity.class);
+        startActivity(reservation);
     }
 
     /**

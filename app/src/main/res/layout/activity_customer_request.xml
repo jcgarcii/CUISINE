@@ -11,21 +11,22 @@
         android:id="@+id/billRequestButton"
         android:layout_width="133dp"
         android:layout_height="100dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="32dp"
         android:text="Request Bill"
         app:layout_constraintBottom_toTopOf="@+id/waterRefillButton"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <Button
         android:id="@+id/waterRefillButton"
         android:layout_width="133dp"
         android:layout_height="100dp"
-        android:layout_marginBottom="34dp"
+        android:layout_marginBottom="32dp"
         android:text="Request Refill"
         app:layout_constraintBottom_toTopOf="@+id/otherRequestButton"
-        app:layout_constraintStart_toStartOf="@+id/billRequestButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/billRequestButton" />
 
     <Button
@@ -35,7 +36,8 @@
         android:layout_marginBottom="147dp"
         android:text="Other Request"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/waterRefillButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/waterRefillButton" />
 
     <ImageView
@@ -43,10 +45,10 @@
         android:layout_width="174dp"
         android:layout_height="150dp"
         android:layout_marginTop="122dp"
-        android:layout_marginEnd="101dp"
-        android:layout_marginBottom="62dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/billRequestButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_restaurant_white_24px" />
 </androidx.constraintlayout.widget.ConstraintLayout>
