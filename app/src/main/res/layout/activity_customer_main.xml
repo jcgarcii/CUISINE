@@ -8,6 +8,64 @@
     tools:context=".Activities.activity_customer_main"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_customer_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:logo="@drawable/ic_restaurant_white_24px"
+            app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+            app:title="@string/app_name"
+            app:titleMarginStart="24dp"
+            app:titleTextColor="@android:color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ReserveButton"
+            android:layout_width="140sp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="30sp"
+            android:text="Reserve"
+            app:layout_constraintBottom_toTopOf="@+id/RequestButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customer_main_activity_logo" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/RequestButton"
+            android:layout_width="140sp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="200sp"
+            android:text="Request"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ReserveButton" />
+
+        <ImageView
+            android:id="@+id/customer_main_activity_logo"
+            android:layout_width="300sp"
+            android:layout_height="200sp"
+            android:layout_marginBottom="30sp"
+            android:layout_marginTop="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/ReserveButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_customer_main" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
@@ -16,68 +74,4 @@
         app:menu="@menu/customer_menu"
         android:layout_gravity="start"/>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:id="@+id/layoutToolBar"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="24dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/icons8_menu_rounded_30"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="16dp" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/ReserveButton"
-        android:layout_width="134dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="27dp"
-        android:text="Reserve"
-        app:layout_constraintBottom_toTopOf="@+id/RequestButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <Button
-        android:id="@+id/RequestButton"
-        android:layout_width="134dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="206dp"
-        android:text="Request"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ReserveButton" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="160dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="86dp"
-        app:layout_constraintBottom_toTopOf="@+id/ReserveButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutToolBar"
-        app:srcCompat="@drawable/ic_restaurant_white_24px"
-        app:tint="@android:color/black" />
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

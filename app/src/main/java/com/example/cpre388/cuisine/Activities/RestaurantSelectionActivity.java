@@ -38,7 +38,7 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
         FilterDialogFragment.FilterListener,
         RestaurantAdapter.OnRestaurantSelectedListener {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "RESTAURANT_SELECTION";
 
     private static final int RC_SIGN_IN = 9001;
 
@@ -61,7 +61,7 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_restaurant_selection);
 
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -198,10 +198,10 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.customer_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+/*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -215,7 +215,7 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

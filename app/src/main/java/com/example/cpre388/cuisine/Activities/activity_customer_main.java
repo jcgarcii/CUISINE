@@ -6,10 +6,12 @@ import android.view.MenuItem;
 import android.app.ActionBar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -21,25 +23,24 @@ import com.google.android.material.navigation.NavigationView;
 public class activity_customer_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    Toolbar toolbar;
+    androidx.appcompat.widget.Toolbar toolbar;
+    AppCompatButton reserve, request;
+    ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
 
+        //Assign XML Objects:
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
-        Button btn_request = (Button)findViewById(R.id.RequestButton);
-        btn_request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(activity_customer_main.this, CustomerRequestActivity.class));
-            }
-        });
-        setSupportActionBar(toolbar);
+        toolbar = findViewById(R.id.toolbar_customer_main);
+        logo = findViewById(R.id.customer_main_activity_logo);
+        request = findViewById(R.id.RequestButton);
+        reserve = findViewById(R.id.ReserveButton);
 
+        setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
                 toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -49,10 +50,10 @@ public class activity_customer_main extends AppCompatActivity implements Navigat
         navigationView.bringToFront();
         navigationView.setCheckedItem(R.id.nav_home);
 
-
-
+        logo.setImageResource(R.drawable.logo);
+        request.setOnClickListener(this::onRequestClicked);
+        reserve.setOnClickListener(this::onReservedClicked);
     }
-
     @Override
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -62,6 +63,15 @@ public class activity_customer_main extends AppCompatActivity implements Navigat
             super.onBackPressed();
         }
 
+    }
+
+    private void onReservedClicked(View view){
+        Intent reservation_start = new Intent(this, RestaurantSelectionActivity.class);
+        startActivity(reservation_start);
+    }
+
+    private void onRequestClicked(View view){
+        startActivity(new Intent(activity_customer_main.this, CustomerRequestActivity.class));
     }
 
     @Override
