@@ -97,7 +97,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                         new AuthUI.IdpConfig.EmailBuilder().build()))
                 .setIsSmartLockEnabled(false)
                 .setTheme(R.style.LoginTheme)
-                .setLogo(R.drawable.logo)
                 .build();
 
         startActivityForResult(intent, RC_SIGN_IN);
