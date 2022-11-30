@@ -17,27 +17,37 @@ import com.example.cpre388.cuisine.R;
 import com.example.cpre388.cuisine.Util.FirebaseUtil;
 import com.example.cpre388.cuisine.ViewModels.MainActivityViewModel;
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthenticationActivity extends AppCompatActivity {
-
+    private static final String SPLASH_SCREEN = "com.example.cpre388.cuisine.Activities.MainActivity";
+    private static final String SET_TYPE = "user_type";
     private static final String TAG = "AuthenticationActivity";
 
     private static final int RC_SIGN_IN = 9001;
 
     private static final int LIMIT = 50;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private Toolbar mToolbar;
     private TextView mCurrentSearchView;
     private TextView mCurrentSortByView;
     private RecyclerView mRestaurantsRecycler;
     private ViewGroup mEmptyView;
+    private int type_selected;
 
     private FirebaseFirestore mFirestore;
     private Query mQuery;
+    private FirebaseUser currUser;
 
     private FilterDialogFragment mFilterDialog;
     private RestaurantAdapter mAdapter;
@@ -48,7 +58,22 @@ public class AuthenticationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
+        Intent intent = getIntent();
+        type_selected = intent.getExtras().getInt(SPLASH_SCREEN);
+
         mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
+        Map<String, Object> user = new HashMap<>();
+        // Initialize Firestore and the main RecyclerView
+        mFirestore = FirebaseUtil.getFirestore();
+        CollectionReference store = mFirestore.collection("users");
+
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            currUser = FirebaseAuth.getInstance().getCurrentUser();
+            user.put("uid", currUser.getUid());
+            user.put("type", type_selected);
+            store.add(user);
+        }
     }
 
     @Override
@@ -59,7 +84,6 @@ public class AuthenticationActivity extends AppCompatActivity {
             startSignIn();
             return;
         }
-
     }
 
     @Override

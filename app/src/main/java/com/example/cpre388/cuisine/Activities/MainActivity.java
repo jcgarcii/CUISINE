@@ -149,14 +149,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onCustomerPressed(View view){
-        Boolean userType = false;
+        int userType = 0;
         Intent customer = new Intent(this, AuthenticationActivity.class);
         customer.putExtra(SPLASH_SCREEN, userType);
         startActivity(customer);
     }
 
     private void onOwnerPressed(View view){
-        Boolean userType = true;
+        int userType = 1;
         Intent owner = new Intent(this, AuthenticationActivity.class);
         owner.putExtra(SPLASH_SCREEN, userType);
         startActivity(owner);
