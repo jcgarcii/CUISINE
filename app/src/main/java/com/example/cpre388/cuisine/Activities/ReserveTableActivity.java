@@ -8,7 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Switch;
+
+import android.widget.TextView;
+import android.widget.TimePicker;
+import java.util.Calendar;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -18,7 +23,8 @@ import com.example.cpre388.cuisine.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReserveTableActivity extends AppCompatActivity {
+public class ReserveTableActivity extends AppCompatActivity
+        implements View.OnClickListener {
     private final static String CONFIRMATION_DETAILS = "com.example.cpre388.cuisine.Activities.ReserveTableActivity";
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
 
@@ -36,6 +42,11 @@ public class ReserveTableActivity extends AppCompatActivity {
     private String mTable;
     private String mRestaurant_id;
 
+    //time selection variables:
+    private int mYear, mMonth, mDay, mHour, mMinute;
+    private TextView display_time;
+    private AppCompatButton set_time;
+
     //Confirmation Details: format -> name[0], details[1]
     private String[] confirmation;
     private int party_size;
@@ -48,8 +59,9 @@ public class ReserveTableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_table);
 
+        //Intent Variables:
         selection = new String[3];
-        confirmation = new String[7];
+        confirmation = new String[8];
 
         //Port in table selection and room (arr[0] and arr[1]):
         Intent intent = getIntent();
@@ -63,9 +75,12 @@ public class ReserveTableActivity extends AppCompatActivity {
         //EditText Fields:
         name = findViewById(R.id.reservation_for_name);
         number = findViewById(R.id.reservation_for_phoneNumber);
+        display_time = findViewById(R.id.display_time_view);
+        set_time = findViewById(R.id.set_time_btn);
 
         //Button:
         btn = findViewById(R.id.submit_reservation);
+        set_time.setOnClickListener(this);
 
         //Table View (reflects the selected seating amount:
         tableView = findViewById(R.id.set_reservation_table_size_img);
@@ -161,6 +176,7 @@ public class ReserveTableActivity extends AppCompatActivity {
         String party_num = String.format("%d", party_size);
         String name_input = name.getText().toString();
         String contact_information = number.getText().toString();
+        String time = display_time.getText().toString();
 
         confirmation[0] = String.format("Thank you, %s", name_input);
         confirmation[1] = confirmation_details;
@@ -169,9 +185,34 @@ public class ReserveTableActivity extends AppCompatActivity {
         confirmation[4] = mTable;
         confirmation[5] = mRestaurant_id;
         confirmation[6] = party_num;
+        confirmation[7] = time;
 
         Intent confirmation_intent = new Intent(this, ReservationConfirmationActivity.class);
         confirmation_intent.putExtra(CONFIRMATION_DETAILS, confirmation);
         startActivity(confirmation_intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == set_time) {
+
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+                            display_time.setText(hourOfDay + ":" + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }
+
     }
 }

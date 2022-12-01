@@ -28,6 +28,8 @@
     <string name="reserve_table_page">Reservation</string>
     <string name="how_many_tables">How Many Will Be Dining?</string>
     <string name="reserve_name">Name: </string>
+    <string name="current_time">Current Time</string>
+    <string name="set_time_text_btn">Pick a Time</string>
     <string name="reserve_phone_number">Phone Number: </string>
     <string name="table_for_one">Party of One</string>
     <string name="table_for_two">Party of Two</string>

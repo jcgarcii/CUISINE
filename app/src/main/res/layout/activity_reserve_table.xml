@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="70sp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/gothic_a1"
         android:gravity="clip_horizontal|center"
         android:text="@string/reserve_table_page"
@@ -23,11 +23,8 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="409dp"
-        android:layout_height="414dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -35,17 +32,14 @@
         <ImageView
             android:id="@+id/set_reservation_table_size_img"
             android:layout_width="match_parent"
-            android:layout_height="413dp"
+            android:layout_height="285sp"
             android:contentDescription="@string/reserve_table_page"
             app:srcCompat="@drawable/table_for_one" />
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="244dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,31 +53,55 @@
             android:spinnerMode="dropdown"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/set_time_btn"
+            android:layout_width="match_parent"
+            android:background="@color/black"
+            android:layout_marginTop="10sp"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:layout_height="wrap_content"
+            android:text="@string/set_time_text_btn" />
+
+        <TextView
+            android:id="@+id/display_time_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="35sp"
+            android:background="@color/white"
+            android:textAlignment="center"
+            android:text="@string/current_time" />
+
         <EditText
             android:id="@+id/reservation_for_name"
             android:layout_width="match_parent"
-            android:layout_height="55sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
             android:ems="10"
             android:background="@color/white"
+            android:textSize="35sp"
             android:inputType="textPersonName"
             android:hint="@string/reserve_name" />
 
         <EditText
             android:id="@+id/reservation_for_phoneNumber"
             android:layout_width="match_parent"
-            android:layout_height="55sp"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:textColor="@color/black"
+            android:layout_marginTop="5sp"
             android:hint="@string/reserve_phone_number"
+            android:textSize="35sp"
             android:ems="10"
             android:inputType="phone" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/submit_reservation"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
             android:textColor="@color/white"
-            android:textSize="40sp"
+            android:textSize="45sp"
             android:background="@color/purple_200"
             android:text="@string/submit" />
     </LinearLayout>

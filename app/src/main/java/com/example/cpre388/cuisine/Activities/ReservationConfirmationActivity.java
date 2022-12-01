@@ -26,7 +26,7 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
     private AppCompatButton btn;
 
     //Reservation Details:
-    private String contact_information, table_selected, rest_id, room_number, party_size;
+    private String contact_information, table_selected, rest_id, room_number, party_size, time;
 
     private FirebaseFirestore mFirestore;
     private FirebaseUser currUser;
@@ -49,7 +49,7 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
         confirmation[5] = mRestaurant_id;
         confirmation[6] = number of guests
          */
-        confirmation = new String[7];
+        confirmation = new String[8];
 
         Intent intent = getIntent();
         confirmation = intent.getStringArrayExtra(CONFIRMATION_DETAILS);
@@ -58,6 +58,7 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
         table_selected = confirmation[4];
         rest_id = confirmation[5];
         party_size = confirmation[6];
+        time = confirmation[7];
 
 
         name.setText(confirmation[0]);
@@ -77,6 +78,7 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
         reservation.put("room_selected", room_number);
         reservation.put("table_selected", table_selected);
         reservation.put("num_guests", party_size);
+        reservation.put("reservation_time", time);
         store.add(reservation);
     }
 
