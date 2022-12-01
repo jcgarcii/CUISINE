@@ -9,7 +9,7 @@ public class restaurant_model {
     public static final String FIELD_AVG_RATING = "avgRating";
     public static final float FULLY_BOOKED = -1;
     //Restaurant private detils:
-    private String owner;
+    private String owner_id;
     private String name;
     private int size;
     private int capacity;
@@ -24,13 +24,13 @@ public class restaurant_model {
     private double avgRating;
     /**
      * Initializes a new restaurant object
-     * @param owner - restaurant owner
+     * @param owner - restaurant owner (user_id)
      * @param name - restaurant name
      * @param size - restaurant size (rooms)
      */
     public void restaurant_model(String owner, String name, int size, int capacity
         , String city, String category, String photo, int price, int numRatings, double avgRating){
-        this.owner = owner;
+        this.owner_id = owner;
         this.name = name;
         this.size = size;
         this.capacity = capacity;

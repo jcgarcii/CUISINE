@@ -12,6 +12,8 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.example.cpre388.cuisine.Models.room_model;
+import com.example.cpre388.cuisine.Models.table_model;
 import com.example.cpre388.cuisine.R;
 
 import java.util.ArrayList;
@@ -19,18 +21,22 @@ import java.util.Random;
 
 public class SelectTableActivity extends AppCompatActivity {
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
+    public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
 
+    private String restaurant_id;
     //Tables in the Current Room Selection:
     private ImageView mTable_1_1, mTable_1_2, mTable_1_3,
             mTable_2_1, mTable_2_2, mTable_2_3,
             mTable_3_1, mTable_3_2, mTable_3_3,
             mTable_4_1, mTable_4_2, mTable_4_3;
 
+    //Used to keep track of which tables are available for use:
     private int[][] table_array_room_one;
     private int[][] table_array_room_two;
     private int[][] table_array_room_three;
     private int[][] table_array_room_four;
     private int[][] current_table_array;
+
 
     private Boolean selected;
     private String currSelection;
@@ -52,9 +58,12 @@ public class SelectTableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_table);
 
+        Intent prev = getIntent();
+        restaurant_id = prev.getExtras().getString(KEY_RESTAURANT_ID);
+
         selected = false;
         currSelection = "CLEAR";
-        confirmation_arr = new String[2];
+        confirmation_arr = new String[3];
 
         table_array_room_one = new int[4][3];
         table_array_room_two = new int[4][3];
@@ -103,7 +112,6 @@ public class SelectTableActivity extends AppCompatActivity {
         table_array_room_two = dummy_array();
         table_array_room_three = dummy_array();
         table_array_room_four = dummy_array();
-
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -221,7 +229,7 @@ public class SelectTableActivity extends AppCompatActivity {
                 String val = currX + "_" + currY;
                 String logged = String.format("Value: %d", table_array[x][y]);
                 Log.d("CURR_VAL", val + logged);
-                if(table_array[x][y] > 0){
+                if(table_array[x][y] > 1){
                     switch(val){
                         case "1_1":
                             mTable_1_1.setImageResource(R.drawable.table_for_default);
@@ -264,7 +272,7 @@ public class SelectTableActivity extends AppCompatActivity {
                             break;
                     }
                 }
-                else{
+                else {
                     switch(val){
                         case "1_1":
                             mTable_1_1.setImageResource(R.drawable.empty_space);
@@ -689,9 +697,11 @@ public class SelectTableActivity extends AppCompatActivity {
     public void onSubmit(View view){
         confirmation_arr[0] = currSelection;
         confirmation_arr[1] = roomSelection;
+        confirmation_arr[2] = restaurant_id;
 
         Intent intent = new Intent(this, ReserveTableActivity.class);
         //Passes the table selection and the room selection arr[0] arr[1] respectively
+        //arr[3] contains the restaurant id for documentation purposes
         intent.putExtra(SELECTION_DETAILS, confirmation_arr);
         startActivity(intent);
     }

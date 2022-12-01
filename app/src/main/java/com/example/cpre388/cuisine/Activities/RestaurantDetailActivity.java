@@ -37,6 +37,8 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Transaction;
 
+import java.util.Calendar;
+
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class RestaurantDetailActivity extends AppCompatActivity implements
@@ -47,7 +49,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
     private static final String TAG = "RestaurantDetail";
 
     public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
-
+    private Calendar calendar;
     private ImageView mImageView;
     private TextView mNameView;
     private MaterialRatingBar mRatingIndicator;
@@ -57,6 +59,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
     private TextView mPriceView;
     private ViewGroup mEmptyView;
     private RecyclerView mRatingsRecycler;
+    private String restaurantId;
 
     private RatingDialogFragment mRatingDialog;
 
@@ -72,6 +75,8 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_detail);
+
+        calendar = Calendar.getInstance();
 
         reserve_btn = findViewById(R.id.launch_table_selection_btn);
         mImageView = findViewById(R.id.restaurant_image);
@@ -90,7 +95,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         reserve_btn.setOnClickListener(this::onReservePressed);
 
         // Get restaurant ID from extras
-        String restaurantId = getIntent().getExtras().getString(KEY_RESTAURANT_ID);
+        restaurantId = getIntent().getExtras().getString(KEY_RESTAURANT_ID);
         if (restaurantId == null) {
             throw new IllegalArgumentException("Must pass extra " + KEY_RESTAURANT_ID);
         }
@@ -196,6 +201,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
 
     private void onReservePressed(View view){
         Intent reservation = new Intent(this, SelectTableActivity.class);
+        reservation.putExtra(KEY_RESTAURANT_ID, restaurantId);
         startActivity(reservation);
     }
 

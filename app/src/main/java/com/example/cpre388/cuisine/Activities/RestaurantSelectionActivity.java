@@ -128,12 +128,6 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
     public void onStart() {
         super.onStart();
 
-        // Start sign in if necessary
-        if (shouldStartSignIn()) {
-            startSignIn();
-            return;
-        }
-
         // Apply filters
         onFilter(mViewModel.getFilters());
 
@@ -210,22 +204,10 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
                 break;
             case R.id.menu_sign_out:
                 FirebaseUtil.getAuthUI().signOut(this);
-                startSignIn();
+                //startSignIn();
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            mViewModel.setIsSigningIn(false);
-
-            if (resultCode != RESULT_OK && shouldStartSignIn()) {
-                startSignIn();
-            }
-        }
     }
 
     @Override
@@ -258,26 +240,5 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
         intent.putExtra(RestaurantDetailActivity.KEY_RESTAURANT_ID, restaurant.getId());
 
         startActivity(intent);
-    }
-
-    private boolean shouldStartSignIn() {
-        return (!mViewModel.getIsSigningIn() && FirebaseUtil.getAuth().getCurrentUser() == null);
-    }
-
-    private void startSignIn() {
-        // Sign in with FirebaseUI
-        Intent intent = FirebaseUtil.getAuthUI()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(Collections.singletonList(
-                        new AuthUI.IdpConfig.EmailBuilder().build()))
-                .setIsSmartLockEnabled(false)
-                .build();
-
-        startActivityForResult(intent, RC_SIGN_IN);
-        mViewModel.setIsSigningIn(true);
-    }
-
-    private void showTodoToast() {
-        Toast.makeText(this, "TODO: Implement", Toast.LENGTH_SHORT).show();
     }
 }

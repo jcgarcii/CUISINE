@@ -37,6 +37,7 @@
     <string name="table_for_six">Party of Six</string>
     <string name="table_for_seven">Party of Seven</string>
     <string name="table_for_eight">Party of Eight</string>
+    <string name="large_party">Life is a Party!</string>
 
     <!--These are for the Reservation Confirmation Activity -->
     <string name="reserve_confirmation">Confirmation</string>

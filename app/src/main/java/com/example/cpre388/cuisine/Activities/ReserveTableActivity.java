@@ -22,6 +22,7 @@ public class ReserveTableActivity extends AppCompatActivity {
     private final static String CONFIRMATION_DETAILS = "com.example.cpre388.cuisine.Activities.ReserveTableActivity";
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
 
+    //View Objects:
     private Spinner spinner;
     private List<String> list;
     private ImageView tableView;
@@ -33,6 +34,7 @@ public class ReserveTableActivity extends AppCompatActivity {
     private String[] selection;
     private String mRoom;
     private String mTable;
+    private String mRestaurant_id;
 
     //Confirmation Details: format -> name[0], details[1]
     private String[] confirmation;
@@ -40,20 +42,21 @@ public class ReserveTableActivity extends AppCompatActivity {
 
     //String Values for View purposes:
     private String one, two, three,
-            four, five, six, seven, eight;
+            four, five, six, seven, eight, nine;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_table);
 
-        selection = new String[2];
-        confirmation = new String[4];
+        selection = new String[3];
+        confirmation = new String[7];
 
         //Port in table selection and room (arr[0] and arr[1]):
         Intent intent = getIntent();
         selection = intent.getStringArrayExtra(SELECTION_DETAILS);
         mTable = selection[0];
         mRoom = selection[1];
+        mRestaurant_id = selection[2];
 
         party_size = 0;
 
@@ -112,6 +115,9 @@ public class ReserveTableActivity extends AppCompatActivity {
                         party_size = 8;
                         tableView.setImageResource(R.drawable.table_for_eight);
                         break;
+                    case "Life is a Party!":
+                        party_size = 10;
+                        tableView.setImageResource(R.drawable.part_for_large);
                     default:
                         party_size = 2;
                         tableView.setImageResource(R.drawable.table_for_default);
@@ -146,20 +152,23 @@ public class ReserveTableActivity extends AppCompatActivity {
         list.add(seven);
         eight = getString(R.string.table_for_eight);
         list.add(eight);
+        nine =  getString(R.string.large_party);
+        list.add(nine);
     }
 
     private void onSubmit(View view){
-        String selection_details = String.format("Room: %s, Table: %s", mRoom, mTable);
         String confirmation_details = String.format("Your table for %d, will be ready soon!", party_size);
-
+        String party_num = String.format("%d", party_size);
         String name_input = name.getText().toString();
-        String number_input = number.getText().toString();
-
+        String contact_information = number.getText().toString();
 
         confirmation[0] = String.format("Thank you, %s", name_input);
         confirmation[1] = confirmation_details;
-        confirmation[2] = number_input;
-        confirmation[3] = selection_details;
+        confirmation[2] = contact_information;
+        confirmation[3] = mRoom;
+        confirmation[4] = mTable;
+        confirmation[5] = mRestaurant_id;
+        confirmation[6] = party_num;
 
         Intent confirmation_intent = new Intent(this, ReservationConfirmationActivity.class);
         confirmation_intent.putExtra(CONFIRMATION_DETAILS, confirmation);
