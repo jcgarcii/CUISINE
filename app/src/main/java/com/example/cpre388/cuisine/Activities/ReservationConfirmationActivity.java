@@ -83,8 +83,6 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
     }
 
     private void onHomePressed(View view){
-        //Submit to database asynchronously, pass information to display on home page
-
         Intent i=new Intent(this, activity_customer_main.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
