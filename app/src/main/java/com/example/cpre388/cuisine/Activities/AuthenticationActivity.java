@@ -3,7 +3,9 @@ package com.example.cpre388.cuisine.Activities;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,9 +15,13 @@ import com.example.cpre388.cuisine.Util.FirebaseUtil;
 import com.example.cpre388.cuisine.ViewModels.MainActivityViewModel;
 import com.firebase.ui.auth.AuthUI;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Collections;
@@ -25,11 +31,12 @@ import java.util.Map;
 public class AuthenticationActivity extends AppCompatActivity {
     private static final String SPLASH_SCREEN = "com.example.cpre388.cuisine.Activities.MainActivity";
     private static final String TAG = "AuthenticationActivity";
+    private static final String USER_TYPE = "type";
 
     private static final int RC_SIGN_IN = 9001;
 
     private ConstraintLayout constraintLayout;
-    private int type_selected;
+    private String type_selected;
 
     private FirebaseFirestore mFirestore;
     private FirebaseUser currUser;
@@ -41,7 +48,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
         Intent intent = getIntent();
-        type_selected = intent.getExtras().getInt(SPLASH_SCREEN);
+        type_selected = intent.getExtras().getString(SPLASH_SCREEN);
         constraintLayout = findViewById(R.id.auth_layout);
         mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
@@ -54,14 +61,32 @@ public class AuthenticationActivity extends AppCompatActivity {
         //Store User Object onto Firestore:
         Map<String, Object> user = new HashMap<>();
         mFirestore = FirebaseUtil.getFirestore();
-        CollectionReference store = mFirestore.collection("users");
+
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
+
             currUser = FirebaseAuth.getInstance().getCurrentUser();
-            user.put("uid", currUser.getUid());
-            user.put("type", type_selected);
-            store.add(user);
-            //launch next activity based on user
-            nextActivity(type_selected);
+            DocumentReference userRef = mFirestore.collection("Users").document(currUser.getUid());
+
+            DocumentReference docRef = mFirestore.collection("Users").document(currUser.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            type_selected = document.getString("type");
+                            nextActivity(type_selected);
+                        } else {
+                            user.put("uid", currUser.getUid());
+                            user.put("type", type_selected);
+                            userRef.set(user);
+                            nextActivity(type_selected);
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
         }
     }
 
@@ -75,8 +100,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
-    private void nextActivity(int t){
-        if(t == 1){
+    private void nextActivity(String t){
+        if(t == "1"){
             //Intent owner = new Intent(this)
         }
         else {
