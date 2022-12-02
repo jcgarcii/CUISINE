@@ -22,7 +22,7 @@ public class table_model extends ViewModel {
      * @param room - room number at the restaurant
      * @param number - table number within the room
      */
-    public void table_model(String res_name, int room, String number, Boolean exists){
+    public table_model(String res_name, int room, String number, Boolean exists){
         this.id = res_name;
         this.table_room = room;
         this.table_num = number;

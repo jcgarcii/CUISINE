@@ -28,7 +28,7 @@ public class restaurant_model {
      * @param name - restaurant name
      * @param size - restaurant size (rooms)
      */
-    public void restaurant_model(String owner, String name, int size, int capacity
+    public restaurant_model(String owner, String name, int size, int capacity
         , String city, String category, String photo, int price, int numRatings, double avgRating){
         this.owner_id = owner;
         this.name = name;
@@ -43,6 +43,9 @@ public class restaurant_model {
         this.numRatings = numRatings;
         this.avgRating = avgRating;
     }
+
+    public restaurant_model() {}
+
     public String getName() {
         return name;
     }

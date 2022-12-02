@@ -2,12 +2,26 @@ package com.example.cpre388.cuisine.Models;
 
 public class user_model {
     private Float rating;
+    private String uid;
     private String name;
-    private Boolean isOwner;
+    private String preference;
+    private String type;
 
-    public void user_model(String name, Boolean owner, Float rating ){
-        this.rating = rating;
-        this.name = name;
-        this.isOwner = owner;
+    public user_model(String uid){
+        this.uid = uid;
     }
+
+    public void set_name(String name){this.name = name; }
+    public String get_name(){return name;}
+
+    public void set_pref(String pref){this.preference = pref;}
+    public String get_pref(){return preference;}
+
+    public void set_type(String type){
+        if(!type.equals(this.type)) {
+            this.type = type;
+        }
+    }
+    public String get_type(){return type; }
+
 }
