@@ -45,30 +45,31 @@ public class SettingsActivity extends AppCompatActivity {
     private AppCompatButton submit_btn;
 
     private LocalTime local;
+    private int dummy;
     private int flag;
 
     //FireStore Documents:
-    DocumentSnapshot document;
-    DocumentReference userRef;
+    private DocumentSnapshot document;
+    private DocumentReference userRef;
 
     //FireStore Document Fields:
-    String user_type;
-    String name;
-    String phone;
-    String favorite_restaurant;
+    private String user_type;
+    private String name;
+    private String phone;
+    private String favorite_restaurant;
 
     //Track Changes:
-    String _m_fav_restaurant;
-    String _m_type;
-    String _m_name;
-    String _m_phone;
+    private String _m_fav_restaurant;
+    private String _m_type;
+    private String _m_name;
+    private String _m_phone;
 
     //Intent Array
-    String[] _changes;
+    private String[] _changes;
 
     //TextView and EditView Stuff:
-    EditText _name_txt, _phone_txt;
-    TextView _rest_pref_txt, _user_type_txt;
+    private EditText _name_txt, _phone_txt;
+    private TextView _rest_pref_txt, _user_type_txt;
 
     //Spinner Stuff:
     private Spinner restaurant_spinner;
@@ -144,6 +145,7 @@ public class SettingsActivity extends AppCompatActivity {
         submit_btn.setOnClickListener(this::on_submit);
 
         flag = 0;
+        dummy = 0;
 
         mFirestore = FirebaseUtil.getFirestore();
         local = LocalTime.now();
@@ -160,6 +162,7 @@ public class SettingsActivity extends AppCompatActivity {
                          document = task.getResult();
                         if (document.exists()) {
                             //Name Check:
+
                             name = document.getString("name");
                             if(name.isEmpty()){
                                 _name_txt.setText("NULL");
@@ -181,6 +184,7 @@ public class SettingsActivity extends AppCompatActivity {
                             favorite_restaurant = document.getString("favorite_food");
                             if(favorite_restaurant.isEmpty()){
                                 _rest_pref_txt.setText("NULL");
+
                             }
                             else{
                                 _rest_pref_txt.setText(favorite_restaurant);
@@ -211,34 +215,58 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public void on_submit(View view){
-        Intent intent = new Intent(this, LoadingActivity.class);
+        Intent intent = new Intent(this, activity_customer_main.class);
         if(flag == 0) {
-            return;
+            dummy = dummy + 1;
         }
         else
             {
-                if(_m_type.equals(R.string.user_type_customer)){
-                    _m_type = "0";
-                }
-                else if(_m_type.equals(R.string.user_type_owner)){
-                    _m_type = "1";
-                }
-                else{
-                    _m_type = "NULL";
+                _m_name = _name_txt.getText().toString();
+                _m_phone = _phone_txt.getText().toString();
+
+                switch(_m_type){
+                    case "Customer":
+                        _m_type = "0";
+                        break;
+                    case "Restaurant":
+                        _m_type = "1";
+                        break;
+                    default:
+                        _m_type="0";
+
                 }
 
-            _m_name = _name_txt.getText().toString();
-            _m_phone = _phone_txt.getText().toString();
+                if(name == "NULL"){userRef.update("name", _m_name);}
+                else if(!name.equals(_m_name)){userRef.update("name", _m_name);}
+                else{dummy++;}
 
+                if(phone == "NULL"){userRef.update("phone", _m_phone);}
+                else if(!phone.equals(_m_phone)){userRef.update("phone", _m_phone);}
+                else{dummy++;}
+
+                if(favorite_restaurant.isEmpty() && !_m_fav_restaurant.equals("NULL")){
+                    userRef.update("favorite_food", _m_fav_restaurant);
+                }
+                else if(!favorite_restaurant.equals(_m_fav_restaurant) && _m_fav_restaurant.equals("NULL")){
+                    userRef.update("favorite_food", _m_fav_restaurant);
+                }
+                else{dummy++;}
+
+                if(!user_type.equals(_m_type)){
+                    userRef.update("type", _m_type);
+                }else{
+                    dummy++;
+                }
+
+/*
             _changes[0] = _m_name;
             _changes[1] = _m_phone;
             _changes[2] = _m_fav_restaurant;
             _changes[3] = _m_type;
-
             intent.putExtra(NEW_SETTINGS, _changes);
-
+*/
             startActivity(intent);
+            finishAndRemoveTask();
         }
     }
-
 }
