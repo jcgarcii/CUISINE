@@ -13,8 +13,10 @@ import com.example.cpre388.cuisine.Util.FirebaseUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,18 +70,25 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
         //Store User Object onto Firestore:
         Map<String, Object> reservation = new HashMap<>();
         mFirestore = FirebaseUtil.getFirestore();
-        CollectionReference store = mFirestore.collection("reservations");
+        LocalTime local = LocalTime.now();
 
-        //Write new Reservation Document
-        currUser = FirebaseAuth.getInstance().getCurrentUser();
-        reservation.put("uid", currUser.getUid());
-        reservation.put("restaruant_id", rest_id);
-        reservation.put("contact_information", contact_information);
-        reservation.put("room_selected", room_number);
-        reservation.put("table_selected", table_selected);
-        reservation.put("num_guests", party_size);
-        reservation.put("reservation_time", time);
-        store.add(reservation);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+
+            currUser = FirebaseAuth.getInstance().getCurrentUser();
+            String uid_time = currUser.getUid() + local.toString();
+            DocumentReference userRef = mFirestore.collection("Users").document(currUser.getUid()).collection("Reservations").document(uid_time);
+
+            //Write new Reservation Document
+            currUser = FirebaseAuth.getInstance().getCurrentUser();
+            reservation.put("uid", currUser.getUid());
+            reservation.put("restaruant_id", rest_id);
+            reservation.put("contact_information", contact_information);
+            reservation.put("room_selected", room_number);
+            reservation.put("table_selected", table_selected);
+            reservation.put("num_guests", party_size);
+            reservation.put("reservation_time", time);
+            userRef.set(reservation);
+        }
     }
 
     private void onHomePressed(View view){
