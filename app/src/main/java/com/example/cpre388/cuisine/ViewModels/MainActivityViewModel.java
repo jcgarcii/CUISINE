@@ -1,5 +1,6 @@
 package com.example.cpre388.cuisine.ViewModels;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.cpre388.cuisine.Activities.Filters;
@@ -10,12 +11,22 @@ import com.example.cpre388.cuisine.Activities.Filters;
 
 public class MainActivityViewModel extends ViewModel {
 
+    private MutableLiveData<Boolean> settings_changed = new MutableLiveData<>();
+
     private boolean mIsSigningIn;
     private Filters mFilters;
 
     public MainActivityViewModel() {
         mIsSigningIn = false;
         mFilters = Filters.getDefault();
+    }
+
+    public void set_settings(boolean i){
+        settings_changed.setValue(i);
+    }
+
+    public MutableLiveData<Boolean> settings_changed(){
+        return settings_changed;
     }
 
     public boolean getIsSigningIn() {

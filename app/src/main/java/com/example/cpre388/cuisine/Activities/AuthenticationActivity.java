@@ -78,6 +78,11 @@ public class AuthenticationActivity extends AppCompatActivity {
                         } else {
                             user.put("uid", currUser.getUid());
                             user.put("type", type_selected);
+                            user.put("name", "none");
+                            //Phone Check:
+                            user.put("phone", "none");
+                            //Restaurant Pref Check:
+                            user.put("Favorite_Restaurant", "none");
                             userRef.set(user);
                             nextActivity(type_selected);
                         }

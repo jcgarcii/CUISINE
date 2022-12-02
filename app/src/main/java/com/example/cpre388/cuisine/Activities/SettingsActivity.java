@@ -11,14 +11,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.cpre388.cuisine.Models.user_model;
 import com.example.cpre388.cuisine.R;
 import com.example.cpre388.cuisine.Util.FirebaseUtil;
+import com.example.cpre388.cuisine.ViewModels.MainActivityViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String NEW_SETTINGS = "com.example.cpre388.cuisine.activities.SETTINGS";
@@ -43,20 +48,17 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private FirebaseUser currUser;
     private AppCompatButton submit_btn;
+    private MainActivityViewModel mViewModel;
 
     private LocalTime local;
     private int dummy;
     private int flag;
+    private int changes;
+    private Observer observer;
 
     //FireStore Documents:
     private DocumentSnapshot document;
     private DocumentReference userRef;
-
-    //FireStore Document Fields:
-    private String user_type;
-    private String name;
-    private String phone;
-    private String favorite_restaurant;
 
     //Track Changes:
     private String _m_fav_restaurant;
@@ -69,7 +71,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     //TextView and EditView Stuff:
     private EditText _name_txt, _phone_txt;
-    private TextView _rest_pref_txt, _user_type_txt;
 
     //Spinner Stuff:
     private Spinner restaurant_spinner;
@@ -85,19 +86,16 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
 
+        mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        mViewModel.set_settings(false);
+
         //View Objects:
         _name_txt = findViewById(R.id.editTextTextPersonName);
         _phone_txt = findViewById(R.id.editTextPhone);
-        _rest_pref_txt = findViewById(R.id.current_fav_rest);
-        _user_type_txt = findViewById(R.id.current_user_type);
         submit_btn = findViewById(R.id.save_settings_btn);
 
         //Intent Array:
         _changes = new String[4];
-
-        //While Loading:
-        _name_txt.setText("Loading...");
-        _phone_txt.setText("Loading...");
 
         //Prepare Spinner List for Table Selection:
         restaurant_spinner = (Spinner) this.findViewById(R.id.change_user_pref);
@@ -145,119 +143,72 @@ public class SettingsActivity extends AppCompatActivity {
         submit_btn.setOnClickListener(this::on_submit);
 
         flag = 0;
+        changes = 0;
         dummy = 0;
 
         mFirestore = FirebaseUtil.getFirestore();
         local = LocalTime.now();
-        Map<String, Object> user_obj = new HashMap<>();
+    }
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            currUser = FirebaseAuth.getInstance().getCurrentUser();
-            userRef = mFirestore.collection("Users").document(currUser.getUid()).collection("Preferences").document("Settings");
+    public void _update(){
+        if(changes == 1) {
+            Map<String, Object> user_obj = new HashMap<>();
 
-            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                         document = task.getResult();
-                        if (document.exists()) {
-                            //Name Check:
 
-                            name = document.getString("name");
-                            if(name.isEmpty()){
-                                _name_txt.setText("NULL");
-                            }
-                            else{
-                                _name_txt.setText(name);
-                            }
+            _m_name = _name_txt.getText().toString();
+            _m_phone = _phone_txt.getText().toString();
 
-                            //Phone Check:
-                            phone = document.getString("phone");
-                            if(phone.isEmpty()){
-                                _phone_txt.setText("NULL");
-                            }
-                            else{
-                                _phone_txt.setText(phone);
-                            }
+            switch (_m_type) {
+                case "Customer":
+                    _m_type = "0";
+                    break;
+                case "Owner":
+                    _m_type = "1";
+                    break;
+                default:
+                    _m_type = "0";
 
-                            //Restaurant Pref Check:
-                            favorite_restaurant = document.getString("favorite_food");
-                            if(favorite_restaurant.isEmpty()){
-                                _rest_pref_txt.setText("NULL");
+            }
 
-                            }
-                            else{
-                                _rest_pref_txt.setText(favorite_restaurant);
-                            }
+            if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+                currUser = FirebaseAuth.getInstance().getCurrentUser();
+                DocumentReference userRef = mFirestore.collection("Users").document(currUser.getUid()).collection("Settings").document(currUser.getUid());
+                //uid:
+                user_obj.put("uid", currUser.getUid());
+                //Name Check:
+                user_obj.put("name", _m_name);
+                //Phone Check:
+                user_obj.put("phone", _m_phone);
+                //Restaurant Pref Check:
+                user_obj.put("favorite_food", _m_fav_restaurant);
+                //User Type:
+                user_obj.put("type", _m_type);
+                //Send to database:
+                userRef.set(user_obj);
 
-                            //User Type Check:
-                            user_type = document.getString("type");
-                            if(user_type.equals("1")){
-                                _user_type_txt.setText("Restaurant Account");
-                            }
-                            else if(user_type.equals("0")){
-                                _user_type_txt.setText("Customer Account");
-                            }
-                        }
-                        else{
-                            Log.d("FAILED", "no documents");
+                nextActivity();
+            }
 
-                        }
-                        flag = 1;
-                    } else {
-                        //Log.d(TAG, "get failed with ", task.getException());
-                    }
-                }
-            });
+        }
+        else{
+            dummy++;
         }
 
     }
 
+    public void nextActivity(){
+        Intent i=new Intent(this, activity_customer_main.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+    }
+
 
     public void on_submit(View view){
-        Intent intent = new Intent(this, activity_customer_main.class);
-        if(flag == 0) {
-            dummy = dummy + 1;
-        }
-        else
-            {
-                _m_name = _name_txt.getText().toString();
-                _m_phone = _phone_txt.getText().toString();
-
-                switch(_m_type){
-                    case "Customer":
-                        _m_type = "0";
-                        break;
-                    case "Restaurant":
-                        _m_type = "1";
-                        break;
-                    default:
-                        _m_type="0";
-
-                }
-
-                if(name == "NULL"){userRef.update("name", _m_name);}
-                else if(!name.equals(_m_name)){userRef.update("name", _m_name);}
-                else{dummy++;}
-
-                if(phone == "NULL"){userRef.update("phone", _m_phone);}
-                else if(!phone.equals(_m_phone)){userRef.update("phone", _m_phone);}
-                else{dummy++;}
-
-                if(favorite_restaurant.isEmpty() && !_m_fav_restaurant.equals("NULL")){
-                    userRef.update("favorite_food", _m_fav_restaurant);
-                }
-                else if(!favorite_restaurant.equals(_m_fav_restaurant) && _m_fav_restaurant.equals("NULL")){
-                    userRef.update("favorite_food", _m_fav_restaurant);
-                }
-                else{dummy++;}
-
-                if(!user_type.equals(_m_type)){
-                    userRef.update("type", _m_type);
-                }else{
-                    dummy++;
-                }
-
+         if(changes == 1){dummy++;}
+         else {
+             changes = 1;
+             _update();
+         }
 /*
             _changes[0] = _m_name;
             _changes[1] = _m_phone;
@@ -265,8 +216,5 @@ public class SettingsActivity extends AppCompatActivity {
             _changes[3] = _m_type;
             intent.putExtra(NEW_SETTINGS, _changes);
 */
-            startActivity(intent);
-            finishAndRemoveTask();
-        }
     }
 }

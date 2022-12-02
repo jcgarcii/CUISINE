@@ -61,7 +61,7 @@ public class ReserveTableActivity extends AppCompatActivity
 
         //Intent Variables:
         selection = new String[3];
-        confirmation = new String[8];
+        confirmation = new String[9];
 
         //Port in table selection and room (arr[0] and arr[1]):
         Intent intent = getIntent();
@@ -186,6 +186,7 @@ public class ReserveTableActivity extends AppCompatActivity
         confirmation[5] = mRestaurant_id;
         confirmation[6] = party_num;
         confirmation[7] = time;
+        confirmation[8] = name_input;
 
         Intent confirmation_intent = new Intent(this, ReservationConfirmationActivity.class);
         confirmation_intent.putExtra(CONFIRMATION_DETAILS, confirmation);
