@@ -22,6 +22,9 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".Activities.SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.CustomerRecieptsActivity"
             android:exported="false" />
         <activity

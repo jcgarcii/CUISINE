@@ -1,0 +1,39 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/personal_info">
+
+        <EditTextPreference
+            app:key="signature"
+            app:title="@string/signature_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="fav_restaurant"
+            app:entries="@array/categories_names"
+            app:entryValues="@array/categories_values"
+            app:key="reply"
+            app:title="@string/rest_pref"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:key="user_type"
+            app:title="@string/user_type_pref"
+            app:summaryOff="@string/user_type_customer"
+            app:summaryOn="@string/user_type_owner"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/preferences_info">
+
+        <SwitchPreferenceCompat
+            app:key="dark_mode"
+            app:title="@string/dark_mode"
+            app:summaryOff="@string/dark_mode_on"
+            app:summaryOn="@string/dark_mode_off"/>
+
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

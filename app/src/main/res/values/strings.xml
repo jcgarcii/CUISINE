@@ -48,6 +48,25 @@
     <string name="reserve_details">Your Table for NUM will be ready for you soon!</string>
     <string name="to_main_hub">Sweet!</string>
 
+    <!-- Settings Activity Title -->
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="personal_info">Personal Information</string>
+    <string name="preferences_info">App Preferences</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your Name:</string>
+    <string name="rest_pref">Favorite Restaurant Type:</string>
+
+    <!-- Sync Preferences -->
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_off">Light Mode</string>
+    <string name="dark_mode_on">Dark Mode</string>
+
+    <string name="user_type_pref">Account Type</string>
+    <string name="user_type_customer">User Type: Customer</string>
+    <string name="user_type_owner">User Type: Restaurant</string>
 
     <string name="label_category">Category</string>
     <string name="label_city">City</string>

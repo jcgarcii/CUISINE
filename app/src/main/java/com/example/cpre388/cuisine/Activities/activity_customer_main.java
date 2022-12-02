@@ -88,6 +88,9 @@ public class activity_customer_main extends AppCompatActivity implements Navigat
                 Intent calcIntent = new Intent(this, tip_activity.class);
                 startActivity(calcIntent);
                 break;
+            case R.id.settings:
+                Intent settings = new Intent(this, SettingsActivity.class);
+                startActivity(settings);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
