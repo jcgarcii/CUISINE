@@ -50,6 +50,10 @@
 
     <!-- Settings Activity Title -->
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_title">Settings</string>
+    <string name="edit_user_name_text">Change Name</string>
+    <string name="change_phone_number_txt">Change Contact Number</string>
+    <string name="submit_changes_btn_txt">Submit Changes</string>
 
     <!-- Preference Titles -->
     <string name="personal_info">Personal Information</string>
@@ -101,8 +105,6 @@
 
     <!-- Types of food I could think of in 5 minutes -->
     <string-array name="categories">
-        <item>@string/value_any_category</item>
-
         <item>Brunch</item>
         <item>Burgers</item>
         <item>Coffee</item>
@@ -116,7 +118,13 @@
         <item>Ramen</item>
         <item>Sushi</item>
     </string-array>
-    ite
+
+    <string-array name="user_types">
+        <item>Customer</item>
+        <item>Owner</item>
+    </string-array>
+
+
 
     <!-- 50 most populous cities in the US -->
     <string-array name="cities">

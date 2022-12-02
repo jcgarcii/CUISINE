@@ -34,6 +34,9 @@
             android:name=".Activities.ReserveTableActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.LoadingActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ReservationConfirmationActivity"
             android:exported="false" />
         <activity
