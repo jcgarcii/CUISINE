@@ -67,8 +67,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             currUser = FirebaseAuth.getInstance().getCurrentUser();
             DocumentReference userRef = mFirestore.collection("Users").document(currUser.getUid());
 
-            DocumentReference docRef = mFirestore.collection("Users").document(currUser.getUid());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
