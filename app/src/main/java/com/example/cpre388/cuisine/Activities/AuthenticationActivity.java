@@ -14,12 +14,10 @@ import com.example.cpre388.cuisine.R;
 import com.example.cpre388.cuisine.Util.FirebaseUtil;
 import com.example.cpre388.cuisine.ViewModels.MainActivityViewModel;
 import com.firebase.ui.auth.AuthUI;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -106,7 +104,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private void nextActivity(String t){
         if(t.equals("1")){
-            //Intent owner = new Intent(this)
+            Intent owner = new Intent(this, OwnerActivity.class);
+            startActivity(owner);
         }
         else if(t.equals("0")){
             Intent customer = new Intent(this, activity_customer_main.class);
