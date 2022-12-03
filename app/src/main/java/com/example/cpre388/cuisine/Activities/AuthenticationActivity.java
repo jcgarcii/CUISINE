@@ -104,7 +104,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private void nextActivity(String t){
         if(t.equals("1")){
-            Intent owner = new Intent(this, OwnerActivity.class);
+            Intent owner = new Intent(this, activity_owner_main.class);
             startActivity(owner);
         }
         else if(t.equals("0")){

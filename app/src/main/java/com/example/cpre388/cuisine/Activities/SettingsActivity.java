@@ -1,7 +1,5 @@
 package com.example.cpre388.cuisine.Activities;
 
-import static com.firebase.ui.auth.AuthUI.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,17 +8,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceFragmentCompat;
 
-import com.example.cpre388.cuisine.Models.user_model;
 import com.example.cpre388.cuisine.R;
 import com.example.cpre388.cuisine.Util.FirebaseUtil;
 import com.example.cpre388.cuisine.ViewModels.MainActivityViewModel;
@@ -32,16 +25,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Observable;
 import java.util.Observer;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -225,10 +213,16 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public void nextActivity(){
-        Intent i=new Intent(this, activity_customer_main.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
+    public void nextActivity() {
+        if (_m_type.equals("1")) {
+            Intent i = new Intent(this, activity_owner_main.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        } else {
+            Intent i = new Intent(this, activity_customer_main.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }
     }
 
 

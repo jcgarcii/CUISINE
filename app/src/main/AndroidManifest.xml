@@ -57,7 +57,12 @@
             android:exported="false" />
         <activity
             android:name=".Activities.activity_customer_main"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Activities.activity_owner_main"
+            android:exported="false">
+        </activity>
         <activity
             android:name=".Activities.MainActivity"
             android:exported="true">
