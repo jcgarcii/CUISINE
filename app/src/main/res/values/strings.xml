@@ -196,5 +196,7 @@
     <string name="title_activity_owner">OwnerActivity</string>
     <string name="tab_text_1">Reservations</string>
     <string name="tab_text_2">Requests</string>
-    <string name="tab_text_3">Arrange</string>
+    <string name="tab_text_3">Billing</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
