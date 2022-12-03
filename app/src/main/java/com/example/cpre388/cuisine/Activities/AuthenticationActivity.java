@@ -84,7 +84,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                             //Restaurant Pref Check:
                             user.put("Favorite_Restaurant", "none");
                             userRef.set(user);
-                            nextActivity("2");
+                            nextActivity("NEW");
                         }
                     } else {
                         Log.d(TAG, "get failed with ", task.getException());
@@ -105,10 +105,10 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     private void nextActivity(String t){
-        if(t == "1"){
+        if(t.equals("1")){
             //Intent owner = new Intent(this)
         }
-        else if(t == "0"){
+        else if(t.equals("0")){
             Intent customer = new Intent(this, activity_customer_main.class);
             startActivity(customer);
         }
