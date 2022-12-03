@@ -24,9 +24,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class SelectTableActivity extends AppCompatActivity {
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
@@ -39,6 +39,8 @@ public class SelectTableActivity extends AppCompatActivity {
             mTable_3_1, mTable_3_2, mTable_3_3,
             mTable_4_1, mTable_4_2, mTable_4_3;
 
+    private Boolean ready;
+
     //Used to keep track of which tables are available for use:
     private int[][] table_array_room_one;
     private int[][] table_array_room_two;
@@ -46,6 +48,10 @@ public class SelectTableActivity extends AppCompatActivity {
     private int[][] table_array_room_four;
     private int[][] current_table_array;
 
+    private String[][] stable_array_room_one;
+    private String[][] stable_array_room_two;
+    private String[][] stable_array_room_three;
+    private String[][] stable_array_room_four;
 
     private Boolean selected;
     private String currSelection;
@@ -66,10 +72,10 @@ public class SelectTableActivity extends AppCompatActivity {
 
     //Retrieve List<Integer> from cloud:
     private Map<String, Object> map;
-    private List<Integer> room_1;
-    private List<Integer> room_2;
-    private List<Integer> room_3;
-    private List<Integer> room_4;
+    private List<String> room_1;
+    private List<String> room_2;
+    private List<String> room_3;
+    private List<String> room_4;
 
 
     @Override
@@ -79,6 +85,8 @@ public class SelectTableActivity extends AppCompatActivity {
 
         Intent prev = getIntent();
         restaurant_id = prev.getExtras().getString(KEY_RESTAURANT_ID);
+
+        ready = false;
 
         selected = false;
         currSelection = "CLEAR";
@@ -90,7 +98,13 @@ public class SelectTableActivity extends AppCompatActivity {
         table_array_room_four = new int[4][3];
         current_table_array = new int[4][3];
 
+        stable_array_room_one = new String[4][3];
+        stable_array_room_two = new String[4][3];
+        stable_array_room_three = new String[4][3];
+        stable_array_room_four = new String[4][3];
+
         spinner = (Spinner) this.findViewById(R.id.room_selector);
+        spinner.setVisibility(View.INVISIBLE);
         list = new ArrayList<String>();
         setSpinner();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.table_reservation_spinner,list);
@@ -127,10 +141,12 @@ public class SelectTableActivity extends AppCompatActivity {
         mTable_4_3 = findViewById(R.id.table_4_3);
         mTable_4_3.setOnClickListener(this::on_4_3_clicked);
 
+        init_tables(0);
+
 
         mFirestore = FirebaseUtil.getFirestore();
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             currUser = FirebaseAuth.getInstance().getCurrentUser();
             DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document("Tables");
@@ -143,12 +159,77 @@ public class SelectTableActivity extends AppCompatActivity {
                         if (document.exists()) {
 
                             map = (Map<String, Object>) document.getData();
-                            room_1 = (List<Integer>) map.getOrDefault("Room 1", "lol" );
-                            room_2 = (List<Integer>) map.getOrDefault("Room 2", "lol" );
-                            room_3 = (List<Integer>) map.getOrDefault("Room 3", "lol" );
-                            room_4 = (List<Integer>) map.getOrDefault("Room 4", "lol" );
+                            room_1 = (List<String>) map.getOrDefault("Room 1", "lol" );
+                            room_2 = (List<String>) map.getOrDefault("Room 2", "lol" );
+                            room_3 = (List<String>) map.getOrDefault("Room 3", "lol" );
+                            room_4 = (List<String>) map.getOrDefault("Room 4", "lol" );
 
-                            
+                            int _x_1 = 0;
+                            int _y_1 = 0;
+                            for(int i = 0; i < room_1.size(); i++){
+                                stable_array_room_one[_y_1][_x_1] = room_1.get(i);
+
+                                if(_x_1 == 2){
+                                    _y_1++;
+                                    _x_1 = 0;
+                                }
+                                else{
+                                    _x_1++;
+                                }
+                            }
+
+                            int _x_2 = 0;
+                            int _y_2 = 0;
+                            for(int i = 0; i < room_2.size(); i++){
+                                stable_array_room_two[_y_2][_x_2] = room_2.get(i);
+
+                                if(_x_2 == 2){
+                                    _y_2++;
+                                    _x_2 = 0;
+                                }
+                                else{
+                                    _x_2++;
+                                }
+                            }
+
+                            int _x_3 = 0;
+                            int _y_3 = 0;
+                            for(int i = 0; i < room_3.size(); i++){
+                                stable_array_room_three[_y_3][_x_3] = room_3.get(i);
+
+                                if(_x_3 == 2){
+                                    _y_3++;
+                                    _x_3 = 0;
+                                }
+                                else{
+                                    _x_3++;
+                                }
+                            }
+
+                            int _x_4 = 0;
+                            int _y_4 = 0;
+                            for(int i = 0; i < room_4.size(); i++){
+                                stable_array_room_four[_y_4][_x_4] = room_4.get(i);
+
+                                if(_x_4 == 2){
+                                    _y_4++;
+                                    _x_4 = 0;
+                                }
+                                else{
+                                    _x_4++;
+                                }
+                            }
+
+                            init_tables(1);
+                            table_array_room_one = setArray(stable_array_room_one);
+                            table_array_room_two = setArray(stable_array_room_two);
+                            table_array_room_three = setArray(stable_array_room_three);
+                            table_array_room_four = setArray(stable_array_room_four);
+
+                            System.out.println(Arrays.deepToString(stable_array_room_two));
+                            ready = true;
+                            spinner.setVisibility(View.VISIBLE);
+
                             Log.d("Table Retrieval Success", "very nice, hopefully");
                         } else {
                             Log.d("Restaurant", "doesn't have layout");
@@ -158,13 +239,9 @@ public class SelectTableActivity extends AppCompatActivity {
                     }
                 }
             });
+
+
         }
-
-
-        table_array_room_one = dummy_array();
-        table_array_room_two = dummy_array();
-        table_array_room_three = dummy_array();
-        table_array_room_four = dummy_array();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -202,7 +279,7 @@ public class SelectTableActivity extends AppCompatActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                init_tables();
+               Log.d("TABLES", "no room was selected");
             }
         });
         btn.setOnClickListener(this::onSubmit);
@@ -222,165 +299,143 @@ public class SelectTableActivity extends AppCompatActivity {
         list.add(four);
     }
 
-    private void init_tables(){
-        for(int x = 0; x < table_array_room_one.length; x++){
-            String currX = String.format("%d", x + 1);
-            for(int y = 0; y < table_array_room_one[x].length; y++){
-                String currY = String.format("%d",y + 1);
-                String val = currX + "_" + currY;
-
-                switch(val){
-                    case "1_1":
-                        mTable_1_1.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "1_2":
-                        mTable_1_2.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "1_3":
-                        mTable_1_3.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "2_1":
-                        mTable_2_1.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "2_2":
-                        mTable_2_2.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "2_3":
-                        mTable_2_3.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "3_1":
-                        mTable_3_1.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "3_2":
-                        mTable_3_2.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "3_3":
-                        mTable_3_3.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "4_1":
-                        mTable_4_1.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "4_2":
-                        mTable_4_2.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "4_3":
-                        mTable_4_3.setImageResource(R.drawable.table_for_default);
-                        break;
-                    case "default":
-                        Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
-                        break;
-                }
-            }
+    private void init_tables(int i){
+        int vis = 99;
+        if(i == 1){
+            vis = View.VISIBLE;
         }
+        else{
+            vis = View.INVISIBLE;
+        }
+        //Row 1 Visibility:
+        mTable_1_1.setVisibility(vis);
+        mTable_1_2.setVisibility(vis);
+        mTable_1_3.setVisibility(vis);
+        //Row 2 Visibility:
+        mTable_2_1.setVisibility(vis);
+        mTable_2_2.setVisibility(vis);
+        mTable_2_3.setVisibility(vis);
+        //Row 3 Visibility:
+        mTable_3_1.setVisibility(vis);
+        mTable_3_2.setVisibility(vis);
+        mTable_3_3.setVisibility(vis);
+        //Row 4 Visibililty:
+        mTable_4_1.setVisibility(vis);
+        mTable_4_2.setVisibility(vis);
+        mTable_4_3.setVisibility(vis);
+        btn.setVisibility(vis);
+
     }
 
     private void set_tables(int[][] table_array, int room_num){
-        for(int x = 0; x < table_array.length ; x++){
+        if(!ready) {return;}
+
+        for (int x = 0; x < table_array.length; x++) {
             String currX = String.format("%d", x + 1);
-            for(int y = 0; y < table_array[x].length ; y++){
-                String currY = String.format("%d",y + 1);
+            for (int y = 0; y < table_array[x].length; y++) {
+                String currY = String.format("%d", y + 1);
                 String val = currX + "_" + currY;
                 String logged = String.format("Value: %d", table_array[x][y]);
                 Log.d("CURR_VAL", val + logged);
-                if(table_array[x][y] > 1){
-                    switch(val){
-                        case "1_1":
-                            mTable_1_1.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "1_2":
-                            mTable_1_2.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "1_3":
-                            mTable_1_3.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "2_1":
-                            mTable_2_1.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "2_2":
-                            mTable_2_2.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "2_3":
-                            mTable_2_3.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "3_1":
-                            mTable_3_1.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "3_2":
-                            mTable_3_2.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "3_3":
-                            mTable_3_3.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "4_1":
-                            mTable_4_1.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "4_2":
-                            mTable_4_2.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "4_3":
-                            mTable_4_3.setImageResource(R.drawable.table_for_default);
-                            break;
-                        case "default":
-                            Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
-                            break;
+                    if (table_array[x][y] == 1) {
+                        switch (val) {
+                            case "1_1":
+                                mTable_1_1.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "1_2":
+                                mTable_1_2.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "1_3":
+                                mTable_1_3.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "2_1":
+                                mTable_2_1.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "2_2":
+                                mTable_2_2.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "2_3":
+                                mTable_2_3.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "3_1":
+                                mTable_3_1.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "3_2":
+                                mTable_3_2.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "3_3":
+                                mTable_3_3.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "4_1":
+                                mTable_4_1.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "4_2":
+                                mTable_4_2.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "4_3":
+                                mTable_4_3.setImageResource(R.drawable.table_for_default);
+                                break;
+                            case "default":
+                                Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
+                                break;
+                        }
+                    } else {
+                        switch (val) {
+                            case "1_1":
+                                mTable_1_1.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "1_2":
+                                mTable_1_2.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "1_3":
+                                mTable_1_3.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "2_1":
+                                mTable_2_1.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "2_2":
+                                mTable_2_2.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "2_3":
+                                mTable_2_3.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "3_1":
+                                mTable_3_1.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "3_2":
+                                mTable_3_2.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "3_3":
+                                mTable_3_3.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "4_1":
+                                mTable_4_1.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "4_2":
+                                mTable_4_2.setImageResource(R.drawable.empty_space);
+                                break;
+                            case "4_3":
+                                mTable_4_3.setImageResource(R.drawable.empty_space);
+                                break;
+                            default:
+                                Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
+                                break;
+                        }
                     }
                 }
-                else {
-                    switch(val){
-                        case "1_1":
-                            mTable_1_1.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "1_2":
-                            mTable_1_2.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "1_3":
-                            mTable_1_3.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "2_1":
-                            mTable_2_1.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "2_2":
-                            mTable_2_2.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "2_3":
-                            mTable_2_3.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "3_1":
-                            mTable_3_1.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "3_2":
-                            mTable_3_2.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "3_3":
-                            mTable_3_3.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "4_1":
-                            mTable_4_1.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "4_2":
-                            mTable_4_2.setImageResource(R.drawable.empty_space);
-                            break;
-                        case "4_3":
-                            mTable_4_3.setImageResource(R.drawable.empty_space);
-                            break;
-                        default:
-                            Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
-                            break;
-                    }
-                }
-            }
+
         }
     }
 
     /**
      * Fills Array with dummy values for testing purposes;
      */
-    private int[][] dummy_array(){
+    private int[][] setArray(String[][] string_array){
         int[][] toReturn = new int[4][3];
-        Random rand = new Random();
+
         for(int i = 0; i < toReturn.length; i++){
             for(int j = 0; j < toReturn[i].length; j++){
-                int k = rand.nextInt(8) - 5;
+                int k = Integer.parseInt(string_array[i][j]);
                 toReturn[i][j] = k;
             }
         }
