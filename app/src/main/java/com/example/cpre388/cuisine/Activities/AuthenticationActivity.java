@@ -82,7 +82,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                             //Phone Check:
                             user.put("phone", "none");
                             //Restaurant Pref Check:
-                            user.put("Favorite_Restaurant", "none");
+                            user.put("favorite_food", "none");
                             userRef.set(user);
                             nextActivity("NEW");
                         }
