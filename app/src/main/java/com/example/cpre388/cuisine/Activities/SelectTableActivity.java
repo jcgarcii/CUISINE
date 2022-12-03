@@ -12,8 +12,6 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.example.cpre388.cuisine.Models.room_model;
-import com.example.cpre388.cuisine.Models.table_model;
 import com.example.cpre388.cuisine.R;
 
 import java.util.ArrayList;
@@ -51,7 +49,6 @@ public class SelectTableActivity extends AppCompatActivity {
     private String[] confirmation_arr;
 
     private AppCompatButton btn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
