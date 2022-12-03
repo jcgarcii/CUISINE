@@ -1,5 +1,7 @@
 package com.example.cpre388.cuisine.Activities;
 
+import static com.firebase.ui.auth.AuthUI.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -172,19 +174,46 @@ public class SettingsActivity extends AppCompatActivity {
 
             if(FirebaseAuth.getInstance().getCurrentUser() != null) {
                 currUser = FirebaseAuth.getInstance().getCurrentUser();
-                DocumentReference userRef = mFirestore.collection("Users").document(currUser.getUid()).collection("Settings").document(currUser.getUid());
-                //uid:
-                user_obj.put("uid", currUser.getUid());
-                //Name Check:
-                user_obj.put("name", _m_name);
-                //Phone Check:
-                user_obj.put("phone", _m_phone);
-                //Restaurant Pref Check:
-                user_obj.put("favorite_food", _m_fav_restaurant);
-                //User Type:
-                user_obj.put("type", _m_type);
-                //Send to database:
-                userRef.set(user_obj);
+                DocumentReference userRef = mFirestore.collection("Users").document(currUser.getUid());
+
+
+                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                //uid:
+                                user_obj.put("uid", currUser.getUid());
+                                //Name Check:
+                                user_obj.put("name", _m_name);
+                                //Phone Check:
+                                user_obj.put("phone", _m_phone);
+                                //Restaurant Pref Check:
+                                user_obj.put("favorite_food", _m_fav_restaurant);
+                                //User Type:
+                                user_obj.put("type", _m_type);
+                                //Send to database:
+                                userRef.update(user_obj);
+                            } else {
+                                //uid:
+                                user_obj.put("uid", currUser.getUid());
+                                //Name Check:
+                                user_obj.put("name", _m_name);
+                                //Phone Check:
+                                user_obj.put("phone", _m_phone);
+                                //Restaurant Pref Check:
+                                user_obj.put("favorite_food", _m_fav_restaurant);
+                                //User Type:
+                                user_obj.put("type", _m_type);
+                                //Send to database:
+                                userRef.set(user_obj);
+                            }
+                        } else {
+                            Log.d("FAILURE", "get failed with ", task.getException());
+                        }
+                    }
+                });
 
                 nextActivity();
             }
