@@ -9,12 +9,23 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.cpre388.cuisine.R;
+import com.example.cpre388.cuisine.Util.FirebaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class SelectTableActivity extends AppCompatActivity {
@@ -49,6 +60,17 @@ public class SelectTableActivity extends AppCompatActivity {
     private String[] confirmation_arr;
 
     private AppCompatButton btn;
+
+    private FirebaseFirestore mFirestore;
+    private FirebaseUser currUser;
+
+    //Retrieve List<Integer> from cloud:
+    private Map<String, Object> map;
+    private List<Integer> room_1;
+    private List<Integer> room_2;
+    private List<Integer> room_3;
+    private List<Integer> room_4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +126,40 @@ public class SelectTableActivity extends AppCompatActivity {
         mTable_4_2.setOnClickListener(this::on_4_2_clicked);
         mTable_4_3 = findViewById(R.id.table_4_3);
         mTable_4_3.setOnClickListener(this::on_4_3_clicked);
+
+
+        mFirestore = FirebaseUtil.getFirestore();
+
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+
+            currUser = FirebaseAuth.getInstance().getCurrentUser();
+            DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document("Tables");
+
+            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+
+                            map = (Map<String, Object>) document.getData();
+                            room_1 = (List<Integer>) map.getOrDefault("Room 1", "lol" );
+                            room_2 = (List<Integer>) map.getOrDefault("Room 2", "lol" );
+                            room_3 = (List<Integer>) map.getOrDefault("Room 3", "lol" );
+                            room_4 = (List<Integer>) map.getOrDefault("Room 4", "lol" );
+
+                            
+                            Log.d("Table Retrieval Success", "very nice, hopefully");
+                        } else {
+                            Log.d("Restaurant", "doesn't have layout");
+                        }
+                    } else {
+                        Log.d("No Layout", "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
+
 
         table_array_room_one = dummy_array();
         table_array_room_two = dummy_array();
