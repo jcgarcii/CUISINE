@@ -68,10 +68,10 @@ public class ReservationAdapter extends FirestoreAdapter<ReservationAdapter.View
 
             Resources resources = itemView.getResources();
 
-            nameView.setText(name);
-            timeView.setText(time);
-            numView.setText(guests);
-            contactView.setText(contact);
+            nameView.setText(String.format("Guest: %s", name));
+            timeView.setText(String.format("Arrival: %s", time));
+            numView.setText(String.format("Table for: %s", guests));
+            contactView.setText(String.format("Contact information: %s", contact));
 
             // Click listener
             itemView.setOnClickListener(new View.OnClickListener() {
