@@ -53,16 +53,6 @@
             android:spinnerMode="dropdown"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/set_time_btn"
-            android:layout_width="match_parent"
-            android:background="@color/black"
-            android:layout_marginTop="10sp"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            android:layout_height="wrap_content"
-            android:text="@string/set_time_text_btn" />
-
         <TextView
             android:id="@+id/display_time_view"
             android:layout_width="match_parent"

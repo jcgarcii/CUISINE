@@ -78,7 +78,7 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             currUser = FirebaseAuth.getInstance().getCurrentUser();
-            String _time = localDate.toString() + local.toString();
+            String _time = localDate.toString() + time;
             DocumentReference userRef = mFirestore.collection("Reservations").document(_time);
 
             //Write new Reservation Document

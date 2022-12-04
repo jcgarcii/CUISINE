@@ -31,8 +31,12 @@ import java.util.Map;
 public class SelectTableActivity extends AppCompatActivity {
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
     public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
+    public static final String SELECTED_TIME = "key_time_selected";
 
     private String restaurant_id;
+    private String selected_time;
+    private String formatted_time;
+
     //Tables in the Current Room Selection:
     private ImageView mTable_1_1, mTable_1_2, mTable_1_3,
             mTable_2_1, mTable_2_2, mTable_2_3,
@@ -85,12 +89,16 @@ public class SelectTableActivity extends AppCompatActivity {
 
         Intent prev = getIntent();
         restaurant_id = prev.getExtras().getString(KEY_RESTAURANT_ID);
+        selected_time = prev.getExtras().getString(SELECTED_TIME);
+
+        //get time:
+        System.out.println(selected_time);
 
         ready = false;
 
         selected = false;
         currSelection = "CLEAR";
-        confirmation_arr = new String[3];
+        confirmation_arr = new String[4];
 
         table_array_room_one = new int[4][3];
         table_array_room_two = new int[4][3];
@@ -149,7 +157,7 @@ public class SelectTableActivity extends AppCompatActivity {
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             currUser = FirebaseAuth.getInstance().getCurrentUser();
-            DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document("Tables");
+            DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document(selected_time);
 
             userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -226,7 +234,6 @@ public class SelectTableActivity extends AppCompatActivity {
                             table_array_room_three = setArray(stable_array_room_three);
                             table_array_room_four = setArray(stable_array_room_four);
 
-                            System.out.println(Arrays.deepToString(stable_array_room_two));
                             ready = true;
                             spinner.setVisibility(View.VISIBLE);
 
@@ -427,8 +434,37 @@ public class SelectTableActivity extends AppCompatActivity {
         }
     }
 
+    private String getTime(String time) {
+        String ret = "";
+        String t;
+        if(!(time.length() == 4)){
+            t = 0 + time;
+            time = t;
+        }
+        String hrs = time.substring(0, 1);
+
+        //retrieve minutes:
+        String min = time.substring(2,3);
+        String _min = "";
+        //positional minutes:
+        char tMin = min.charAt(0);
+
+        switch(tMin){
+            case '3':
+                _min += "3";
+                break;
+            default:
+                _min += "0";
+                break;
+        }
+        _min += "0";
+        ret = hrs + _min;
+
+        return ret;
+    }
+
     /**
-     * Fills Array with dummy values for testing purposes;
+     * Returns collected arrays from Firebase to matrix
      */
     private int[][] setArray(String[][] string_array){
         int[][] toReturn = new int[4][3];
@@ -806,10 +842,12 @@ public class SelectTableActivity extends AppCompatActivity {
         confirmation_arr[0] = currSelection;
         confirmation_arr[1] = roomSelection;
         confirmation_arr[2] = restaurant_id;
+        confirmation_arr[3] = selected_time;
 
         Intent intent = new Intent(this, ReserveTableActivity.class);
         //Passes the table selection and the room selection arr[0] arr[1] respectively
         //arr[3] contains the restaurant id for documentation purposes
+        //arr[4] contains the selected time from the previous activity
         intent.putExtra(SELECTION_DETAILS, confirmation_arr);
         startActivity(intent);
     }

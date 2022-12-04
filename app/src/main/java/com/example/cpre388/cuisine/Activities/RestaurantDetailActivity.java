@@ -1,5 +1,6 @@
 package com.example.cpre388.cuisine.Activities;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,6 +51,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
     private static final String TAG = "RestaurantDetail";
 
     public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
+    public static final String SELECTED_TIME = "key_time_selected";
     private Calendar calendar;
     private ImageView mImageView;
     private TextView mNameView;
@@ -60,8 +63,15 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
     private ViewGroup mEmptyView;
     private RecyclerView mRatingsRecycler;
     private String restaurantId;
+    private int ready;
 
     private RatingDialogFragment mRatingDialog;
+
+    //time selection variables:
+    private int mYear, mMonth, mDay, mHour, mMinute;
+    private TextView display_time;
+    private AppCompatButton set_time;
+    private String final_time;
 
     private FirebaseFirestore mFirestore;
     private DocumentReference mRestaurantRef;
@@ -77,6 +87,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_restaurant_detail);
 
         calendar = Calendar.getInstance();
+        ready = 0;
 
         reserve_btn = findViewById(R.id.launch_table_selection_btn);
         mImageView = findViewById(R.id.restaurant_image);
@@ -88,6 +99,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         mPriceView = findViewById(R.id.restaurant_price);
         mEmptyView = findViewById(R.id.view_empty_ratings);
         mRatingsRecycler = findViewById(R.id.recycler_ratings);
+        display_time = findViewById(R.id.time_selected);
 
         findViewById(R.id.restaurant_button_back).setOnClickListener(this);
         findViewById(R.id.fab_show_rating_dialog).setOnClickListener(this);
@@ -199,10 +211,49 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         });
     }
 
-    private void onReservePressed(View view){
-        Intent reservation = new Intent(this, SelectTableActivity.class);
-        reservation.putExtra(KEY_RESTAURANT_ID, restaurantId);
-        startActivity(reservation);
+    private void onReservePressed(View view) {
+        if (ready == 1) {
+            Intent reservation = new Intent(this, SelectTableActivity.class);
+            reservation.putExtra(KEY_RESTAURANT_ID, restaurantId);
+            reservation.putExtra(SELECTED_TIME, final_time);
+            startActivity(reservation);
+        } else {
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+                            //Hours Format:
+                            String hr = String.format("%d", hourOfDay);
+                            if(hr.length() == 1){
+                                String i = "0" + hr;
+                                hr = i;
+                            }
+
+                            //Minute Format:
+                            String min = String.format("%d", minute);
+                            String _min = "";
+                            char tens = min.charAt(0);
+                            if(Integer.parseInt(String.valueOf(tens)) >= 3){
+                                _min = "30";
+                            }
+                            else {
+                                _min = "00";
+                            }
+
+                            final_time = String.format("%s%s", hr, _min);
+                            display_time.setText(hourOfDay + " : " + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+            ready = 1;
+        }
     }
 
     /**
