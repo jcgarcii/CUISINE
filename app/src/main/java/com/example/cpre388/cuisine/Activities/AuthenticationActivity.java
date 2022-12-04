@@ -94,6 +94,10 @@ public class AuthenticationActivity extends AppCompatActivity {
             if(shouldStartSignIn()) {
                 startSignIn();
             }
+            else{
+                currUser = FirebaseAuth.getInstance().getCurrentUser();
+                currUser.delete();
+            }
         }
     }
 
