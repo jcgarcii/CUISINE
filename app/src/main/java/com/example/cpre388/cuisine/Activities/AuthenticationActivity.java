@@ -90,6 +90,11 @@ public class AuthenticationActivity extends AppCompatActivity {
                 }
             });
         }
+        else{
+            if(shouldStartSignIn()) {
+                startSignIn();
+            }
+        }
     }
 
     @Override
