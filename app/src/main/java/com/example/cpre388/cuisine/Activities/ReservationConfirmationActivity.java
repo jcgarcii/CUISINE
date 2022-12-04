@@ -12,11 +12,12 @@ import com.example.cpre388.cuisine.R;
 import com.example.cpre388.cuisine.Util.FirebaseUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,13 +72,14 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
         //Store User Object onto Firestore:
         Map<String, Object> reservation = new HashMap<>();
         mFirestore = FirebaseUtil.getFirestore();
-        LocalTime local = LocalTime.now();
+        LocalTime local = LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+        LocalDate localDate = LocalDate.now();
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             currUser = FirebaseAuth.getInstance().getCurrentUser();
-            String uid_time = currUser.getUid() + local.toString();
-            DocumentReference userRef = mFirestore.collection("Users").document(currUser.getUid()).collection("Reservations").document(uid_time);
+            String _time = localDate.toString() + local.toString();
+            DocumentReference userRef = mFirestore.collection("Reservations").document(_time);
 
             //Write new Reservation Document
             reservation.put("uid", currUser.getUid());

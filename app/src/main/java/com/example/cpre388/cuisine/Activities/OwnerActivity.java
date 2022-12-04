@@ -30,6 +30,15 @@ public class OwnerActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = binding.fab;
 
+        fab.setVisibility(View.INVISIBLE);
+
+
+
+
+
+
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

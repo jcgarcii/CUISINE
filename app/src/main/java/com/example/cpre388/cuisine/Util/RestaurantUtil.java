@@ -1,10 +1,12 @@
 package com.example.cpre388.cuisine.Util;
 
 import android.content.Context;
-import com.example.cpre388.cuisine.R;
+
 import com.example.cpre388.cuisine.Models.restaurant_model;
+import com.example.cpre388.cuisine.R;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -64,6 +66,25 @@ public class RestaurantUtil {
         categories = Arrays.copyOfRange(categories, 1, categories.length);
 
         int[] prices = new int[]{1, 2, 3};
+
+
+        List<String> room_1 = Arrays.asList("0", "1", "1",
+                                            "0", "1", "0",
+                                            "1", "0", "1",
+                                            "0", "1", "1");
+
+        List<String> room_2 = Arrays.asList("0", "1", "1",
+                "0", "1", "0",
+                "1", "0", "1",
+                "0", "1", "1");
+        List<String> room_3 = Arrays.asList("0", "1", "1",
+                "0", "1", "0",
+                "1", "0", "1",
+                "0", "1", "1");
+        List<String> room_4 = Arrays.asList("0", "1", "1",
+                "0", "1", "0",
+                "1", "0", "1",
+                "0", "1", "1");
 
         restaurant.setName(getRandomName(random));
         restaurant.setCity(getRandomString(cities, random));
