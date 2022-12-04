@@ -73,5 +73,14 @@
         android:text="="
         android:textSize="38sp" />
 
+    <Button
+        android:id="@+id/buttonApply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/finalTotal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Apply" />
+
 
 </RelativeLayout>

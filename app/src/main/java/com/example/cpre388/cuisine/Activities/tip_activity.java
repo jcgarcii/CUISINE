@@ -1,28 +1,74 @@
 package com.example.cpre388.cuisine.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.cpre388.cuisine.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 public class tip_activity extends AppCompatActivity {
+
+    public static final String TAG = "receipt_act";
+    public static final String KEY_ID = "id";
+    String receiptId;
 
     TextView percentageLabel;
     TextView mealPrice;
     TextView resultPrice;
     TextView finalPrice;
 
-    int price = 27940;
+    FirebaseFirestore db;
+
+    int price;
     int startingPercent = 15;
+    int tipVal;
+    int totalVal;
+
+    private FirebaseUser currUser;
+
+    public Button ApplyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tip);
+
+
+        ApplyButton = findViewById(R.id.buttonApply);
+
+        ApplyButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                applyClicked();
+
+            }
+        });
+
+        receiptId = getIntent().getExtras().getString(KEY_ID);
+        if (receiptId == null) {
+            throw new IllegalArgumentException("Must pass extra " + KEY_ID);
+        }
+
+        db = FirebaseFirestore.getInstance();
+
+        getBillTotal();
+
 
 
         // set a change listener on the SeekBar
@@ -38,7 +84,9 @@ public class tip_activity extends AppCompatActivity {
         finalPrice = findViewById(R.id.finalTotal);
 
         percentageLabel = findViewById(R.id.tipPercentage);
+
         percentageLabel.setText(progress + "% Tip");
+
     }
 
 
@@ -51,6 +99,7 @@ public class tip_activity extends AppCompatActivity {
 
         int total = price + calcTip(startingPercent);
         printValue(total, -1, 0);
+
     }
 
     SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
@@ -59,8 +108,8 @@ public class tip_activity extends AppCompatActivity {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             // updated continuously as the user slides the thumb
 
-            int tipVal = calcTip(progress);
-            int totalVal = tipVal + price;
+            tipVal = calcTip(progress);
+            totalVal = tipVal + price;
 
             percentageLabel.setText(progress + "% Tip");
 
@@ -111,4 +160,67 @@ public class tip_activity extends AppCompatActivity {
 
         }
     }
+
+    public void getBillTotal(){
+
+        currUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        db.collection("Users")
+                .document(currUser.getUid())
+                .collection("Receipts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                if(receiptId.equals(document.getId())){
+
+                                    int food = Integer.valueOf((String) document.get("food"));
+                                    int drinks = Integer.valueOf((String) document.get("drinks"));
+                                    int refills = Integer.valueOf((String) document.get("refills"));
+
+                                    price = food + drinks + refills;
+
+                                    Log.d(TAG, String.valueOf(price) +" => hellohellohello " + document.getId());
+
+                                    printValue(price, 0, 0);
+                                    printValue(calcTip(startingPercent), 1, startingPercent);
+
+                                    int total = price + calcTip(startingPercent);
+                                    printValue(total, -1, 0);
+                                }
+
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+    }
+
+
+
+    public void applyClicked(){
+
+        currUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        String updatedTipVal = String.valueOf(tipVal);
+
+        db.collection("Users")
+                .document(currUser.getUid())
+                .collection("Receipts")
+                .document(receiptId)
+                .update("tip", updatedTipVal);
+
+
+        Intent intent = new Intent(this, CustomerRecieptsActivity.class);
+        startActivity(intent);
+
+    }
+
+
 }
