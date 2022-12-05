@@ -883,10 +883,10 @@ public class SelectTableActivity extends AppCompatActivity {
         ArrayList<String> arrayList = new ArrayList<>();
         for(int x = 0; x < current_table_array.length; x++) {
             for (int y = 0; y < current_table_array[x].length; y++) {
-                if (row != x && column != y) {
+                if (row == x && column == y) {
+                    current_table_array[x][y] = 2;
                     arrayList.add(String.format("%d", current_table_array[x][y]));
                 } else {
-                    current_table_array[x][y] = 2;
                     arrayList.add(String.format("%d", current_table_array[x][y]));
                 }
             }
