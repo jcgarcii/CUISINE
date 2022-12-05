@@ -19,9 +19,9 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/profile_pic"
+                android:layout_width="200sp"
+                android:layout_height="150sp"
                 android:layout_marginTop="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
                 android:text="@string/title_activity_settings"
                 android:textColor="@color/white"
                 android:textSize="40sp"
-                app:layout_constraintBottom_toTopOf="@+id/imageView4"
+                app:layout_constraintBottom_toTopOf="@+id/profile_pic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/editTextPhone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+                app:layout_constraintTop_toBottomOf="@+id/profile_pic" />
 
 
             <EditText
@@ -108,14 +108,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/save_settings_btn"
-            android:background="@color/colorAccent"
-            android:layout_margin="10sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/submit_changes_btn_txt" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/save_settings_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:text="@string/submit_changes_btn_txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/discard_changes_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:text="@string/discard_changes_btn_txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/save_settings_btn" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/delete_account_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="#FF00"
+                android:text="@string/delete_profile_btn_txt"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/discard_changes_btn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 
 

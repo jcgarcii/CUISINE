@@ -49,11 +49,13 @@
     <string name="to_main_hub">Sweet!</string>
 
     <!-- Settings Activity Title -->
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Account Details</string>
     <string name="title_activity_title">Settings</string>
     <string name="edit_user_name_text">Change Name</string>
     <string name="change_phone_number_txt">Change Contact Number</string>
     <string name="submit_changes_btn_txt">Submit Changes</string>
+    <string name="discard_changes_btn_txt">Discard Changes</string>
+    <string name="delete_profile_btn_txt">Delete Profile</string>
 
     <!-- Preference Titles -->
     <string name="personal_info">Personal Information</string>
