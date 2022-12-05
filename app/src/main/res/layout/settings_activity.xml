@@ -48,7 +48,7 @@
                 android:ems="10"
                 android:background="@color/white"
                 android:textSize="30sp"
-                android:layout_marginTop="40sp"
+                android:layout_marginTop="20sp"
                 android:inputType="textPersonName"
                 android:hint="@string/edit_user_name_text"
                 app:layout_constraintBottom_toTopOf="@+id/editTextPhone"
@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">

@@ -26,6 +26,7 @@
 
     <!--These are for the Reservation Activity -->
     <string name="reserve_table_page">Reservation</string>
+    <string name="reserve_edit_page">Edit Reservations</string>
     <string name="how_many_tables">How Many Will Be Dining?</string>
     <string name="reserve_name">Name: </string>
     <string name="current_time">Current Time</string>

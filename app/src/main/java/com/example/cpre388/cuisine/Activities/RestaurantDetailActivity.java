@@ -251,7 +251,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
                             }
 
                             final_time = String.format("%s%s", hr, _min);
-                            display_time.setText(hourOfDay + " : " + minute);
+                            display_time.setText(String.format("%s:%s", hr, _min));
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();

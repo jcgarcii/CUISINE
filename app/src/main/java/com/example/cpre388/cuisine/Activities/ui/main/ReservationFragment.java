@@ -54,7 +54,6 @@ public class ReservationFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         pageViewModel = new ViewModelProvider(getActivity()).get(PageViewModel.class);
 
-
         // Enable Firestore logging
         FirebaseFirestore.setLoggingEnabled(true);
 

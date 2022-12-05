@@ -52,6 +52,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ReserveButton" />
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_reservations_cust"
+            android:layout_width="match_parent"
+            android:layout_height="80sp"
+            android:layout_below="@+id/RequestButton"
+            android:layout_marginTop="25dp"
+            android:background="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RequestButton"
+            tools:listitem="@layout/item_reservation" />
+
         <ImageView
             android:id="@+id/customer_main_activity_logo"
             android:layout_width="300sp"
@@ -67,11 +80,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
         android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:visibility="visible"
         app:headerLayout="@layout/customer_header"
-        app:menu="@menu/customer_menu"
-        android:layout_gravity="start"/>
+        app:menu="@menu/customer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

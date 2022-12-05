@@ -38,6 +38,9 @@
             android:name=".Activities.CustomerRecieptsActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.EditReservationActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.CustomerRequestActivity"
             android:exported="false" />
         <activity
