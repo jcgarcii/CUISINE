@@ -33,7 +33,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0: fragment = new ReservationFragment(); break;
             case 1: fragment = new RequestFragment();break;
-            case 2: fragment = new BillingFragment();break;
+            case 2: fragment = new OverviewFragment();break;
             }
 
         // getItem is called to instantiate the fragment for the given page.

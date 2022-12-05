@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -91,9 +92,6 @@ public class SelectTableActivity extends AppCompatActivity {
         restaurant_id = prev.getExtras().getString(KEY_RESTAURANT_ID);
         selected_time = prev.getExtras().getString(SELECTED_TIME);
 
-        //get time:
-        System.out.println(selected_time);
-
         ready = false;
 
         selected = false;
@@ -150,7 +148,6 @@ public class SelectTableActivity extends AppCompatActivity {
         mTable_4_3.setOnClickListener(this::on_4_3_clicked);
 
         init_tables(0);
-
 
         mFirestore = FirebaseUtil.getFirestore();
 
@@ -246,8 +243,6 @@ public class SelectTableActivity extends AppCompatActivity {
                     }
                 }
             });
-
-
         }
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -344,93 +339,134 @@ public class SelectTableActivity extends AppCompatActivity {
                 String val = currX + "_" + currY;
                 String logged = String.format("Value: %d", table_array[x][y]);
                 Log.d("CURR_VAL", val + logged);
-                    if (table_array[x][y] == 1) {
-                        switch (val) {
-                            case "1_1":
-                                mTable_1_1.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "1_2":
-                                mTable_1_2.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "1_3":
-                                mTable_1_3.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "2_1":
-                                mTable_2_1.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "2_2":
-                                mTable_2_2.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "2_3":
-                                mTable_2_3.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "3_1":
-                                mTable_3_1.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "3_2":
-                                mTable_3_2.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "3_3":
-                                mTable_3_3.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "4_1":
-                                mTable_4_1.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "4_2":
-                                mTable_4_2.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "4_3":
-                                mTable_4_3.setImageResource(R.drawable.table_for_default);
-                                break;
-                            case "default":
-                                Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
-                                break;
-                        }
-                    } else {
-                        switch (val) {
-                            case "1_1":
-                                mTable_1_1.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "1_2":
-                                mTable_1_2.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "1_3":
-                                mTable_1_3.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "2_1":
-                                mTable_2_1.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "2_2":
-                                mTable_2_2.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "2_3":
-                                mTable_2_3.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "3_1":
-                                mTable_3_1.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "3_2":
-                                mTable_3_2.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "3_3":
-                                mTable_3_3.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "4_1":
-                                mTable_4_1.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "4_2":
-                                mTable_4_2.setImageResource(R.drawable.empty_space);
-                                break;
-                            case "4_3":
-                                mTable_4_3.setImageResource(R.drawable.empty_space);
-                                break;
-                            default:
-                                Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
-                                break;
-                        }
+                if (table_array[x][y] == 1) {
+                    switch (val) {
+                        case "1_1":
+                            mTable_1_1.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "1_2":
+                            mTable_1_2.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "1_3":
+                            mTable_1_3.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "2_1":
+                            mTable_2_1.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "2_2":
+                            mTable_2_2.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "2_3":
+                            mTable_2_3.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "3_1":
+                            mTable_3_1.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "3_2":
+                            mTable_3_2.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "3_3":
+                            mTable_3_3.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "4_1":
+                            mTable_4_1.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "4_2":
+                            mTable_4_2.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "4_3":
+                            mTable_4_3.setImageResource(R.drawable.table_for_default);
+                            break;
+                        case "default":
+                            Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
+                            break;
+                    }
+                } else if (table_array[x][y] == 2) {
+                    switch (val) {
+                        case "1_1":
+                            mTable_1_1.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "1_2":
+                            mTable_1_2.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "1_3":
+                            mTable_1_3.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "2_1":
+                            mTable_2_1.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "2_2":
+                            mTable_2_2.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "2_3":
+                            mTable_2_3.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "3_1":
+                            mTable_3_1.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "3_2":
+                            mTable_3_2.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "3_3":
+                            mTable_3_3.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "4_1":
+                            mTable_4_1.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "4_2":
+                            mTable_4_2.setImageResource(R.drawable.empty_space);
+                            break;
+                        case "4_3":
+                            mTable_4_3.setImageResource(R.drawable.empty_space);
+                            break;
+                        default:
+                            Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
+                            break;
+                    }
+                } else {
+                    switch (val) {
+                        case "1_1":
+                            mTable_1_1.setImageResource(android.R.color.transparent);
+                            break;
+                        case "1_2":
+                            mTable_1_2.setImageResource(android.R.color.transparent);
+                            break;
+                        case "1_3":
+                            mTable_1_3.setImageResource(android.R.color.transparent);
+                            break;
+                        case "2_1":
+                            mTable_2_1.setImageResource(android.R.color.transparent);
+                            break;
+                        case "2_2":
+                            mTable_2_2.setImageResource(android.R.color.transparent);
+                            break;
+                        case "2_3":
+                            mTable_2_3.setImageResource(android.R.color.transparent);
+                            break;
+                        case "3_1":
+                            mTable_3_1.setImageResource(android.R.color.transparent);
+                            break;
+                        case "3_2":
+                            mTable_3_2.setImageResource(android.R.color.transparent);
+                            break;
+                        case "3_3":
+                            mTable_3_3.setImageResource(android.R.color.transparent);
+                            break;
+                        case "4_1":
+                            mTable_4_1.setImageResource(android.R.color.transparent);
+                            break;
+                        case "4_2":
+                            mTable_4_2.setImageResource(android.R.color.transparent);
+                            break;
+                        case "4_3":
+                            mTable_4_3.setImageResource(android.R.color.transparent);
+                            break;
+                        default:
+                            Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
+                            break;
                     }
                 }
-
+            }
         }
     }
 
@@ -838,7 +874,66 @@ public class SelectTableActivity extends AppCompatActivity {
         }
     }
 
+    public void _update_layout(String roomSelection, String currSelection){
+        //Retrieve Selection:
+        int row = Integer.parseInt(String.valueOf(currSelection.charAt(0)));
+        int column = Integer.parseInt(String.valueOf(currSelection.charAt(2)));
+
+        //Update the Layout of the Current Selection:
+        ArrayList<String> arrayList = new ArrayList<>();
+        for(int x = 0; x < current_table_array.length; x++) {
+            for (int y = 0; y < current_table_array[x].length; y++) {
+                if (row != x && column != y) {
+                    arrayList.add(String.format("%d", current_table_array[x][y]));
+                } else {
+                    current_table_array[x][y] = 2;
+                    arrayList.add(String.format("%d", current_table_array[x][y]));
+                }
+            }
+        }
+
+        //Correct Format:
+        List<String> list = arrayList;
+
+        Map<String, Object> layout = new HashMap<>();
+
+        DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document(selected_time);
+        //Update the Room:
+        switch(roomSelection){
+            case "One":
+                layout.put("Room 1", list);
+                layout.put("Room 2", room_2);
+                layout.put("Room 3", room_3);
+                layout.put("Room 4", room_4);
+                userRef.set(layout);
+                break;
+            case "Two":
+                layout.put("Room 1", room_1);
+                layout.put("Room 2", list);
+                layout.put("Room 3", room_3);
+                layout.put("Room 4", room_4);
+                userRef.set(layout);
+                break;
+            case "Three":
+                layout.put("Room 1", room_1);
+                layout.put("Room 2", room_2);
+                layout.put("Room 3", list);
+                layout.put("Room 4", room_4);
+                userRef.set(layout);
+                break;
+            case "Four":
+                layout.put("Room 1", room_1);
+                layout.put("Room 2", room_2);
+                layout.put("Room 3", room_3);
+                layout.put("Room 4", list);
+                userRef.set(layout);
+                break;
+        }
+    }
+
     public void onSubmit(View view){
+        _update_layout(roomSelection, currSelection);
+
         confirmation_arr[0] = currSelection;
         confirmation_arr[1] = roomSelection;
         confirmation_arr[2] = restaurant_id;
