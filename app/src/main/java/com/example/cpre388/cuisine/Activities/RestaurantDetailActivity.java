@@ -101,6 +101,9 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         mRatingsRecycler = findViewById(R.id.recycler_ratings);
         display_time = findViewById(R.id.time_selected);
 
+        String t = "Select a Time";
+        reserve_btn.setText(t);
+
         findViewById(R.id.restaurant_button_back).setOnClickListener(this);
         findViewById(R.id.fab_show_rating_dialog).setOnClickListener(this);
 
@@ -252,6 +255,8 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
+            String t = "Reserve";
+            reserve_btn.setText(t);
             ready = 1;
         }
     }

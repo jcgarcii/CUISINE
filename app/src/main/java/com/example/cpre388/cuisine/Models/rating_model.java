@@ -25,6 +25,8 @@ public class rating_model {
         this.text = text;
     }
 
+    public rating_model() {}
+
     public String getUserId() {
         return userId;
     }
