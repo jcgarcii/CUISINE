@@ -74,6 +74,7 @@ public class ReservationFragment extends Fragment implements
 
         binding = FragmentOwnerBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
         mReservationRecycler = root.findViewById(R.id.recycler_reservations);
         mEmptyView = root.findViewById(R.id.view_empty);
 

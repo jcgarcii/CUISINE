@@ -1,5 +1,7 @@
 package com.example.cpre388.cuisine.Activities.ui.main;
 
+import static com.example.cpre388.cuisine.R.layout.table_reservation_spinner;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.cpre388.cuisine.R;
 import com.example.cpre388.cuisine.Util.FirebaseUtil;
 import com.example.cpre388.cuisine.ViewModels.OwnerActivityViewModel;
+import com.example.cpre388.cuisine.databinding.FragmentOwnerBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +44,9 @@ public class OverviewFragment extends Fragment {
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
     public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
     public static final String SELECTED_TIME = "key_time_selected";
+
+    private PageViewModel pageViewModel;
+    private FragmentOwnerBinding binding;
 
     private String restaurant_id;
     private String selected_time;
@@ -91,6 +97,7 @@ public class OverviewFragment extends Fragment {
     private List<String> room_2;
     private List<String> room_3;
     private List<String> room_4;
+    private int times_ran;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -130,8 +137,10 @@ public class OverviewFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
         OwnerActivityViewModel viewModel = new ViewModelProvider(requireActivity()).get(OwnerActivityViewModel.class);
-        if(viewModel.ifReady()){
+
+        if (viewModel.ifReady()) {
             restaurant_id = viewModel.getRestaurant_id();
         }
         final Calendar c = Calendar.getInstance();
@@ -140,7 +149,7 @@ public class OverviewFragment extends Fragment {
 
         //Hours Format:
         String hr = String.format("%d", mHour);
-        if(hr.length() == 1){
+        if (hr.length() == 1) {
             String i = "0" + hr;
             hr = i;
         }
@@ -148,12 +157,12 @@ public class OverviewFragment extends Fragment {
         String min = String.format("%d", mMinute);
         String _min = "";
         char tens = min.charAt(0);
-        if(Integer.parseInt(String.valueOf(tens)) >= 3){
+        if (Integer.parseInt(String.valueOf(tens)) >= 3) {
             _min = "30";
-        }
-        else {
+        } else {
             _min = "00";
         }
+        times_ran = 0;
 
         selected_time = String.format("%s%s", hr, _min);
 
@@ -170,7 +179,7 @@ public class OverviewFragment extends Fragment {
 
         mFirestore = FirebaseUtil.getFirestore();
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             currUser = FirebaseAuth.getInstance().getCurrentUser();
             DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document(selected_time);
@@ -183,68 +192,69 @@ public class OverviewFragment extends Fragment {
                         if (document.exists()) {
 
                             map = (Map<String, Object>) document.getData();
-                            room_1 = (List<String>) map.getOrDefault("Room 1", "lol" );
-                            room_2 = (List<String>) map.getOrDefault("Room 2", "lol" );
-                            room_3 = (List<String>) map.getOrDefault("Room 3", "lol" );
-                            room_4 = (List<String>) map.getOrDefault("Room 4", "lol" );
+                            room_1 = (List<String>) map.getOrDefault("Room 1", "lol");
+                            room_2 = (List<String>) map.getOrDefault("Room 2", "lol");
+                            room_3 = (List<String>) map.getOrDefault("Room 3", "lol");
+                            room_4 = (List<String>) map.getOrDefault("Room 4", "lol");
 
                             int _x_1 = 0;
                             int _y_1 = 0;
-                            for(int i = 0; i < room_1.size(); i++){
+                            for (int i = 0; i < room_1.size(); i++) {
                                 stable_array_room_one[_y_1][_x_1] = room_1.get(i);
 
-                                if(_x_1 == 2){
+                                if (_x_1 == 2) {
                                     _y_1++;
                                     _x_1 = 0;
-                                }
-                                else{
+                                } else {
                                     _x_1++;
                                 }
                             }
 
                             int _x_2 = 0;
                             int _y_2 = 0;
-                            for(int i = 0; i < room_2.size(); i++){
+                            for (int i = 0; i < room_2.size(); i++) {
                                 stable_array_room_two[_y_2][_x_2] = room_2.get(i);
 
-                                if(_x_2 == 2){
+                                if (_x_2 == 2) {
                                     _y_2++;
                                     _x_2 = 0;
-                                }
-                                else{
+                                } else {
                                     _x_2++;
                                 }
                             }
 
                             int _x_3 = 0;
                             int _y_3 = 0;
-                            for(int i = 0; i < room_3.size(); i++){
+                            for (int i = 0; i < room_3.size(); i++) {
                                 stable_array_room_three[_y_3][_x_3] = room_3.get(i);
 
-                                if(_x_3 == 2){
+                                if (_x_3 == 2) {
                                     _y_3++;
                                     _x_3 = 0;
-                                }
-                                else{
+                                } else {
                                     _x_3++;
                                 }
                             }
 
                             int _x_4 = 0;
                             int _y_4 = 0;
-                            for(int i = 0; i < room_4.size(); i++){
+                            for (int i = 0; i < room_4.size(); i++) {
                                 stable_array_room_four[_y_4][_x_4] = room_4.get(i);
 
-                                if(_x_4 == 2){
+                                if (_x_4 == 2) {
                                     _y_4++;
                                     _x_4 = 0;
-                                }
-                                else{
+                                } else {
                                     _x_4++;
                                 }
                             }
 
-                            ready = true;
+                            table_array_room_one = setArray(stable_array_room_one);
+                            table_array_room_two = setArray(stable_array_room_two);
+                            table_array_room_three = setArray(stable_array_room_three);
+                            table_array_room_four = setArray(stable_array_room_four);
+
+                            _onDataReady();
 
                             Log.d("Table Retrieval Success", "very nice, hopefully");
                         } else {
@@ -256,58 +266,59 @@ public class OverviewFragment extends Fragment {
                 }
             });
         }
-
-
-
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_overview, container, false);
+
         // Inflate the layout for this fragment
-        spinner = (Spinner) getView().findViewById(R.id.room_selector);
-        spinner.setVisibility(View.INVISIBLE);
-        list = new ArrayList<String>();
-        setSpinner();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.table_reservation_spinner,list);
-        spinner.setAdapter(adapter);
+        spinner = view.findViewById(R.id.room_selector_owner);
 
         //Table Matrix: Row 1
-        mTable_1_1 = getView().findViewById(R.id.table_1_1);
-        mTable_1_2 = getView().findViewById(R.id.table_1_2);
-        mTable_1_3 = getView().findViewById(R.id.table_1_3);
+        mTable_1_1 = view.findViewById(R.id.table_1_1);
+        mTable_1_2 = view.findViewById(R.id.table_1_2);
+        mTable_1_3 = view.findViewById(R.id.table_1_3);
         //Row 2:
-        mTable_2_1 = getView().findViewById(R.id.table_2_1);
-        mTable_2_2 = getView().findViewById(R.id.table_2_2);
-        mTable_2_3 = getView().findViewById(R.id.table_2_3);
+        mTable_2_1 = view.findViewById(R.id.table_2_1);
+        mTable_2_2 = view.findViewById(R.id.table_2_2);
+        mTable_2_3 = view.findViewById(R.id.table_2_3);
         //Row 3:
-        mTable_3_1 = getView().findViewById(R.id.table_3_1);
-        mTable_3_2 = getView().findViewById(R.id.table_3_2);
-        mTable_3_3 = getView().findViewById(R.id.table_3_3);
+        mTable_3_1 = view.findViewById(R.id.table_3_1);
+        mTable_3_2 = view.findViewById(R.id.table_3_2);
+        mTable_3_3 = view.findViewById(R.id.table_3_3);
         //Row 4:
-        mTable_4_1 = getView().findViewById(R.id.table_4_1);
-        mTable_4_2 = getView().findViewById(R.id.table_4_2);
-        mTable_4_3 = getView().findViewById(R.id.table_4_3);
+        mTable_4_1 = view.findViewById(R.id.table_4_1);
+        mTable_4_2 = view.findViewById(R.id.table_4_2);
+        mTable_4_3 = view.findViewById(R.id.table_4_3);
 
-        init_tables(0);
+        if(times_ran > 0) {
+            _onDataReady();
+        }
+        times_ran++;
 
+        return view;
+    }
 
-        if(ready){
+    private void _onDataReady() {
+      //  if (ready) {
+            init_tables(0);
+            //spinner.setVisibility(View.INVISIBLE);
+            list = new ArrayList<String>();
+            setSpinner();
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), table_reservation_spinner, list);
+            spinner.setAdapter(adapter);
+
             init_tables(1);
-            table_array_room_one = setArray(stable_array_room_one);
-            table_array_room_two = setArray(stable_array_room_two);
-            table_array_room_three = setArray(stable_array_room_three);
-            table_array_room_four = setArray(stable_array_room_four);
+
             spinner.setVisibility(View.VISIBLE);
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     String selected = spinner.getSelectedItem().toString();
-
-                    switch (selected){
+                    switch (selected) {
                         case "Room One":
                             roomSelection = "One";
                             current_table_array = table_array_room_one;
@@ -336,15 +347,16 @@ public class OverviewFragment extends Fragment {
                             break;
                     }
                 }
+
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
                     Log.d("TABLES", "no room was selected");
                 }
             });
-        }
-
-        return inflater.inflate(R.layout.fragment_overview, container, false);
+       // }
     }
+
+
 
     /**
      * Prepares the Spinner List for room selection
@@ -384,13 +396,11 @@ public class OverviewFragment extends Fragment {
         mTable_4_1.setVisibility(vis);
         mTable_4_2.setVisibility(vis);
         mTable_4_3.setVisibility(vis);
-        btn.setVisibility(vis);
+
 
     }
 
-    private void set_tables(int[][] table_array, int room_num){
-        if(!ready) {return;}
-
+    private void set_tables(int[][] table_array, int room_num) {
         for (int x = 0; x < table_array.length; x++) {
             String currX = String.format("%d", x + 1);
             for (int y = 0; y < table_array[x].length; y++) {
@@ -526,6 +536,7 @@ public class OverviewFragment extends Fragment {
                     }
                 }
             }
+
         }
     }
 
