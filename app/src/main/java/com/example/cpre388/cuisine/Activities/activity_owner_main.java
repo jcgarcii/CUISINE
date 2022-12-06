@@ -73,10 +73,6 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
         switch(item.getItemId()){
             case R.id.nav_review:
                 break;
-            case R.id.nav_calculator:
-                Intent calcIntent = new Intent(this, tip_activity.class);
-                startActivity(calcIntent);
-                break;
             case R.id.settings:
                 Intent settings = new Intent(this, SettingsActivity.class);
                 startActivity(settings);

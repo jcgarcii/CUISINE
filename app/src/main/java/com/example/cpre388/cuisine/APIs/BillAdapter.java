@@ -1,6 +1,5 @@
 package com.example.cpre388.cuisine.APIs;
 
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
     }
 
-    private OnRestaurantSelectedListener mListener;
+    final OnRestaurantSelectedListener mListener;
 
     public BillAdapter(Query query, OnRestaurantSelectedListener listener) {
         super(query);
@@ -48,17 +47,11 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        //ImageView View;
         TextView foodView, drinksView, refillsView, numFoodView, numDrinksView, numRefillsView, tipView, totView;
-        //MaterialRatingBar ratingBar;
-        //TextView numRatingsView;
-        //TextView priceView;
-        //TextView categoryView;
-        //TextView cityView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            //imageView = itemView.findViewById(R.id.restaurant_item_image);
+
             foodView = itemView.findViewById(R.id.textViewF);
             drinksView = itemView.findViewById(R.id.textViewD);
             refillsView = itemView.findViewById(R.id.textViewR);
@@ -67,27 +60,13 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
             numRefillsView = itemView.findViewById(R.id.textViewNR);
             tipView = itemView.findViewById(R.id.textViewT);
             totView = itemView.findViewById(R.id.textViewTot);
-            //ratingBar = itemView.findViewById(R.id.restaurant_item_rating);
-            //numRatingsView = itemView.findViewById(R.id.restaurant_item_num_ratings);
-            //priceView = itemView.findViewById(R.id.restaurant_item_price);
-            //categoryView = itemView.findViewById(R.id.restaurant_item_category);
-            //cityView = itemView.findViewById(R.id.restaurant_item_city);
+
         }
 
         public void bind(final DocumentSnapshot snapshot,
                          final OnRestaurantSelectedListener listener) {
 
             bill_model bill = snapshot.toObject(bill_model.class);
-            Resources resources = itemView.getResources();
-
-            // Load image
-            /*
-            Glide.with(imageView.getContext())
-                    .load(restaurant.getPhoto())
-                    .into(imageView);
-            */
-
-
 
             String foodDollars = String.valueOf(Integer.valueOf(bill.getFood()) / 100);
             String foodCents = String.valueOf(Integer.valueOf(bill.getFood()) % 100);
@@ -136,26 +115,17 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
             }
 
-
-
-
-
-
-
             foodView.setText("$" + foodDollars + "." + foodCents);
             drinksView.setText("$" + drinkDollars + "." + drinkCents);
             refillsView.setText("$" + refDollars + "." + refCents);
             tipView.setText("$" + tipDollars + "." + tipCents);
 
 
-
-
             numFoodView.setText(bill.getNumFood() + "x Food Order");
             numDrinksView.setText(bill.getNumDrinks() + "x Drink Order");
-            numRefillsView.setText(bill.getNumRefills() + "x Refills");
+            numRefillsView.setText(bill.getNumRefills() + "x Refill");
 
             int total = Integer.parseInt(bill.getFood()) + Integer.parseInt(bill.getDrinks()) + Integer.parseInt(bill.getRefills()) + Integer.parseInt(bill.getTip());
-
 
             String totDollars = String.valueOf(Integer.valueOf(total / 100));
             String totCents = String.valueOf(Integer.valueOf(total % 100));
@@ -169,19 +139,12 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
             }
 
             totView.setText("$" + totDollars + "." + totCents);
-            //ratingBar.setRating((float) restaurant.getAvgRating());
-            //cityView.setText(restaurant.getCity());
-            //categoryView.setText(restaurant.getCategory());
-            //numRatingsView.setText(resources.getString(R.string.fmt_num_ratings,
-            //restaurant.getNumRatings()));
+
 
             // Click listener
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        listener.onRestaurantSelected(snapshot);
-                    }
+            itemView.setOnClickListener(view -> {
+                if (listener != null) {
+                    listener.onRestaurantSelected(snapshot);
                 }
             });
         }

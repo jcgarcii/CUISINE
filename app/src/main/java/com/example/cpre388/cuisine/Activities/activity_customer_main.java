@@ -194,10 +194,6 @@ public class activity_customer_main extends AppCompatActivity implements
                 break;
             case R.id.nav_review:
                 break;
-            case R.id.nav_calculator:
-                Intent calcIntent = new Intent(this, tip_activity.class);
-                startActivity(calcIntent);
-                break;
             case R.id.settings:
                 Intent settings = new Intent(this, SettingsActivity.class);
                 startActivity(settings);

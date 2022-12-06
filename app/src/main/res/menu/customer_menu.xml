@@ -6,13 +6,10 @@
             android:title="Home"/>
         <item
             android:id="@+id/nav_reciept"
-            android:title="Reciepts"/>
+            android:title="Receipts"/>
         <item
             android:id="@+id/nav_review"
             android:title="Reviews"/>
-        <item
-            android:id="@+id/nav_calculator"
-            android:title="Tip calculator"/>
         <item
             android:id="@+id/settings"
             android:title="Settings"/>

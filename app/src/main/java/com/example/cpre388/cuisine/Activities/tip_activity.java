@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -39,6 +38,7 @@ public class tip_activity extends AppCompatActivity {
     int startingPercent = 15;
     int tipVal;
     int totalVal;
+    int sliderNotTouched = 1;
 
     private FirebaseUser currUser;
 
@@ -52,13 +52,7 @@ public class tip_activity extends AppCompatActivity {
 
         ApplyButton = findViewById(R.id.buttonApply);
 
-        ApplyButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                applyClicked();
-
-            }
-        });
+        ApplyButton.setOnClickListener(v -> applyClicked());
 
         receiptId = getIntent().getExtras().getString(KEY_ID);
         if (receiptId == null) {
@@ -68,8 +62,6 @@ public class tip_activity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         getBillTotal();
-
-
 
         // set a change listener on the SeekBar
         SeekBar seekBar = findViewById(R.id.seekBar);
@@ -89,16 +81,15 @@ public class tip_activity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
 
-        printValue(price, 0, 0);
-        printValue(calcTip(startingPercent), 1, startingPercent);
+        printValue(price, 0);
+        printValue(calcTip(startingPercent), 1);
 
         int total = price + calcTip(startingPercent);
-        printValue(total, -1, 0);
+        printValue(total, -1);
 
     }
 
@@ -108,13 +99,15 @@ public class tip_activity extends AppCompatActivity {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             // updated continuously as the user slides the thumb
 
+            sliderNotTouched = 0;
+
             tipVal = calcTip(progress);
             totalVal = tipVal + price;
 
             percentageLabel.setText(progress + "% Tip");
 
-            printValue(tipVal, 1, progress);
-            printValue(totalVal, -1, 0);
+            printValue(tipVal, 1);
+            printValue(totalVal, -1);
 
         }
 
@@ -136,7 +129,7 @@ public class tip_activity extends AppCompatActivity {
         return result;
     }
 
-    public void printValue(int value, int totOrResult, int tipPer) {
+    public void printValue(int value, int totOrResult) {
 
         String dollars = String.valueOf(value / 100);
         String cents = String.valueOf(value % 100);
@@ -183,13 +176,11 @@ public class tip_activity extends AppCompatActivity {
 
                                     price = food + drinks + refills;
 
-                                    Log.d(TAG, String.valueOf(price) +" => hellohellohello " + document.getId());
-
-                                    printValue(price, 0, 0);
-                                    printValue(calcTip(startingPercent), 1, startingPercent);
+                                    printValue(price, 0);
+                                    printValue(calcTip(startingPercent), 1);
 
                                     int total = price + calcTip(startingPercent);
-                                    printValue(total, -1, 0);
+                                    printValue(total, -1);
                                 }
 
                             }
@@ -198,16 +189,16 @@ public class tip_activity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
-
 
 
     public void applyClicked(){
 
+        if(sliderNotTouched == 1){
+            tipVal = calcTip(startingPercent);
+        }
+
         currUser = FirebaseAuth.getInstance().getCurrentUser();
-
-
         String updatedTipVal = String.valueOf(tipVal);
 
         db.collection("Users")
@@ -216,11 +207,9 @@ public class tip_activity extends AppCompatActivity {
                 .document(receiptId)
                 .update("tip", updatedTipVal);
 
-
         Intent intent = new Intent(this, CustomerRecieptsActivity.class);
         startActivity(intent);
 
     }
-
 
 }
