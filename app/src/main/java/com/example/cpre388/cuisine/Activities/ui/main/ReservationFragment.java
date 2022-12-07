@@ -1,5 +1,6 @@
 package com.example.cpre388.cuisine.Activities.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,11 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cpre388.cuisine.APIs.ReservationAdapter;
+import com.example.cpre388.cuisine.Activities.BillingActivity;
 import com.example.cpre388.cuisine.R;
 import com.example.cpre388.cuisine.Util.FirebaseUtil;
 
 import com.example.cpre388.cuisine.databinding.FragmentOwnerBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.api.Billing;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -33,6 +36,7 @@ public class ReservationFragment extends Fragment implements
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final int LIMIT = 50;
+    private static final String RESERV_BILLING_KEY = "key_reservation_billing";
 
     private PageViewModel pageViewModel;
     private FragmentOwnerBinding binding;
@@ -142,11 +146,17 @@ public class ReservationFragment extends Fragment implements
 
     @Override
     public void onReservationSelected(DocumentSnapshot reservation) {
-        // Go to the details page for the selected restaurant
-        //Intent intent = new Intent(this, RestaurantDetailActivity.class);
-        //intent.putExtra(RestaurantDetailActivity.KEY_RESTAURANT_ID, restaurant.getId());
+        String[] _reservation = new String[4];
+        _reservation[0] = reservation.getString("reservation_for");
+        _reservation[1] = reservation.getString("uid");
+        _reservation[2] = reservation.getString("restaruant_id");
+        _reservation[3] = reservation.getId();
 
-        //startActivity(intent);
+        //Bill the Customer
+        Intent intent = new Intent(getActivity(), BillingActivity.class);
+        intent.putExtra(RESERV_BILLING_KEY, _reservation);
+
+        startActivity(intent);
 
     }
 }

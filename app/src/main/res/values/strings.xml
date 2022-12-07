@@ -42,6 +42,17 @@
     <string name="table_for_eight">Party of Eight</string>
     <string name="large_party">Life is a Party!</string>
 
+    <!--Billing Activity on the Owner Size -->
+    <string name="billing_activity_banner">Billing</string>
+    <string name="billing_activity_submit_bill">Submit</string>
+    <string name="billing_activity_beverage_hint">Enter Beverage Costs</string>
+    <string name="billing_activity_food_hint">Enter Food Costs</string>
+    <string name="billing_activity_refills_hint">Enter Refills Costs</string>
+    <string name="billing_activity_amm_food_hint">Enter # of Food Items Ordered</string>
+    <string name="billing_activity_amm_bev_hint">Enter # of Beverage Items Ordered</string>
+    <string name="billing_activity_amm_refills">Enter # of Refills Ordered</string>
+    <string name="billing_activity_tip_hint">Enter Tip Left</string>
+
     <!--These are for the Reservation Confirmation Activity -->
     <string name="reserve_confirmation">Confirmation</string>
     <string name="reserve_next_steps">We have received your reservation. You will receive a text when your table is ready!</string>

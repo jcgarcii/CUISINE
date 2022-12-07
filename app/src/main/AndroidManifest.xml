@@ -67,6 +67,10 @@
             android:exported="false">
         </activity>
         <activity
+            android:name=".Activities.BillingActivity"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
