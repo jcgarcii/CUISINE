@@ -228,6 +228,7 @@ public class SelectTableActivity extends AppCompatActivity {
 
                             ready = true;
                             spinner.setVisibility(View.VISIBLE);
+                            spinner.setSelection(1);
 
                             Log.d("Table Retrieval Success", "very nice, hopefully");
                         } else {

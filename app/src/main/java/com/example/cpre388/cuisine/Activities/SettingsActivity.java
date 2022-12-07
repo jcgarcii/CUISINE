@@ -142,7 +142,14 @@ public class SettingsActivity extends AppCompatActivity {
                             int rest_post = res_adapter.getPosition(fire_rest);
                             restaurant_spinner.setSelection(rest_post);
                             //set type spinner to previous selected values:
-                            int user_post = user_adapter.getPosition(fire_type);
+                            String fire_type_l;
+                            if (fire_type.equals("1")){
+                                fire_type_l = "Owner";
+                            }
+                            else{
+                                fire_type_l = "Customer";
+                            }
+                            int user_post = user_adapter.getPosition(fire_type_l);
                             type_spinner.setSelection(user_post);
 
                             document_exists = 1;
