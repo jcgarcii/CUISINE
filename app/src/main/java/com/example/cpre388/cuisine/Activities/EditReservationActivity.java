@@ -278,6 +278,7 @@ public class EditReservationActivity extends AppCompatActivity {
         if(_document_ready > 0){
             documentReference = mFirestore.collection("Reservations").document(reservation_id);
             Map<String, Object> _n_reservation = new HashMap<>();
+            String s_party_size = String.format("%d", party_size);
 
             //Write new Reservation Document
             _n_reservation.put("uid", currUser.getUid());
@@ -286,7 +287,7 @@ public class EditReservationActivity extends AppCompatActivity {
             _n_reservation.put("contact_information", contact_information);
             _n_reservation.put("room_selected", mRoom);
             _n_reservation.put("table_selected", mTable);
-            _n_reservation.put("num_guests", party_size);
+            _n_reservation.put("num_guests", s_party_size);
             _n_reservation.put("reservation_time", final_time);
 
             documentReference.update(_n_reservation);
