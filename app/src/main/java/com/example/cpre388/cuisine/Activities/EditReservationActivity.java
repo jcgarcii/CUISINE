@@ -100,11 +100,7 @@ public class EditReservationActivity extends AppCompatActivity {
         number = findViewById(R.id.reservation_for_phoneNumber);
         display_time = findViewById(R.id.display_time_view);
 
-
-        String hours = given_time.substring(0, 1);
-        String mins = given_time.substring(2, 3);
-        String _display_time = hours + ":" + mins;
-        display_time.setText(_display_time);
+        display_time.setText(given_time);
 
         //Button:
         btn = findViewById(R.id.submit_reservation);

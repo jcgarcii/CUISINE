@@ -146,11 +146,14 @@ public class ReservationFragment extends Fragment implements
 
     @Override
     public void onReservationSelected(DocumentSnapshot reservation) {
-        String[] _reservation = new String[4];
+        String[] _reservation = new String[7];
         _reservation[0] = reservation.getString("reservation_for");
         _reservation[1] = reservation.getString("uid");
         _reservation[2] = reservation.getString("restaruant_id");
         _reservation[3] = reservation.getId();
+        _reservation[4] = reservation.getString("reservation_time");
+        _reservation[5] = reservation.getString("room_selected");
+        _reservation[6] = reservation.getString("table_selected");
 
         //Bill the Customer
         Intent intent = new Intent(getActivity(), BillingActivity.class);

@@ -144,7 +144,7 @@ public class activity_customer_main extends AppCompatActivity implements
             protected void onDataChanged() {
                 // Show/hide content if the query returns empty.
                 if (getItemCount() == 0) {
-                    mReservationRecycler.setVisibility(View.GONE);
+                    //mReservationRecycler.setVisibility(View.GONE);
                     //mEmptyView.setVisibility(View.VISIBLE);
                 } else {
                     mReservationRecycler.setVisibility(View.VISIBLE);
