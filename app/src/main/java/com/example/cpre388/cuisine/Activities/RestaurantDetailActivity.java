@@ -68,9 +68,8 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
     private RatingDialogFragment mRatingDialog;
 
     //time selection variables:
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    private int mHour, mMinute;
     private TextView display_time;
-    private AppCompatButton set_time;
     private String final_time;
 
     private FirebaseFirestore mFirestore;

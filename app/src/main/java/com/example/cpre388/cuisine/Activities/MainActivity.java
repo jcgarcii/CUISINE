@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAvailableProviders(Collections.singletonList(
                         new AuthUI.IdpConfig.EmailBuilder().build()))
                 .setIsSmartLockEnabled(false)
-                .setTheme(R.style.LoginTheme)
+                //.setTheme(R.style.LoginTheme)
                 .build();
 
         startActivityForResult(intent, RC_SIGN_IN);

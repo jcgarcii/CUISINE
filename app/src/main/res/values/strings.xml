@@ -40,7 +40,7 @@
     <string name="table_for_six">Party of Six</string>
     <string name="table_for_seven">Party of Seven</string>
     <string name="table_for_eight">Party of Eight</string>
-    <string name="large_party">Life is a Party!</string>
+    <string name="large_party">Life is a Party</string>
 
     <!--Billing Activity on the Owner Size -->
     <string name="billing_activity_banner">Billing</string>

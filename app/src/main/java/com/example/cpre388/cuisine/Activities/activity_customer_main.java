@@ -40,6 +40,7 @@ public class activity_customer_main extends AppCompatActivity implements
         ReservationAdapter.OnReservationSelectedListener {
 
     public final String EDIT_RESERVATION = "reservation_edit_key";
+    public final String REQ_RESERVATION = "request_edit_key";
     private final static String SUCCESSFUL_EDIT_DETAILS = "com.example.cpre388.cuisine.Activities.EDITRESERVATION";
 
     DrawerLayout drawerLayout;
@@ -123,12 +124,11 @@ public class activity_customer_main extends AppCompatActivity implements
             // Get the most recent resvations:
             mQuery = mFirestore.collection("Reservations")
                     .whereEqualTo("uid", currUser.getUid())
-                    .orderBy("reservation_time", Query.Direction.DESCENDING)
+                    //.orderBy("reservation_time", Query.Direction.DESCENDING)
                     .limit(LIMIT);
         }
 
         logo.setImageResource(R.drawable.logo);
-        request.setOnClickListener(this::onRequestClicked);
         reserve.setOnClickListener(this::onReservedClicked);
         initRecyclerView();
     }
@@ -179,10 +179,6 @@ public class activity_customer_main extends AppCompatActivity implements
         startActivity(reservation_start);
     }
 
-    private void onRequestClicked(View view){
-        startActivity(new Intent(activity_customer_main.this, CustomerRequestActivity.class));
-    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
@@ -191,8 +187,6 @@ public class activity_customer_main extends AppCompatActivity implements
             case R.id.nav_reciept:
                 Intent intent = new Intent(this, CustomerRecieptsActivity.class);
                 startActivity(intent);
-                break;
-            case R.id.nav_review:
                 break;
             case R.id.settings:
                 Intent settings = new Intent(this, SettingsActivity.class);
@@ -223,20 +217,56 @@ public class activity_customer_main extends AppCompatActivity implements
     @Override
     public void onReservationSelected(DocumentSnapshot reservation) {
         String[] edit = new String[5];
+        String res_time = reservation.getString("reservation_time");
 
         edit[0] = reservation.getString("table_selected");
         edit[1] = reservation.getString("room_selected");
         edit[2] = reservation.getString("restaruant_id");
-        edit[3] = reservation.getString("reservation_time");
+        edit[3] = res_time;
         edit[4] = reservation.getId().toString();
 
-        Intent intent = new Intent(this, EditReservationActivity.class);
-        //Passes the table selection and the room selection arr[0] arr[1] respectively
-        //arr[3] contains the restaurant id for documentation purposes
-        //arr[4] contains the selected time from the previous activity
-        intent.putExtra(EDIT_RESERVATION, edit);
-        startActivity(intent);
 
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
 
+        //Hours Format:
+        String hr = String.format("%d", mHour);
+        if (hr.length() == 1) {
+            String i = "0" + hr;
+            hr = i;
+        }
+        //Minute Format:
+        String min = String.format("%d", mMinute);
+        String _min = "";
+        char tens = min.charAt(0);
+        if (Integer.parseInt(String.valueOf(tens)) >= 3) {
+            _min = "30";
+        } else {
+            _min = "00";
+        }
+        String current_time = String.format("%s%s", hr, _min);
+
+        int sel_time = Integer.valueOf(res_time);
+        int curr_time = Integer.valueOf(current_time);
+        int difference = sel_time - curr_time;
+
+        if(difference > 30){
+            Intent intent = new Intent(this, EditReservationActivity.class);
+            //Passes the table selection and the room selection arr[0] arr[1] respectively
+            //arr[3] contains the restaurant id for documentation purposes
+            //arr[4] contains the selected time from the previous activity
+            intent.putExtra(EDIT_RESERVATION, edit);
+            //System.out.println(String.format("Difference: %d", difference));
+            startActivity(intent);
+        }else if((difference <= 30) && (difference > -30)){
+            Intent reqIntent = new Intent(this, CustomerRequestActivity.class);
+            reqIntent.putExtra(REQ_RESERVATION, edit);
+            //System.out.println(String.format("Difference: %d", difference));
+            startActivity(reqIntent);
+        }else{
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Reservation too Early or inactive, call restaurant to confirm", Snackbar.LENGTH_LONG).show();
+        }
     }
 }

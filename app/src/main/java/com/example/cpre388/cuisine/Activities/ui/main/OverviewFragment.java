@@ -495,7 +495,134 @@ public class OverviewFragment extends Fragment {
                             Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
                             break;
                     }
-                } else {
+                }else if (table_array[x][y] == 3) {
+                    switch (val) {
+                        case "1_1":
+                            mTable_1_1.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "1_2":
+                            mTable_1_2.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "1_3":
+                            mTable_1_3.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "2_1":
+                            mTable_2_1.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "2_2":
+                            mTable_2_2.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "2_3":
+                            mTable_2_3.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "3_1":
+                            mTable_3_1.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "3_2":
+                            mTable_3_2.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "3_3":
+                            mTable_3_3.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "4_1":
+                            mTable_4_1.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "4_2":
+                            mTable_4_2.setImageResource(R.drawable.request_soda);
+                            break;
+                        case "4_3":
+                            mTable_4_3.setImageResource(R.drawable.request_soda);
+                            break;
+                        default:
+                            Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
+                            break;
+                    }
+                } else if (table_array[x][y] == 4) {
+                    switch (val) {
+                        case "1_1":
+                            mTable_1_1.setImageResource(R.drawable.request_check);
+                            break;
+                        case "1_2":
+                            mTable_1_2.setImageResource(R.drawable.request_check);
+                            break;
+                        case "1_3":
+                            mTable_1_3.setImageResource(R.drawable.request_check);
+                            break;
+                        case "2_1":
+                            mTable_2_1.setImageResource(R.drawable.request_check);
+                            break;
+                        case "2_2":
+                            mTable_2_2.setImageResource(R.drawable.request_check);
+                            break;
+                        case "2_3":
+                            mTable_2_3.setImageResource(R.drawable.request_check);
+                            break;
+                        case "3_1":
+                            mTable_3_1.setImageResource(R.drawable.request_check);
+                            break;
+                        case "3_2":
+                            mTable_3_2.setImageResource(R.drawable.request_check);
+                            break;
+                        case "3_3":
+                            mTable_3_3.setImageResource(R.drawable.request_check);
+                            break;
+                        case "4_1":
+                            mTable_4_1.setImageResource(R.drawable.request_check);
+                            break;
+                        case "4_2":
+                            mTable_4_2.setImageResource(R.drawable.request_check);
+                            break;
+                        case "4_3":
+                            mTable_4_3.setImageResource(R.drawable.request_check);
+                            break;
+                        default:
+                            Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
+                            break;
+                    }
+                }else if (table_array[x][y] == 5) {
+                    switch (val) {
+                        case "1_1":
+                            mTable_1_1.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "1_2":
+                            mTable_1_2.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "1_3":
+                            mTable_1_3.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "2_1":
+                            mTable_2_1.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "2_2":
+                            mTable_2_2.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "2_3":
+                            mTable_2_3.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "3_1":
+                            mTable_3_1.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "3_2":
+                            mTable_3_2.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "3_3":
+                            mTable_3_3.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "4_1":
+                            mTable_4_1.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "4_2":
+                            mTable_4_2.setImageResource(R.drawable.request_waiter);
+                            break;
+                        case "4_3":
+                            mTable_4_3.setImageResource(R.drawable.request_waiter);
+                            break;
+                        default:
+                            Log.d("SELECTTABLEACTIVITY", "DEFAULT CASE");
+                            break;
+                    }
+                }
+                else {
                     switch (val) {
                         case "1_1":
                             mTable_1_1.setImageResource(android.R.color.transparent);
