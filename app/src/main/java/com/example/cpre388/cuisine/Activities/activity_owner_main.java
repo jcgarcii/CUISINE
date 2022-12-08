@@ -33,6 +33,7 @@ import java.security.acl.Owner;
 
 public class activity_owner_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String KEY_RESTAURANT_ID_OWNER = "key_restaurant_id_owner";
+    private static final String EDIT_ROOM_ITERATION = "key_current_room_itr";
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -127,11 +128,15 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
-            case R.id.nav_review:
+            case R.id.nav_restaurants:
+                Intent rest = new Intent(this, EditLayoutActivity.class);
+                rest.putExtra(EDIT_ROOM_ITERATION, 1);
+                startActivity(rest);
                 break;
             case R.id.settings:
                 Intent settings = new Intent(this, SettingsActivity.class);
                 startActivity(settings);
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

@@ -201,6 +201,58 @@
         <item>@string/price_3</item>
     </string-array>
 
+    <!-- Price filters -->
+    <string-array name="times">
+        <item>0000</item>
+        <item>0030</item>
+        <item>0100</item>
+        <item>0130</item>
+        <item>0200</item>
+        <item>0230</item>
+        <item>0300</item>
+        <item>0330</item>
+        <item>0400</item>
+        <item>0430</item>
+        <item>0500</item>
+        <item>0530</item>
+        <item>0600</item>
+        <item>0630</item>
+        <item>0700</item>
+        <item>0730</item>
+        <item>0800</item>
+        <item>0830</item>
+        <item>0900</item>
+        <item>0930</item>
+        <item>1000</item>
+        <item>1030</item>
+        <item>1100</item>
+        <item>1130</item>
+        <item>1200</item>
+        <item>1230</item>
+        <item>1300</item>
+        <item>1330</item>
+        <item>1400</item>
+        <item>1430</item>
+        <item>1500</item>
+        <item>1530</item>
+        <item>1600</item>
+        <item>1630</item>
+        <item>1700</item>
+        <item>1730</item>
+        <item>1800</item>
+        <item>1830</item>
+        <item>1900</item>
+        <item>1930</item>
+        <item>2000</item>
+        <item>2030</item>
+        <item>2100</item>
+        <item>2130</item>
+        <item>2200</item>
+        <item>2230</item>
+        <item>2300</item>
+        <item>2330</item>
+    </string-array>
+
     <!-- Ways you can sort restaurants -->
     <string-array name="sort_by">
         <item>@string/sort_by_rating</item>
