@@ -143,6 +143,7 @@ public class OverviewFragment extends Fragment {
         if (viewModel.ifReady()) {
             restaurant_id = viewModel.getRestaurant_id();
         }
+
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
@@ -165,6 +166,8 @@ public class OverviewFragment extends Fragment {
         times_ran = 0;
 
         selected_time = String.format("%s%s", hr, _min);
+
+        //System.out.println(restaurant_id);
 
         table_array_room_one = new int[4][3];
         table_array_room_two = new int[4][3];

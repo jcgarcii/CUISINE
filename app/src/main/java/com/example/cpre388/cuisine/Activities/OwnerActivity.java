@@ -1,5 +1,6 @@
 package com.example.cpre388.cuisine.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,23 +26,26 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class OwnerActivity extends AppCompatActivity {
-    public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
-
-    private FirebaseFirestore mFirestore;
-    private FirebaseUser currUser;
-
-    private String restaurant_id;
-    private OwnerActivityViewModel ownerActivityViewModel;
-
+    public static final String KEY_RESTAURANT_ID_OWNER = "key_restaurant_id_owner";
     private ActivityOwnerBinding binding;
+    private OwnerActivityViewModel ownerActivityViewModel;
+    private String getKeyRestaurantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ownerActivityViewModel = new ViewModelProvider(this).get(OwnerActivityViewModel.class);
+
+        Bundle getExtras = getIntent().getExtras();
+        if(getExtras != null) {
+            getKeyRestaurantId = getExtras.getString(KEY_RESTAURANT_ID_OWNER);
+        }else{
+            Log.d("OwnerActivity", "No Extras were Pulled");
+        }
+        ownerActivityViewModel.setRestaurant_id(getKeyRestaurantId);
 
         binding = ActivityOwnerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ownerActivityViewModel = new ViewModelProvider(this).get(OwnerActivityViewModel.class);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = binding.viewPager;
@@ -51,33 +55,6 @@ public class OwnerActivity extends AppCompatActivity {
         FloatingActionButton fab = binding.fab;
 
         fab.setVisibility(View.INVISIBLE);
-
-        mFirestore = FirebaseUtil.getFirestore();
-
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-
-            currUser = FirebaseAuth.getInstance().getCurrentUser();
-            DocumentReference userRef = mFirestore.collection("Users").document(currUser.getUid()).collection("Restaurants").document("Ownership");
-
-            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            restaurant_id = document.getString("res_id");
-                            ownerActivityViewModel.setRestaurant_id(restaurant_id);
-
-                        } else {
-                            //implement a new activity to create a new restaurant
-                            //TODO
-                        }
-                    } else {
-                        Log.d("TAG", "get failed with ", task.getException());
-                    }
-                }
-            });
-        }
 
 
         fab.setOnClickListener(new View.OnClickListener() {

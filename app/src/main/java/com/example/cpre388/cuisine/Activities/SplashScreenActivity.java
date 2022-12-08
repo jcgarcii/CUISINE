@@ -1,6 +1,8 @@
 package com.example.cpre388.cuisine.Activities;
 
+import android.app.ActivityManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +21,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-
     }
 
     private void onUser(){

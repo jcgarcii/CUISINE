@@ -2,6 +2,7 @@ package com.example.cpre388.cuisine.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,19 +14,38 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cpre388.cuisine.R;
+import com.example.cpre388.cuisine.Util.FirebaseUtil;
+import com.example.cpre388.cuisine.ViewModels.OwnerActivityViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.security.acl.Owner;
 
 
 public class activity_owner_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String KEY_RESTAURANT_ID_OWNER = "key_restaurant_id_owner";
+
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
     AppCompatButton supervise;
     ImageView logo;
+
+    private FirebaseFirestore mFirestore;
+    private FirebaseUser currUser;
+
+    private String restaurant_id;
+    //private OwnerActivityViewModel ownerActivityViewModel;
+    private int ready;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +59,8 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
         logo = findViewById(R.id.customer_main_activity_logo);
         supervise = findViewById(R.id.supervise_restaurant);
 
+        ready = 0;
+
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
@@ -48,6 +70,36 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         navigationView.setCheckedItem(R.id.nav_home);
+
+        mFirestore = FirebaseUtil.getFirestore();
+
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+
+            currUser = FirebaseAuth.getInstance().getCurrentUser();
+            DocumentReference userRef = mFirestore.collection("Users").document(currUser.getUid()).collection("Restaurants").document("Ownership");
+
+            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            restaurant_id = document.getString("res_id");
+                            //System.out.println(restaurant_id);
+                            ready++;
+
+                        } else {
+                            //implement a new activity to create a new restaurant
+                            //TODO
+                        }
+                    } else {
+                        Log.d("TAG", "get failed with ", task.getException());
+                    }
+                }
+            });
+
+
+        }
 
         logo.setImageResource(R.drawable.logo);
         supervise.setOnClickListener(this::onSuperviseClicked);
@@ -64,8 +116,12 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
     }
 
     private void onSuperviseClicked(View view){
-        Intent reservation_start = new Intent(this, OwnerActivity.class);
-        startActivity(reservation_start);
+        if(!(ready >0)) {return;}
+        else{
+            Intent reservation_start = new Intent(this, OwnerActivity.class);
+            reservation_start.putExtra(KEY_RESTAURANT_ID_OWNER, restaurant_id);
+            startActivity(reservation_start);
+        }
     }
 
     @Override
