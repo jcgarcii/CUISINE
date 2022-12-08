@@ -31,15 +31,12 @@ public class AuthenticationActivity extends AppCompatActivity {
     private static final String TAG = "AuthenticationActivity";
     private static final String USER_TYPE = "type";
 
-    private static final int RC_SIGN_IN = 9001;
-
     private ConstraintLayout constraintLayout;
     private String type_selected;
 
     private FirebaseFirestore mFirestore;
     private FirebaseUser currUser;
 
-    private MainActivityViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +45,6 @@ public class AuthenticationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         type_selected = intent.getExtras().getString(SPLASH_SCREEN);
         constraintLayout = findViewById(R.id.auth_layout);
-        mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
         //Animation Stuff:
         AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
@@ -90,26 +86,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                 }
             });
         }
-        else{
-            if(shouldStartSignIn()) {
-                startSignIn();
-            }
-            else{
-                currUser = FirebaseAuth.getInstance().getCurrentUser();
-                currUser.delete();
-            }
-        }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Start sign in if necessary
-        if (shouldStartSignIn()) {
-            startSignIn();
-            return;
-        }
-    }
 
     private void nextActivity(String t){
         if(t.equals("1")){
@@ -126,22 +104,5 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
-    private boolean shouldStartSignIn() {
-        return (!mViewModel.getIsSigningIn() && FirebaseUtil.getAuth().getCurrentUser() == null);
-    }
-
-    private void startSignIn() {
-        // Sign in with FirebaseUI
-        Intent intent = FirebaseUtil.getAuthUI()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(Collections.singletonList(
-                        new AuthUI.IdpConfig.EmailBuilder().build()))
-                .setIsSmartLockEnabled(false)
-                .setTheme(R.style.LoginTheme)
-                .build();
-
-        startActivityForResult(intent, RC_SIGN_IN);
-        mViewModel.setIsSigningIn(true);
-    }
 
 }

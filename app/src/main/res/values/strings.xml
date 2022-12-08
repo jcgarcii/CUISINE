@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">cuisine</string>
+    <string name="app_name">CUISINE</string>
     <string name="activity_room_number">Current Room</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

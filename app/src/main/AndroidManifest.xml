@@ -72,6 +72,12 @@
         </activity>
         <activity
             android:name=".Activities.MainActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".Activities.SplashScreenActivity"
+            android:theme="@style/SplashTheme"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

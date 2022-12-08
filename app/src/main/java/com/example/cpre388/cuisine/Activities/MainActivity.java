@@ -53,6 +53,9 @@ import java.util.Collections;
 public class MainActivity extends AppCompatActivity {
     private static final String SPLASH_SCREEN = "com.example.cpre388.cuisine.Activities.MainActivity";
 
+    private static final int RC_SIGN_IN = 9001;
+    private MainActivityViewModel mViewModel;
+
     private LinearLayout linearLayout;
     private AnimationDrawable animationDrawable;
     private TextView greeting1, greeting2, greeting3;
@@ -69,8 +72,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
-        //Buttons:
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){startSignIn();}
+
+            //Buttons:
         customer_btn = findViewById(R.id.CUSTOMER_btn);
         owner_btn = findViewById(R.id.RESTAURANT_btn);
 
@@ -169,4 +175,20 @@ public class MainActivity extends AppCompatActivity {
         lefestin.stop();
         videoview.stopPlayback();
     }
+
+
+    private void startSignIn() {
+        // Sign in with FirebaseUI
+        Intent intent = FirebaseUtil.getAuthUI()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(Collections.singletonList(
+                        new AuthUI.IdpConfig.EmailBuilder().build()))
+                .setIsSmartLockEnabled(false)
+                .setTheme(R.style.LoginTheme)
+                .build();
+
+        startActivityForResult(intent, RC_SIGN_IN);
+    }
+
+
 }
