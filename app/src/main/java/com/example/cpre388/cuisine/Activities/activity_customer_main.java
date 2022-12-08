@@ -46,7 +46,7 @@ public class activity_customer_main extends AppCompatActivity implements
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     androidx.appcompat.widget.Toolbar toolbar;
-    AppCompatButton reserve, request;
+    AppCompatButton reserve;
     ImageView logo;
 
     //time selection variables:
@@ -98,7 +98,6 @@ public class activity_customer_main extends AppCompatActivity implements
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar_customer_main);
         logo = findViewById(R.id.customer_main_activity_logo);
-        request = findViewById(R.id.RequestButton);
         reserve = findViewById(R.id.ReserveButton);
 
         mReservationRecycler = findViewById(R.id.recycler_reservations_cust);

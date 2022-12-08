@@ -139,10 +139,10 @@ public class OverviewFragment extends Fragment {
         }
 
         OwnerActivityViewModel viewModel = new ViewModelProvider(requireActivity()).get(OwnerActivityViewModel.class);
+        mFirestore = FirebaseUtil.getFirestore();
+        currUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (viewModel.ifReady()) {
-            restaurant_id = viewModel.getRestaurant_id();
-        }
+        getRestaurantID();
 
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -180,96 +180,114 @@ public class OverviewFragment extends Fragment {
         stable_array_room_three = new String[4][3];
         stable_array_room_four = new String[4][3];
 
-        mFirestore = FirebaseUtil.getFirestore();
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-
-            currUser = FirebaseAuth.getInstance().getCurrentUser();
-            DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document(selected_time);
-
-            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-
-                            map = (Map<String, Object>) document.getData();
-                            room_1 = (List<String>) map.getOrDefault("Room 1", "lol");
-                            room_2 = (List<String>) map.getOrDefault("Room 2", "lol");
-                            room_3 = (List<String>) map.getOrDefault("Room 3", "lol");
-                            room_4 = (List<String>) map.getOrDefault("Room 4", "lol");
-
-                            int _x_1 = 0;
-                            int _y_1 = 0;
-                            for (int i = 0; i < room_1.size(); i++) {
-                                stable_array_room_one[_y_1][_x_1] = room_1.get(i);
-
-                                if (_x_1 == 2) {
-                                    _y_1++;
-                                    _x_1 = 0;
-                                } else {
-                                    _x_1++;
-                                }
-                            }
-
-                            int _x_2 = 0;
-                            int _y_2 = 0;
-                            for (int i = 0; i < room_2.size(); i++) {
-                                stable_array_room_two[_y_2][_x_2] = room_2.get(i);
-
-                                if (_x_2 == 2) {
-                                    _y_2++;
-                                    _x_2 = 0;
-                                } else {
-                                    _x_2++;
-                                }
-                            }
-
-                            int _x_3 = 0;
-                            int _y_3 = 0;
-                            for (int i = 0; i < room_3.size(); i++) {
-                                stable_array_room_three[_y_3][_x_3] = room_3.get(i);
-
-                                if (_x_3 == 2) {
-                                    _y_3++;
-                                    _x_3 = 0;
-                                } else {
-                                    _x_3++;
-                                }
-                            }
-
-                            int _x_4 = 0;
-                            int _y_4 = 0;
-                            for (int i = 0; i < room_4.size(); i++) {
-                                stable_array_room_four[_y_4][_x_4] = room_4.get(i);
-
-                                if (_x_4 == 2) {
-                                    _y_4++;
-                                    _x_4 = 0;
-                                } else {
-                                    _x_4++;
-                                }
-                            }
-
-                            table_array_room_one = setArray(stable_array_room_one);
-                            table_array_room_two = setArray(stable_array_room_two);
-                            table_array_room_three = setArray(stable_array_room_three);
-                            table_array_room_four = setArray(stable_array_room_four);
-
-                            _onDataReady();
-
-                            Log.d("Table Retrieval Success", "very nice, hopefully");
-                        } else {
-                            Log.d("Restaurant", "doesn't have layout");
-                        }
-                    } else {
-                        Log.d("No Layout", "get failed with ", task.getException());
-                    }
-                }
-            });
-        }
     }
+    private void refreshLayout(){
+        DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document(selected_time);
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        map = (Map<String, Object>) document.getData();
+                        room_1 = (List<String>) map.getOrDefault("Room 1", "lol");
+                        room_2 = (List<String>) map.getOrDefault("Room 2", "lol");
+                        room_3 = (List<String>) map.getOrDefault("Room 3", "lol");
+                        room_4 = (List<String>) map.getOrDefault("Room 4", "lol");
+
+                        int _x_1 = 0;
+                        int _y_1 = 0;
+                        for (int i = 0; i < room_1.size(); i++) {
+                            stable_array_room_one[_y_1][_x_1] = room_1.get(i);
+
+                            if (_x_1 == 2) {
+                                _y_1++;
+                                _x_1 = 0;
+                            } else {
+                                _x_1++;
+                            }
+                        }
+
+                        int _x_2 = 0;
+                        int _y_2 = 0;
+                        for (int i = 0; i < room_2.size(); i++) {
+                            stable_array_room_two[_y_2][_x_2] = room_2.get(i);
+
+                            if (_x_2 == 2) {
+                                _y_2++;
+                                _x_2 = 0;
+                            } else {
+                                _x_2++;
+                            }
+                        }
+
+                        int _x_3 = 0;
+                        int _y_3 = 0;
+                        for (int i = 0; i < room_3.size(); i++) {
+                            stable_array_room_three[_y_3][_x_3] = room_3.get(i);
+                            if (_x_3 == 2) {
+                                _y_3++;
+                                _x_3 = 0;
+                            } else {
+                                _x_3++;
+                            }
+                        }
+
+                        int _x_4 = 0;
+                        int _y_4 = 0;
+                        for (int i = 0; i < room_4.size(); i++) {
+                            stable_array_room_four[_y_4][_x_4] = room_4.get(i);
+
+                            if (_x_4 == 2) {
+                                _y_4++;
+                                _x_4 = 0;
+                            } else {
+                                _x_4++;
+                            }
+                        }
+
+                        table_array_room_one = setArray(stable_array_room_one);
+                        table_array_room_two = setArray(stable_array_room_two);
+                        table_array_room_three = setArray(stable_array_room_three);
+                        table_array_room_four = setArray(stable_array_room_four);
+
+                        _onDataReady();
+
+                        Log.d("Table Retrieval Success", "very nice, hopefully");
+                    } else {
+                        Log.d("Restaurant", "doesn't have layout");
+                    }
+                } else {
+                    Log.d("No Layout", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+
+    private void getRestaurantID() {
+        DocumentReference rest_idRef = mFirestore.collection("Users").document(currUser.getUid()).collection("Restaurants").document("Ownership");
+
+        rest_idRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        restaurant_id = document.getString("res_id");
+                        refreshLayout();
+                        Log.d("Table Retrieval Success", "very nice, hopefully");
+                    } else {
+                        Log.d("Restaurant", "doesn't have layout");
+                    }
+                } else {
+                    Log.d("No Layout", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -357,6 +375,14 @@ public class OverviewFragment extends Fragment {
                 }
             });
        // }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            refreshLayout();
+        }
     }
 
 

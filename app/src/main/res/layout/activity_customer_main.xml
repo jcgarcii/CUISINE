@@ -34,35 +34,22 @@
             android:id="@+id/ReserveButton"
             android:layout_width="140sp"
             android:layout_height="0dp"
-            android:layout_marginBottom="30sp"
+            android:layout_marginTop="30sp"
             android:text="Reserve"
-            app:layout_constraintBottom_toTopOf="@+id/RequestButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/customer_main_activity_logo" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/RequestButton"
-            android:layout_width="140sp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="200sp"
-            android:text="Request"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ReserveButton" />
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_reservations_cust"
             android:layout_width="match_parent"
             android:layout_height="80sp"
-            android:layout_below="@+id/RequestButton"
+            android:layout_below="@+id/ReserveButton"
             android:layout_marginTop="25dp"
             android:background="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/RequestButton"
+            app:layout_constraintTop_toBottomOf="@+id/ReserveButton"
             tools:listitem="@layout/item_reservation" />
 
         <ImageView
