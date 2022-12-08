@@ -16,8 +16,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.cpre388.cuisine.Models.restaurant_model;
 import com.example.cpre388.cuisine.R;
 import com.example.cpre388.cuisine.Util.FirebaseUtil;
+import com.example.cpre388.cuisine.Util.RestaurantUtil;
 import com.example.cpre388.cuisine.ViewModels.OwnerActivityViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +31,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.security.acl.Owner;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class activity_owner_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,6 +53,8 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
     private String restaurant_id;
     //private OwnerActivityViewModel ownerActivityViewModel;
     private int ready;
+    //Checks if user has a restaurant setup:
+    private boolean nullRestaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +98,19 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
                             ready++;
 
                         } else {
-                            //implement a new activity to create a new restaurant
-                            //TODO
+                            restaurant_id = "res" + currUser.getUid();
+                            //create a new restaurant for the user:
+                            restaurant_model n = RestaurantUtil.getRandom(activity_owner_main.this);
+                            DocumentReference newRest = mFirestore.collection("restaurants").document(restaurant_id);
+                            newRest.set(n);
+                            //set the restaurant as theirs:
+                            Map<String, Object> ownership = new HashMap<>();
+                            ownership.put("res_id", restaurant_id);
+                            userRef.set(ownership);
+                            //give random layout:
+                            setRandomLayout(restaurant_id);
+
+                            ready++;
                         }
                     } else {
                         Log.d("TAG", "get failed with ", task.getException());
@@ -130,6 +149,7 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
         switch(item.getItemId()){
             case R.id.nav_restaurants:
                 Intent rest = new Intent(this, EditLayoutActivity.class);
+                rest.putExtra(KEY_RESTAURANT_ID_OWNER, restaurant_id);
                 rest.putExtra(EDIT_ROOM_ITERATION, 1);
                 startActivity(rest);
                 break;
@@ -140,5 +160,41 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setRandomLayout(String res_id){
+        String[] times = getResources().getStringArray(R.array.times);
+        for(int ti = 0; ti < times.length; ti++){
+            setTimes(times[ti]);
+        }
+    }
+
+    private void setTimes(String curr){
+        List<String> _room_1 = Arrays.asList("1", "1", "1",
+                "0", "0", "0",
+                "1", "1", "1",
+                "0", "0", "0");
+        List<String> _room_2 = Arrays.asList("1", "1", "1",
+                "0", "0", "0",
+                "1", "1", "1",
+                "0", "0", "0");
+        List<String> _room_3 = Arrays.asList("1", "1", "1",
+                "0", "0", "0",
+                "1", "1", "1",
+                "0", "0", "0");
+        List<String> _room_4 = Arrays.asList("1", "1", "1",
+                "0", "0", "0",
+                "1", "1", "1",
+                "0", "0", "0");
+
+        Map<String, Object> layout = new HashMap<>();
+
+        DocumentReference layoutRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document(curr);
+
+        layout.put("Room 1", _room_1);
+        layout.put("Room 2", _room_2);
+        layout.put("Room 3", _room_3);
+        layout.put("Room 4", _room_4);
+        layoutRef.set(layout);
     }
 }

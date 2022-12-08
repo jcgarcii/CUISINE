@@ -68,16 +68,16 @@
             android:exported="false" />
         <activity
             android:name=".Activities.activity_customer_main"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".Activities.activity_owner_main"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".Activities.BillingActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".Activities.SplashScreenActivity"
             android:exported="true"

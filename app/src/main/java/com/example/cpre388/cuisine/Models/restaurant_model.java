@@ -129,5 +129,4 @@ public class restaurant_model {
     public boolean isBooked(){
         return this.booked;
     }
-
 }

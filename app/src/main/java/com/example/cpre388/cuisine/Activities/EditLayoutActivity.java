@@ -30,6 +30,7 @@ import java.util.Map;
 
 public class EditLayoutActivity extends AppCompatActivity {
     private static final String EDIT_ROOM_ITERATION = "key_current_room_itr";
+    public static final String KEY_RESTAURANT_ID_OWNER = "key_restaurant_id_owner";
     private String restaurant_id;
     private String selected_time;
 
@@ -79,6 +80,7 @@ public class EditLayoutActivity extends AppCompatActivity {
         ready = false;
         Intent intent = getIntent();
         current_iteration = intent.getExtras().getInt(EDIT_ROOM_ITERATION);
+        restaurant_id = intent.getExtras().getString(KEY_RESTAURANT_ID_OWNER);
 
         //Time Documents to Commit:
         times = getResources().getStringArray(R.array.times);
@@ -321,7 +323,7 @@ public class EditLayoutActivity extends AppCompatActivity {
         current = _update_room(s_current_table_array);
 
         Map<String, Object> layout = new HashMap<>();
-        DocumentReference userRef = mFirestore.collection("restaurants").document("test").collection("Layouts").document(time);
+        DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document(time);
 
         String room_to_set;
         //Update the Rooms:
@@ -355,16 +357,19 @@ public class EditLayoutActivity extends AppCompatActivity {
             case 1:
                 Intent i = new Intent(this, EditLayoutActivity.class);
                 i.putExtra(EDIT_ROOM_ITERATION, 2);
+                i.putExtra(KEY_RESTAURANT_ID_OWNER, restaurant_id);
                 startActivity(i);
                 break;
             case 2:
                 Intent y = new Intent(this, EditLayoutActivity.class);
                 y.putExtra(EDIT_ROOM_ITERATION, 3);
+                y.putExtra(KEY_RESTAURANT_ID_OWNER, restaurant_id);
                 startActivity(y);
                 break;
             case 3:
                 Intent k = new Intent(this, EditLayoutActivity.class);
                 k.putExtra(EDIT_ROOM_ITERATION, 4);
+                k.putExtra(KEY_RESTAURANT_ID_OWNER, restaurant_id);
                 startActivity(k);
                 break;
             case 4:
