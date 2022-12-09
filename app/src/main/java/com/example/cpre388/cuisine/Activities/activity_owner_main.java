@@ -36,7 +36,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Owner Main Hub Activity.
+ *
+ * Allows Owner to:
+ * 1. Manage their restaurant
+ * 2. Edit their Settings
+ * 3. Edit their layout
+ */
 public class activity_owner_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String KEY_RESTAURANT_ID_OWNER = "key_restaurant_id_owner";
     private static final String EDIT_ROOM_ITERATION = "key_current_room_itr";
@@ -56,6 +63,12 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
     //Checks if user has a restaurant setup:
     private boolean nullRestaurant;
 
+    /**
+     * Activity's onCreate() method, initializes view models
+     *
+     * Retrieves the user's restuaurant ID for which they own, otherwise it'll create a new restaurant
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +95,7 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
 
         mFirestore = FirebaseUtil.getFirestore();
 
+        //Retrieves Restaurant ID, if new owner - creates new restaurant:
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             currUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -124,6 +138,10 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
         logo.setImageResource(R.drawable.logo);
         supervise.setOnClickListener(this::onSuperviseClicked);
     }
+
+    /**
+     * Menu Drawer Controls
+     */
     @Override
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -135,6 +153,10 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
 
     }
 
+    /**
+     * If supervise is clicked, it'll launch the management portion of the program if data is ready
+     * @param view
+     */
     private void onSuperviseClicked(View view){
         if(!(ready >0)) {return;}
         else{
@@ -144,6 +166,11 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
         }
     }
 
+    /**
+     * Menu navigation controls
+     * @param item - option selected by user
+     * @return - true on success
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
@@ -162,6 +189,10 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
         return true;
     }
 
+    /**
+     * Sets a random layout for the restaurant's rooms if new owner
+     * @param res_id - restaurant id for the newly created restaurant
+     */
     public void setRandomLayout(String res_id){
         String[] times = getResources().getStringArray(R.array.times);
         for(int ti = 0; ti < times.length; ti++){
@@ -169,6 +200,10 @@ public class activity_owner_main extends AppCompatActivity implements Navigation
         }
     }
 
+    /**
+     * Sets up all times for the new restaurant based on random layout
+     * @param curr - current time
+     */
     private void setTimes(String curr){
         List<String> _room_1 = Arrays.asList("1", "1", "1",
                 "0", "0", "0",

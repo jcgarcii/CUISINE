@@ -20,12 +20,21 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_3 };
     private final Context mContext;
 
+    /**
+     * Fragment Pager Adapter constructor
+     * @param context - context
+     * @param fm - Fragment Manager
+     */
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
     }
 
-
+    /**
+     * Initializes a new fragment based on tab position:
+     * @param position - tab position
+     * @return - fragment corresponding to position
+     */
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;
@@ -40,15 +49,24 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         return fragment;
     }
 
+    /**
+     * Returns Page Title based on position
+     * @param position - current tab position
+     * @return - returns tab title based on tab position
+     */
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         return mContext.getResources().getString(TAB_TITLES[position]);
     }
 
+    /**
+     * gets number of tabs to show
+     * @return - number of tabs to show
+     */
     @Override
     public int getCount() {
-        // Show 3 total pages.
+        // Show 2 total pages.
         return 2;
     }
 }

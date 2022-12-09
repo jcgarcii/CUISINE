@@ -36,9 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link OverviewFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Overview Fragment - shows the restaurant active reservations at the current moment
  */
 public class OverviewFragment extends Fragment {
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
@@ -74,8 +72,6 @@ public class OverviewFragment extends Fragment {
     private String[][] stable_array_room_three;
     private String[][] stable_array_room_four;
 
-    private Boolean selected;
-    private String currSelection;
     private String roomSelection;
 
     private Spinner spinner;
@@ -83,11 +79,7 @@ public class OverviewFragment extends Fragment {
     //String Values for View purposes:
     private String one, two, three, four;
 
-    //String Value for the Selected Table:
-    private String[] confirmation_arr;
-
-    private AppCompatButton btn;
-
+    //Firestore variables:
     private FirebaseFirestore mFirestore;
     private FirebaseUser currUser;
 
@@ -99,15 +91,15 @@ public class OverviewFragment extends Fragment {
     private List<String> room_4;
     private int times_ran;
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Empty Public Constructor for the fragment:
+     */
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -118,7 +110,7 @@ public class OverviewFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BillingFragment.
+     * @return A new instance of fragment Overview Fragment.
      */
     // TODO: Rename and change types and number of parameters
     public static OverviewFragment newInstance(String param1, String param2) {
@@ -130,6 +122,10 @@ public class OverviewFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * onCreate() implementation, initializes Firestore calls, retrieves table, and retrives the current time
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +138,7 @@ public class OverviewFragment extends Fragment {
         mFirestore = FirebaseUtil.getFirestore();
         currUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        //Get RestaurantID from User:
         getRestaurantID();
 
         final Calendar c = Calendar.getInstance();
@@ -167,14 +164,13 @@ public class OverviewFragment extends Fragment {
 
         selected_time = String.format("%s%s", hr, _min);
 
-        //System.out.println(restaurant_id);
-
+        //init int[][] matrices
         table_array_room_one = new int[4][3];
         table_array_room_two = new int[4][3];
         table_array_room_three = new int[4][3];
         table_array_room_four = new int[4][3];
         current_table_array = new int[4][3];
-
+        //init String[][] matrices
         stable_array_room_one = new String[4][3];
         stable_array_room_two = new String[4][3];
         stable_array_room_three = new String[4][3];
@@ -182,6 +178,13 @@ public class OverviewFragment extends Fragment {
 
 
     }
+
+    /**
+     * Retrieves Layout from Firestore during a refresh, or if additional data is available.
+     * 1st Called after successfully retrieving the Restaurant ID
+     *
+     * Fills 2D Array with List<> values pulled from Firestore, then casts them as Int for use in our layout logic.
+     */
     private void refreshLayout(){
         DocumentReference userRef = mFirestore.collection("restaurants").document(restaurant_id).collection("Layouts").document(selected_time);
         userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -190,12 +193,14 @@ public class OverviewFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        //Retrieve the current Layout for the current time
                         map = (Map<String, Object>) document.getData();
                         room_1 = (List<String>) map.getOrDefault("Room 1", "lol");
                         room_2 = (List<String>) map.getOrDefault("Room 2", "lol");
                         room_3 = (List<String>) map.getOrDefault("Room 3", "lol");
                         room_4 = (List<String>) map.getOrDefault("Room 4", "lol");
 
+                        //Fill 2D Array with List<> values for room 1:
                         int _x_1 = 0;
                         int _y_1 = 0;
                         for (int i = 0; i < room_1.size(); i++) {
@@ -208,7 +213,7 @@ public class OverviewFragment extends Fragment {
                                 _x_1++;
                             }
                         }
-
+                        //Fill 2D Array with List<> values for room 2:
                         int _x_2 = 0;
                         int _y_2 = 0;
                         for (int i = 0; i < room_2.size(); i++) {
@@ -221,7 +226,7 @@ public class OverviewFragment extends Fragment {
                                 _x_2++;
                             }
                         }
-
+                        //Fill 2D Array with List<> values for room 3:
                         int _x_3 = 0;
                         int _y_3 = 0;
                         for (int i = 0; i < room_3.size(); i++) {
@@ -233,7 +238,7 @@ public class OverviewFragment extends Fragment {
                                 _x_3++;
                             }
                         }
-
+                        //Fill 2D Array with List<> values for room 4:
                         int _x_4 = 0;
                         int _y_4 = 0;
                         for (int i = 0; i < room_4.size(); i++) {
@@ -246,14 +251,13 @@ public class OverviewFragment extends Fragment {
                                 _x_4++;
                             }
                         }
-
+                        //Initialize 2D int arrays from the 2D String arrays:
                         table_array_room_one = setArray(stable_array_room_one);
                         table_array_room_two = setArray(stable_array_room_two);
                         table_array_room_three = setArray(stable_array_room_three);
                         table_array_room_four = setArray(stable_array_room_four);
-
+                        //Unlocks the rest of the class's methods:
                         _onDataReady();
-
                         Log.d("Table Retrieval Success", "very nice, hopefully");
                     } else {
                         Log.d("Restaurant", "doesn't have layout");
@@ -265,7 +269,9 @@ public class OverviewFragment extends Fragment {
         });
     }
 
-
+    /**
+     * Retrieves the User's Restaurant ID, calls refreshLayout() upon success:
+     */
     private void getRestaurantID() {
         DocumentReference rest_idRef = mFirestore.collection("Users").document(currUser.getUid()).collection("Restaurants").document("Ownership");
 
@@ -288,7 +294,13 @@ public class OverviewFragment extends Fragment {
         });
     }
 
-
+    /**
+     * Standard onCreateView for the Fragement, initializes all tables - and refreshes the layout upon recreating the View:
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -322,6 +334,9 @@ public class OverviewFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Assigns View Objects with pre-retrieved data, unlocks the Fragment's spinner upon completion
+     */
     private void _onDataReady() {
       //  if (ready) {
             init_tables(0);
@@ -377,6 +392,10 @@ public class OverviewFragment extends Fragment {
        // }
     }
 
+    /**
+     * Refreshes the table layout on the fragment being visible to the user:
+     * @param isVisibleToUser
+     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -385,10 +404,8 @@ public class OverviewFragment extends Fragment {
         }
     }
 
-
-
     /**
-     * Prepares the Spinner List for room selection
+     * Prepares the Spinner List values for room selection
      */
     private void setSpinner(){
         one = "Room One";
@@ -401,6 +418,11 @@ public class OverviewFragment extends Fragment {
         list.add(four);
     }
 
+    /**
+     * Sets tables either visible or invisible once data is available.
+     * First called to set Invisible, then set Visible once data has been pulled from Firestore.
+     * @param i - indicates the desired effect, 1 for visible, 0 for invisible
+     */
     private void init_tables(int i){
         int vis = 99;
         if(i == 1){
@@ -429,6 +451,11 @@ public class OverviewFragment extends Fragment {
 
     }
 
+    /**
+     * Sets the Table's Image Resources based on the Room and the corresponding status of the table
+     * @param table_array - current table array of the current room
+     * @param room_num - indicates which room we're looking at
+     */
     private void set_tables(int[][] table_array, int room_num) {
         for (int x = 0; x < table_array.length; x++) {
             String currX = String.format("%d", x + 1);
@@ -697,7 +724,9 @@ public class OverviewFragment extends Fragment {
     }
 
     /**
-     * Returns collected arrays from Firebase to matrix
+     * Transfers String[][] 2D array to int[][] 2D array for use in our table logic
+     * @param string_array - String[][] pulled from Firestore ArrayList after being filled
+     * @return - returns same array in int[][] format. 
      */
     private int[][] setArray(String[][] string_array){
         int[][] toReturn = new int[4][3];

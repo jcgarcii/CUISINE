@@ -34,7 +34,11 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Calendar;
 
-
+/**
+ * Customer's Main Hub Activity:
+ *
+ * Allows users to make reservations, view their current active reservation, edit their reservation, or make requests - and make changes to their account
+ */
 public class activity_customer_main extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         ReservationAdapter.OnReservationSelectedListener {
@@ -63,7 +67,10 @@ public class activity_customer_main extends AppCompatActivity implements
 
     private static final int LIMIT = 1;
 
-
+    /**
+     * Activity's onCreate() method, initializes view objects and retrieves the current reservation from Firestore
+     * @param savedInstanceState - bundle
+     */
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +125,7 @@ public class activity_customer_main extends AppCompatActivity implements
         // Initialize Firestore and the main RecyclerView
         mFirestore = FirebaseUtil.getFirestore();
 
+        //Retrieve most recent reservation
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
             currUser = FirebaseAuth.getInstance().getCurrentUser();
             // Get the most recent resvations:
@@ -132,6 +140,9 @@ public class activity_customer_main extends AppCompatActivity implements
         initRecyclerView();
     }
 
+    /**
+     * Initializes the recycler view, shows only one reservation - the active one
+     */
     private void initRecyclerView() {
         if (mQuery == null) {
             Log.w("RESERVATION_FRAGMENT", "No query, not initializing RecyclerView");
@@ -163,6 +174,9 @@ public class activity_customer_main extends AppCompatActivity implements
         mReservationRecycler.setAdapter(mAdapter);
     }
 
+    /**
+     * Drawer Menu controls
+     */
     @Override
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -173,11 +187,20 @@ public class activity_customer_main extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Initializes Reservation Activities to allow user to make resrvations
+     * @param view - View
+     */
     private void onReservedClicked(View view){
         Intent reservation_start = new Intent(this, RestaurantSelectionActivity.class);
         startActivity(reservation_start);
     }
 
+    /**
+     * Drawer Menu Options
+     * @param item - selected item
+     * @return - returns on success
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
@@ -195,6 +218,9 @@ public class activity_customer_main extends AppCompatActivity implements
         return true;
     }
 
+    /**
+     * Starts reservatoin listner for updates
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -205,6 +231,9 @@ public class activity_customer_main extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Stops reservation adapter
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -213,18 +242,24 @@ public class activity_customer_main extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Decides whtat to do with the reservation if active:
+     * 1: Allows the User to make updates to their reservation if reservation is greather than 30 minutes
+     * 2: Allows user to make requests once reservation has started
+     * @param reservation - current reservation document
+     */
     @Override
     public void onReservationSelected(DocumentSnapshot reservation) {
         String[] edit = new String[5];
         String res_time = reservation.getString("reservation_time");
-
+        //Intent Variables:
         edit[0] = reservation.getString("table_selected");
         edit[1] = reservation.getString("room_selected");
         edit[2] = reservation.getString("restaruant_id");
         edit[3] = res_time;
         edit[4] = reservation.getId().toString();
 
-
+        //Retrieves current time
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
@@ -249,7 +284,9 @@ public class activity_customer_main extends AppCompatActivity implements
         int sel_time = Integer.valueOf(res_time);
         int curr_time = Integer.valueOf(current_time);
         int difference = sel_time - curr_time;
-
+        /*
+            Time logic, launches activities - or lets user know that their reservation is no longer active (if restaurant hasn't billed them)
+        */
         if(difference > 30){
             Intent intent = new Intent(this, EditReservationActivity.class);
             //Passes the table selection and the room selection arr[0] arr[1] respectively

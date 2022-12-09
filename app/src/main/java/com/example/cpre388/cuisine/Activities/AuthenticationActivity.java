@@ -26,6 +26,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Authentication Activity - no longer handles authentication.
+ *
+ * Instead, sends user their account type if they are logged in
+ *
+ * or
+ *
+ * Initializes a new user based on their selection on the new user screen
+ */
 public class AuthenticationActivity extends AppCompatActivity {
     private static final String SPLASH_SCREEN = "com.example.cpre388.cuisine.Activities.MainActivity";
     private static final String TAG = "AuthenticationActivity";
@@ -37,7 +46,15 @@ public class AuthenticationActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private FirebaseUser currUser;
 
-
+    /**
+     * onCreate() method
+     *
+     * Sets animations for the background and view objects
+     *
+     * Retrieves firebase data to see if user is already initialized.
+     * Otherwise - it'll start the new account creation activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +73,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         Map<String, Object> user = new HashMap<>();
         mFirestore = FirebaseUtil.getFirestore();
 
+        //Check for exciting user
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
 
             currUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -88,7 +106,13 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Decides which activity to launch based on available data on firestore.
+     * Returning users are sent to their respective hubs,
+     * new users are sent to the setup activity.
+     *
+     * @param t - account type retrieved
+     */
     private void nextActivity(String t){
         if(t.equals("1")){
             Intent owner = new Intent(this, activity_owner_main.class);
