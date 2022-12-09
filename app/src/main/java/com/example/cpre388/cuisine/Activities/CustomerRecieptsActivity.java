@@ -22,17 +22,17 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
 /**
- * Customer Receipt's Activity
+ * Customer Receipts Activity. -Modified from the Firebase lab list activity
  *
- * Displays their past receipts and allows them to calculate tips
+ * Displays user receipts and allows them to calculate tips
  */
 public class CustomerRecieptsActivity extends AppCompatActivity implements
-        BillAdapter.OnRestaurantSelectedListener {
+        BillAdapter.OnBillSelectedListener {
 
-    private static final String TAG = "RESTAURANT_SELECTION";
+    private static final String TAG = "RECEIPT_SCREEN";
     private static final int LIMIT = 50;
 
-    private RecyclerView mRestaurantsRecycler;
+    private RecyclerView mBillRecycler;
     private ViewGroup mEmptyView;
 
     private Query mQuery;
@@ -45,7 +45,7 @@ public class CustomerRecieptsActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_reciepts);
 
-        mRestaurantsRecycler = findViewById(R.id.recycler_restaurants);
+        mBillRecycler = findViewById(R.id.recycler_restaurants);
         mEmptyView = findViewById(R.id.view_empty);
 
 
@@ -55,10 +55,10 @@ public class CustomerRecieptsActivity extends AppCompatActivity implements
         // Initialize Firestore and the main RecyclerView
         FirebaseFirestore mFirestore = FirebaseUtil.getFirestore();
 
-
+        // Grabbing the current user
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
 
-
+        // And setting up the receipt query
         if (currUser != null) {
             mQuery = mFirestore.collection("Users")
                     .document(currUser.getUid())
@@ -76,16 +76,20 @@ public class CustomerRecieptsActivity extends AppCompatActivity implements
             Log.w(TAG, "No query, not initializing RecyclerView");
         }
 
+        // Set up new bill adapter
         mAdapter = new BillAdapter(mQuery, this) {
 
             @Override
             protected void onDataChanged() {
-                // Show/hide content if the query returns empty.
+                // Runs when receipt data changes
+
                 if (getItemCount() == 0) {
-                    mRestaurantsRecycler.setVisibility(View.GONE);
+                    // When there isn't anything to display
+                    mBillRecycler.setVisibility(View.GONE);
                     mEmptyView.setVisibility(View.VISIBLE);
                 } else {
-                    mRestaurantsRecycler.setVisibility(View.VISIBLE);
+                    // When there is something to display
+                    mBillRecycler.setVisibility(View.VISIBLE);
                     mEmptyView.setVisibility(View.GONE);
                 }
             }
@@ -98,8 +102,8 @@ public class CustomerRecieptsActivity extends AppCompatActivity implements
             }
         };
 
-        mRestaurantsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mRestaurantsRecycler.setAdapter(mAdapter);
+        mBillRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mBillRecycler.setAdapter(mAdapter);
     }
 
     @Override
@@ -115,6 +119,8 @@ public class CustomerRecieptsActivity extends AppCompatActivity implements
     @Override
     public void onStop() {
         super.onStop();
+
+        // Stop listening for Firestore updates
         if (mAdapter != null) {
             mAdapter.stopListening();
         }
@@ -123,17 +129,19 @@ public class CustomerRecieptsActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed(){
         super.onBackPressed();
+
+        // Go back to customer hub
         Intent customer_main = new Intent(this, activity_customer_main.class);
         startActivity(customer_main);
 
     }
 
     @Override
-    public void onRestaurantSelected(DocumentSnapshot bill) {
-        // Go to the details page for the selected restaurant
+    public void onBillSelected(DocumentSnapshot bill) {
 
-
+        // Go to tip calculator
         Intent intent = new Intent(this, tip_activity.class);
+        // Send ID of selected receipt
         intent.putExtra(tip_activity.KEY_ID, bill.getId());
 
         startActivity(intent);

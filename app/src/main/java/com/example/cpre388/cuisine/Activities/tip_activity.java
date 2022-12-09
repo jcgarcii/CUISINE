@@ -27,10 +27,10 @@ public class tip_activity extends AppCompatActivity {
     public static final String KEY_ID = "id";
     String receiptId;
 
-    TextView percentageLabel;
-    TextView mealPrice;
-    TextView resultPrice;
-    TextView finalPrice;
+    TextView percentageLabel;   // Label above seekbar
+    TextView mealPrice;         // Tipless meal total
+    TextView resultPrice;       //  Tip value
+    TextView finalPrice;        // Meal total + tip value
 
     FirebaseFirestore db;
 
@@ -49,11 +49,12 @@ public class tip_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tip);
 
-
+        // Set up buttons
         ApplyButton = findViewById(R.id.buttonApply);
 
         ApplyButton.setOnClickListener(v -> applyClicked());
 
+        // Get ID of the receipt that was clicked
         receiptId = getIntent().getExtras().getString(KEY_ID);
         if (receiptId == null) {
             throw new IllegalArgumentException("Must pass extra " + KEY_ID);
@@ -63,7 +64,7 @@ public class tip_activity extends AppCompatActivity {
 
         getBillTotal();
 
-        // set a change listener on the SeekBar
+        // Set a change listener on the SeekBar
         SeekBar seekBar = findViewById(R.id.seekBar);
         seekBar.setProgress(startingPercent);
 
@@ -71,6 +72,7 @@ public class tip_activity extends AppCompatActivity {
 
         int progress = seekBar.getProgress();
 
+        // Set up textviews
         mealPrice = findViewById(R.id.orderTotal);
         resultPrice = findViewById(R.id.resultText);
         finalPrice = findViewById(R.id.finalTotal);
@@ -85,22 +87,28 @@ public class tip_activity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // Set tipless cost and tip value textviews
         printValue(price, 0);
         printValue(calcTip(startingPercent), 1);
 
+        // Also set initial tip + meal cost textview
         int total = price + calcTip(startingPercent);
         printValue(total, -1);
 
     }
 
+    // Seekbar change listener
     SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            // updated continuously as the user slides the thumb
+            // updated continuously as the seekbar changes
 
+            // A flag for if the user doesn't move the seekbar
             sliderNotTouched = 0;
 
+
+            // Update and output values based on the seekbar
             tipVal = calcTip(progress);
             totalVal = tipVal + price;
 
@@ -122,6 +130,7 @@ public class tip_activity extends AppCompatActivity {
         }
     };
 
+    // Method for calculating the tip value
     public int calcTip(int percent) {
 
         int result = (int)((double)price * (percent / 100.0));
@@ -129,11 +138,14 @@ public class tip_activity extends AppCompatActivity {
         return result;
     }
 
+    // Method for formatting and setting output text
     public void printValue(int value, int totOrResult) {
 
+        // String formatting
         String dollars = String.valueOf(value / 100);
         String cents = String.valueOf(value % 100);
 
+        // Logic to make the dollar and cents fields function correctly
         if ((cents.length() < 2) && (((value % 100) > 9) || ((value % 100) == 0))){
             cents = cents + "0";
 
@@ -141,6 +153,11 @@ public class tip_activity extends AppCompatActivity {
             cents = "0" + cents;
 
         }
+
+
+        // If totOrResult is 1, set the tip value textview
+        // If totOrResult is -1, set the tip + meal cost textview
+        // If totOrResult is anything else, set the meal cost textview
 
         if (totOrResult == 1) {
             resultPrice.setText("$" + dollars + "." + cents + " Tip");
@@ -154,6 +171,7 @@ public class tip_activity extends AppCompatActivity {
         }
     }
 
+    // Grabbing the total meal cost from the Firestore database
     public void getBillTotal(){
 
         currUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -168,6 +186,7 @@ public class tip_activity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
+                                // Finding the correct receipt document
                                 if(receiptId.equals(document.getId())){
 
                                     int food = Integer.valueOf((String) document.get("food"));
@@ -176,6 +195,7 @@ public class tip_activity extends AppCompatActivity {
 
                                     price = food + drinks + refills;
 
+                                    // Making sure to set outputs once receipt data has been fetched
                                     printValue(price, 0);
                                     printValue(calcTip(startingPercent), 1);
 
@@ -191,13 +211,15 @@ public class tip_activity extends AppCompatActivity {
                 });
     }
 
-
+    // Method that runs when the user hits the apply button
     public void applyClicked(){
 
+        // Apply default tip if user hasn't changed seekbar
         if(sliderNotTouched == 1){
             tipVal = calcTip(startingPercent);
         }
 
+        // Update tip value in the receipt Firestore document
         currUser = FirebaseAuth.getInstance().getCurrentUser();
         String updatedTipVal = String.valueOf(tipVal);
 
@@ -207,6 +229,7 @@ public class tip_activity extends AppCompatActivity {
                 .document(receiptId)
                 .update("tip", updatedTipVal);
 
+        // And return to the receipt activity
         Intent intent = new Intent(this, CustomerRecieptsActivity.class);
         startActivity(intent);
 

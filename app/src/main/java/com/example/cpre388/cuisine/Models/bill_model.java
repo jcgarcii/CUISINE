@@ -2,7 +2,7 @@ package com.example.cpre388.cuisine.Models;
 
 
 /**
- * Receipt model
+ * Receipt model. -Adapted from the Firebase lab restaurant model
  */
 public class bill_model {
 
@@ -12,7 +12,7 @@ public class bill_model {
     //Initializes a new bill object
     public bill_model() {}
 
-
+    //For grabbing bill values
     public String getFood() {
         return food;
     }

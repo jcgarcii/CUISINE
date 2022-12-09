@@ -16,23 +16,24 @@ import com.google.firebase.firestore.Query;
 
 
 /**
- * RecyclerView adapter for a list of Bills.
+ * RecyclerView adapter for a list of Bills. -Adapted from the Firebase lab restaurant adapter
  */
 public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
-    public interface OnRestaurantSelectedListener {
+    public interface OnBillSelectedListener {
 
-        void onRestaurantSelected(DocumentSnapshot bill);
+        void onBillSelected(DocumentSnapshot bill);
 
     }
 
-    final OnRestaurantSelectedListener mListener;
+    final OnBillSelectedListener mListener;
 
-    public BillAdapter(Query query, OnRestaurantSelectedListener listener) {
+    public BillAdapter(Query query, OnBillSelectedListener listener) {
         super(query);
         mListener = listener;
     }
 
+    // Methods for getting the layout and viewfinder stuff set up
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,11 +48,13 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        //  Defining appropriate textviews
         TextView foodView, drinksView, refillsView, numFoodView, numDrinksView, numRefillsView, tipView, totView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            // For linking appropriate textviews
             foodView = itemView.findViewById(R.id.textViewF);
             drinksView = itemView.findViewById(R.id.textViewD);
             refillsView = itemView.findViewById(R.id.textViewR);
@@ -64,10 +67,11 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
         }
 
         public void bind(final DocumentSnapshot snapshot,
-                         final OnRestaurantSelectedListener listener) {
+                         final OnBillSelectedListener listener) {
 
             bill_model bill = snapshot.toObject(bill_model.class);
 
+            // Setting up food cost strings
             String foodDollars = String.valueOf(Integer.valueOf(bill.getFood()) / 100);
             String foodCents = String.valueOf(Integer.valueOf(bill.getFood()) % 100);
 
@@ -79,7 +83,7 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
             }
 
-
+            // Setting up drink cost strings
             String drinkDollars = String.valueOf(Integer.valueOf(bill.getDrinks()) / 100);
             String drinkCents = String.valueOf(Integer.valueOf(bill.getDrinks()) % 100);
 
@@ -91,7 +95,7 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
             }
 
-
+            // Setting up refill cost strings
             String refDollars = String.valueOf(Integer.valueOf(bill.getRefills()) / 100);
             String refCents = String.valueOf(Integer.valueOf(bill.getRefills()) % 100);
 
@@ -103,7 +107,7 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
             }
 
-
+            // Setting up tip strings
             String tipDollars = String.valueOf(Integer.valueOf(bill.getTip()) / 100);
             String tipCents = String.valueOf(Integer.valueOf(bill.getTip()) % 100);
 
@@ -115,6 +119,8 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
             }
 
+
+            // Setting the strings for the receipt Firestore documents
             foodView.setText("$" + foodDollars + "." + foodCents);
             drinksView.setText("$" + drinkDollars + "." + drinkCents);
             refillsView.setText("$" + refDollars + "." + refCents);
@@ -125,11 +131,15 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
             numDrinksView.setText(bill.getNumDrinks() + "x Drink Order");
             numRefillsView.setText(bill.getNumRefills() + "x Refill");
 
+
+            // Add up the bill total
             int total = Integer.parseInt(bill.getFood()) + Integer.parseInt(bill.getDrinks()) + Integer.parseInt(bill.getRefills()) + Integer.parseInt(bill.getTip());
 
+            // Format the strings
             String totDollars = String.valueOf(Integer.valueOf(total / 100));
             String totCents = String.valueOf(Integer.valueOf(total % 100));
 
+            // Make the output nice
             if ((totCents.length() < 2) && (((total % 100) > 9) || ((total % 100) == 0))){
                 totCents = totCents + "0";
 
@@ -138,13 +148,14 @@ public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 
             }
 
+            // And set the total
             totView.setText("$" + totDollars + "." + totCents);
 
 
             // Click listener
             itemView.setOnClickListener(view -> {
                 if (listener != null) {
-                    listener.onRestaurantSelected(snapshot);
+                    listener.onBillSelected(snapshot);
                 }
             });
         }
