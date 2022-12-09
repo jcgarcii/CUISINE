@@ -21,6 +21,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Reservation Confirmation Activity
+ *
+ * Submits the reservation to the databse, lets users know that their reservation was successfully
+ * submitted
+ */
 public class ReservationConfirmationActivity extends AppCompatActivity {
     private final static String CONFIRMATION_DETAILS = "com.example.cpre388.cuisine.Activities.ReserveTableActivity";
 
@@ -34,6 +40,13 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private FirebaseUser currUser;
 
+    /**
+     * onCreate() method
+     *
+     * Retrieves intent values
+     * Submits reservation to firebase
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +107,10 @@ public class ReservationConfirmationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Returns to customer activity, clears previous stack
+     * @param view - view
+     */
     private void onHomePressed(View view){
         Intent i=new Intent(this, activity_customer_main.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

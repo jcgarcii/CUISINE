@@ -28,6 +28,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Select Table Activity, shows user available tables at the previously selected time
+ *
+ * Launches ReserveTableActivity - for further information
+ */
 public class SelectTableActivity extends AppCompatActivity {
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
     public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
@@ -77,7 +82,12 @@ public class SelectTableActivity extends AppCompatActivity {
     private List<String> room_3;
     private List<String> room_4;
 
-
+    /**
+     * Initializes view objects
+     *
+     * Retrieves layout from firestore - sets the layout upon completion
+     * @param savedInstanceState - bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -298,6 +308,10 @@ public class SelectTableActivity extends AppCompatActivity {
         list.add(four);
     }
 
+    /**
+     * Initializes tables - visble or invisible depending on data status
+     * @param i - 1-> visible, 0 -> invisible
+     */
     private void init_tables(int i){
         int vis;
         if(i == 1){
@@ -326,6 +340,17 @@ public class SelectTableActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets tables for the current room
+     *
+     * Inflates and showcases on GUI the table's status:
+     * 1 -> Available
+     * 2 -> Reserved
+     * 0 -> Table doesn't exist
+     *
+     * @param table_array - current table array
+     * @param room_num - current room selected
+     */
     private void set_tables(int[][] table_array, int room_num){
         if(!ready) {return;}
 
@@ -482,6 +507,13 @@ public class SelectTableActivity extends AppCompatActivity {
         return toReturn;
     }
 
+    /**
+     * The following are click listners for all tables.
+     *
+     * Sets the cureent table as active, allowing for one choice
+     *
+     * @param view - view
+     */
     public void on_1_1_clicked(View view){
         /*
         if(EMPTY){}
@@ -843,6 +875,12 @@ public class SelectTableActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates Firestore Layout for the currently picked reservation time to reflect that it is reserved
+     * @param roomSelection - selected room
+     * @param currSelection - selected table
+     * @param array - room layout
+     */
     public void _update_layout(String roomSelection, String currSelection, int[][] array){
         String currX = "";
         String currY = "";
@@ -904,6 +942,10 @@ public class SelectTableActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Calls _update_layout(), and passes intent to the reserve table
+     * @param view - view
+     */
     public void onSubmit(View view){
         _update_layout(roomSelection, currSelection, current_table_array);
 

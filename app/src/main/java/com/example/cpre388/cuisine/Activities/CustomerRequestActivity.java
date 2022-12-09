@@ -24,6 +24,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Customer's Request Activity
+ *
+ * Allows the users to make requests to their tables, sending updates to the restaurant's hub
+ *
+ * Users are allowed to access this activity only during their reservation times
+ */
 public class CustomerRequestActivity extends AppCompatActivity {
     public final String REQ_RESERVATION = "request_edit_key";
     //Intent Data:
@@ -56,6 +63,14 @@ public class CustomerRequestActivity extends AppCompatActivity {
     private Button refill, check, waiter;
     private boolean clicked;
 
+    /**
+     * onCreate() method
+     *
+     * Initializes the View objects
+     *
+     * retrieves the current restaurant layoout to provide live updates
+     * @param savedInstanceState - bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +113,9 @@ public class CustomerRequestActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Refreshes tables after a request is made and on starting the activity
+     */
     private void refreshTables(){
         ready = false;
         userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -190,6 +208,9 @@ public class CustomerRequestActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets which room is active (the room that the user is in)
+     */
     private void set_active(){
         switch (mRoom){
             case "One":
@@ -208,23 +229,43 @@ public class CustomerRequestActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Creates refill request:
+     * @param view - view
+     */
     private void onRefill(View view){
         clicked = true;
         _update_layout(mRoom, mTable, current_table_array, 3);
         refreshTables();
     }
+
+    /**
+     * Creates check request:
+     * @param view - view
+     */
     private void onCheck(View view){
         clicked = true;
         _update_layout(mRoom, mTable, current_table_array, 4);
         refreshTables();
     }
+
+    /**
+     * Creates a waiter request
+     * @param view - view
+     */
     private void onWaiter(View view){
         clicked = true;
         _update_layout(mRoom, mTable, current_table_array, 5);
         refreshTables();
     }
 
-
+    /**
+     * Updates Layout on the server side - allows owner to see requests
+     * @param roomSelection - clients current room
+     * @param currSelection - client's current table
+     * @param array - layout 2D array for the user's room
+     * @param code - type of request
+     */
     public void _update_layout(String roomSelection, String currSelection, int[][] array, int code){
         String currX = "";
         String currY = "";
@@ -282,8 +323,9 @@ public class CustomerRequestActivity extends AppCompatActivity {
                 break;
         }
     }
+
     /**
-     * Returns collected arrays from Firebase to matrix
+     * Returns collected arrays from Firebase to 2D int matrix
      */
     private int[][] setArray(String[][] string_array){
         int[][] toReturn = new int[4][3];

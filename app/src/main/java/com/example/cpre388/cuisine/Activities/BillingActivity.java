@@ -30,6 +30,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Billing Activity -> generates receipts for users, removes their reservation, and updates the layout
+ */
 public class BillingActivity extends AppCompatActivity {
     private String[] _reservation;
     private static final String RESERV_BILLING_KEY = "key_reservation_billing";
@@ -77,6 +80,12 @@ public class BillingActivity extends AppCompatActivity {
     private String[][] stable_array_room_three;
     private String[][] stable_array_room_four;
 
+    /**
+     * onCreate() method
+     *
+     * Initializes views, matricies, and retrieves current layout from firestore
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -213,8 +222,9 @@ public class BillingActivity extends AppCompatActivity {
         });
         submit_btn.setOnClickListener(this::onSubmit);
     }
+
     /**
-     * Returns collected arrays from Firebase to matrix
+     * Sets collected arrays from Firebase to int[][] matrix
      */
     private int[][] setArray(String[][] string_array){
         int[][] toReturn = new int[4][3];
@@ -228,7 +238,9 @@ public class BillingActivity extends AppCompatActivity {
         return toReturn;
     }
 
-
+    /**
+     * Takes the room for the reservation and sets that room's as active
+     */
     private void set_active(){
         switch (fire_room){
             case "One":
@@ -247,6 +259,15 @@ public class BillingActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Updates the layout on billing complete
+     *
+     * Converts 2D int array to ArrayList<> and pushes to the database
+     *
+     * @param roomSelection - room that the reservation is in
+     * @param currSelection - table that the resrvation is pointing to
+     * @param array - layout 2D array for selected room
+     */
     public void _update_layout(String roomSelection, String currSelection, int[][] array){
         String currX = "";
         String currY = "";
@@ -308,6 +329,9 @@ public class BillingActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Deletes the reservation upon receipt submission
+     */
     private void delete_reservation(){
         reservationRef.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -324,6 +348,10 @@ public class BillingActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Commits receipt to the database - sends the receipt to the user
+     * Calls for a layout update and clears the reservations
+     */
     private void commit_receipt() {
         String foodEntry = _foodEntry.getText().toString();
         String drinkEntry = _bevEntry.getText().toString();
@@ -357,6 +385,10 @@ public class BillingActivity extends AppCompatActivity {
         ready++;
     }
 
+    /**
+     * Starts receipt commit and returns back to owner's management tabs
+     * @param view
+     */
     private void onSubmit(View view) {
         if(layout_ready > 0) {
             if (ready > 0) {

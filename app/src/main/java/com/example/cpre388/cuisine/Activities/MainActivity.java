@@ -50,6 +50,10 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Collections;
 
+
+/**
+ * Main Activity (if new user, prompts users to log in and select which type of user they are)
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String SPLASH_SCREEN = "com.example.cpre388.cuisine.Activities.MainActivity";
 
@@ -68,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
     //Handlers for animations:
     private Handler first_animation, sec_animation, third_animation;
 
+    /**
+     * Prompts user login,
+     * plays the backgroud view and the music
+     *
+     * @param savedInstanceState - view
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +127,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Starts video and music
+     */
     @Override
     protected void onResume(){
         super.onResume();
@@ -124,6 +138,10 @@ public class MainActivity extends AppCompatActivity {
         lefestin.start();
     }
 
+    /**
+     * Text animation
+     * @return - returns runnable
+     */
     private Runnable first_greeting(){
         Runnable runnable = new Runnable() {
             @Override
@@ -134,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
         return runnable;
     }
 
+    /**
+     * Second text animation
+     * @return - animation runnable
+     */
     private Runnable second_greeting(){
         Runnable runnable = new Runnable() {
             @Override
@@ -144,6 +166,10 @@ public class MainActivity extends AppCompatActivity {
         return runnable;
     }
 
+    /**
+     * Third text animation
+     * @return - animation runnable
+     */
     private Runnable third_greeting(){
         Runnable runnable = new Runnable() {
             @Override
@@ -154,6 +180,10 @@ public class MainActivity extends AppCompatActivity {
         return runnable;
     }
 
+    /**
+     * Sets new user as a customer, otherwise will send the user to the authentication activity to retrieve their user type
+     * @param view
+     */
     private void onCustomerPressed(View view){
         String userType = "0";
         Intent customer = new Intent(this, AuthenticationActivity.class);
@@ -161,6 +191,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(customer);
     }
 
+    /**
+     * Sets new user as a restaurant, otherwise wwill send the user to the authentication activity to retrieve their user type
+     * @param view
+     */
     private void onOwnerPressed(View view){
         String userType = "1";
         Intent owner = new Intent(this, AuthenticationActivity.class);
@@ -168,7 +202,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(owner);
     }
 
-
+    /**
+     * Pauses music and video onPause()
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -176,7 +212,9 @@ public class MainActivity extends AppCompatActivity {
         videoview.stopPlayback();
     }
 
-
+    /**
+     * Starts signing, if they make it to this activity they were not logged in.
+     */
     private void startSignIn() {
         // Sign in with FirebaseUI
         Intent intent = FirebaseUtil.getAuthUI()
@@ -189,6 +227,4 @@ public class MainActivity extends AppCompatActivity {
 
         startActivityForResult(intent, RC_SIGN_IN);
     }
-
-
 }

@@ -25,12 +25,21 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Fragment Parent for the Fragment Tabs
+ */
 public class OwnerActivity extends AppCompatActivity {
     public static final String KEY_RESTAURANT_ID_OWNER = "key_restaurant_id_owner";
     private ActivityOwnerBinding binding;
     private OwnerActivityViewModel ownerActivityViewModel;
     private String getKeyRestaurantId;
 
+    /**
+     * onCreate() method
+     *
+     * retrieves the user's restaurant id of which they own
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

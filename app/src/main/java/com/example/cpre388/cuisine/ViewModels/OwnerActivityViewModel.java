@@ -2,6 +2,10 @@ package com.example.cpre388.cuisine.ViewModels;
 
 import androidx.lifecycle.ViewModel;
 
+/**
+ * ViewModel for {@link com.example.cpre388.cuisine.Activities.OwnerActivity}.
+ */
+
 public class OwnerActivityViewModel extends ViewModel {
 
     private String restaurant_id;

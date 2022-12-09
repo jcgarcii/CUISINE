@@ -16,7 +16,7 @@ import com.google.firebase.firestore.Query;
 
 
 /**
- * RecyclerView adapter for a list of Restaurants.
+ * RecyclerView adapter for a list of Bills.
  */
 public class BillAdapter extends FirestoreAdapter<BillAdapter.ViewHolder> {
 

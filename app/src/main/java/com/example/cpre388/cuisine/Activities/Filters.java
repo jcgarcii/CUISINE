@@ -9,7 +9,7 @@ import com.example.cpre388.cuisine.Util.RestaurantUtil;
 import com.google.firebase.firestore.Query;
 
 /**
- * Object for passing filters around.
+ * Object for passing filters around. - borrowed from the Firebase lab
  */
 public class Filters {
 

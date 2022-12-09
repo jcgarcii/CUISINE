@@ -32,6 +32,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observer;
 
+/**
+ * Allows owner to make changes to their restaurant's details - not implemented
+ */
 public class ManageRestaruantDetailsActivity extends AppCompatActivity {
     private static final String NEW_SETTINGS = "com.example.cpre388.cuisine.activities.SETTINGS";
 

@@ -7,6 +7,9 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 
+/**
+ * Rating Model
+ */
 public class rating_model {
     private String userId;
     private String userName;

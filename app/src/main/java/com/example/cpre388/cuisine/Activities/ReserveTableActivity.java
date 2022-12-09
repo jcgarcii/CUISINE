@@ -18,6 +18,9 @@ import com.example.cpre388.cuisine.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Reservation Activity - prompts users to enter their details after selecting a restaurant and their table
+ */
 public class ReserveTableActivity extends AppCompatActivity {
     private final static String CONFIRMATION_DETAILS = "com.example.cpre388.cuisine.Activities.ReserveTableActivity";
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
@@ -40,6 +43,12 @@ public class ReserveTableActivity extends AppCompatActivity {
     private String[] confirmation;
     private int party_size;
 
+    /**
+     * Sets view objects
+     *
+     * And spinner objects
+     * @param savedInstanceState - bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +166,10 @@ public class ReserveTableActivity extends AppCompatActivity {
         list.add(nine);
     }
 
+    /**
+     * onSubmit(): sends details to the confirmation to be submitted
+     * @param view - view
+     */
     private void onSubmit(View view){
         String confirmation_details = String.format("Your table for %d, will be ready soon!", party_size);
         String party_num = String.format("%d", party_size);

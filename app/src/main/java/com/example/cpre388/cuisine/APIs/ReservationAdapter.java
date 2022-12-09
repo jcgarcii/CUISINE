@@ -14,7 +14,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
 /**
- * RecyclerView adapter for a list of Restaurants.
+ * RecyclerView adapter for a list of Reservations.
  */
 public class ReservationAdapter extends FirestoreAdapter<ReservationAdapter.ViewHolder> {
 

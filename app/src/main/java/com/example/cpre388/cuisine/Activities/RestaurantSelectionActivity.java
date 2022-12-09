@@ -33,6 +33,10 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Collections;
 
+/**
+ * Shows avialable restaurants to make a reservation from - borrowed from Firebase lab -
+ * retrofitted to work in this context
+ */
 public class RestaurantSelectionActivity extends AppCompatActivity implements
         View.OnClickListener,
         FilterDialogFragment.FilterListener,
@@ -58,6 +62,11 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
 
     private MainActivityViewModel mViewModel;
 
+    /**
+     * Starts queries for available restaurants to choose from
+     * initializes view objects
+     * @param savedInstanceState - bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +102,9 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
 
     }
 
+    /**
+     * initializes restaurant recycler view
+     */
     private void initRecyclerView() {
         if (mQuery == null) {
             Log.w(TAG, "No query, not initializing RecyclerView");
@@ -124,6 +136,9 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
         mRestaurantsRecycler.setAdapter(mAdapter);
     }
 
+    /**
+     * Starts adapter on start and sets restaurant filters
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -137,6 +152,9 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * stops the restaurant adapter from listening for updates
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -145,16 +163,10 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
         }
     }
 
-    private void onAddItemsClicked() {
-        // TODO(developer): Add random restaurants
-        CollectionReference store = mFirestore.collection("restaurants");
-        restaurant_model n;
-        for(int i = 0; i <= 9; i++) {
-            n = RestaurantUtil.getRandom(RestaurantSelectionActivity.this);
-            store.add(n);
-        }
-    }
-
+    /**
+     * on added filter - from firebase lab
+      * @param filters - set filters
+     */
     @Override
     public void onFilter(Filters filters) {
         // TODO(developer): Construct new query
@@ -190,26 +202,40 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
         mViewModel.setFilters(filters);
     }
 
+    /**
+     * Inflates the menu
+     * @param menu - menu layout
+     * @return - returns options
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Menu options to choose from
+     * @param item - items selected from the menu
+     * @return - true if successful
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_items:
-                onAddItemsClicked();
+                //onAddItemsClicked();
                 break;
             case R.id.menu_sign_out:
-                FirebaseUtil.getAuthUI().signOut(this);
+                //FirebaseUtil.getAuthUI().signOut(this);
                 //startSignIn();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Filters click listners
+     * @param v - view
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -221,18 +247,28 @@ public class RestaurantSelectionActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Shows filters fragment - from firebase lab
+     */
     public void onFilterClicked() {
         // Show the dialog containing filter options
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
         //startActivity(new Intent(MainActivity.this, activity_customer_main.class));
     }
 
+    /**
+     * Clears selected filters - from firebase lab
+     */
     public void onClearFilterClicked() {
         mFilterDialog.resetFilters();
 
         onFilter(Filters.getDefault());
     }
 
+    /**
+     * Launches restaurant details from the restaurant selected
+     * @param restaurant - restaurant details snapshot from firestore
+     */
     @Override
     public void onRestaurantSelected(DocumentSnapshot restaurant) {
         // Go to the details page for the selected restaurant

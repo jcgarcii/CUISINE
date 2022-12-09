@@ -34,6 +34,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Edit Reservation Activity allows the user to make changes to their reservation up to 30 minutes
+ * before their intended time
+ */
 public class EditReservationActivity extends AppCompatActivity {
     private final static String SUCCESSFUL_EDIT_DETAILS = "com.example.cpre388.cuisine.Activities.EDITRESERVATION";
     private final static String SELECTION_DETAILS = "com.example.cpre388.cuisine.Activities.SelectTableActivity";
@@ -75,6 +79,14 @@ public class EditReservationActivity extends AppCompatActivity {
     //String Values for View purposes:
     private String one, two, three,
             four, five, six, seven, eight, nine;
+
+    /**
+     * onCreate() method
+     *
+     * initializes view objects, sets previously selected values for user to compare
+     *
+     * @param savedInstanceState - bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,6 +184,7 @@ public class EditReservationActivity extends AppCompatActivity {
 
         mFirestore = FirebaseUtil.getFirestore();
 
+        //checks if the resrvation exist (redundancy)
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             currUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -219,6 +232,10 @@ public class EditReservationActivity extends AppCompatActivity {
         list.add(nine);
     }
 
+    /**
+     * Sets new selected time - launches time picker
+     * @param view - view
+     */
     private void onSetTime(View view){
         // Get Current Time
         final Calendar c = Calendar.getInstance();
@@ -257,7 +274,10 @@ public class EditReservationActivity extends AppCompatActivity {
         _document_ready++;
     }
 
-
+    /**
+     * Submits changes to firestore
+     * @param view - view
+     */
     private void onSubmit(View view){
 
         String confirmation_details = String.format("Your table for %d, will be ready soon!", party_size);

@@ -8,7 +8,6 @@ import com.example.cpre388.cuisine.Activities.Filters;
 /**
  * ViewModel for {@link com.example.cpre388.cuisine.Activities.MainActivity}.
  */
-
 public class MainActivityViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> settings_changed = new MutableLiveData<>();

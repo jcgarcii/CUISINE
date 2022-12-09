@@ -1,5 +1,9 @@
 package com.example.cpre388.cuisine.Models;
 
+
+/**
+ * Receipt model
+ */
 public class bill_model {
 
     private String food, drinks, refills, numFood, numDrinks, numRefills, tip;

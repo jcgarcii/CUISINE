@@ -1,5 +1,8 @@
 package com.example.cpre388.cuisine.Models;
 
+/**
+ * Restaurant Model
+ */
 public class restaurant_model {
     public static final String FIELD_OWNER = "owner";
     public static final String FIELD_CITY = "city";

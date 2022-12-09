@@ -33,6 +33,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observer;
 
+/**
+ * Settings Activity/Profile Activity
+ *
+ * Allows users to make changes to their accounts. Pulls prior values and showcases the values.
+ */
 public class SettingsActivity extends AppCompatActivity {
     private static final String NEW_SETTINGS = "com.example.cpre388.cuisine.activities.SETTINGS";
 
@@ -79,7 +84,11 @@ public class SettingsActivity extends AppCompatActivity {
     private ArrayList<String> available_user_list;
     private ArrayList<String> restaurant_list;
 
-
+    /**
+     * Retrieves previous values and sets the textviews to reflect
+     * otherwise, new users will be prompted to enter their information
+     * @param savedInstanceState - bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,6 +211,11 @@ public class SettingsActivity extends AppCompatActivity {
         local = LocalTime.now();
     }
 
+    /**
+     * Initializes visability once data is ready
+     * @param ready - 0 -> hide btns
+     *              1 -> show buttons
+     */
     private void set_views(int ready){
         int vis;
         if(ready == 0){
@@ -226,6 +240,9 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates user's details on firestore
+     */
     public void _update(){
         if(changes == 1) {
             int _null_name = 0;
@@ -346,7 +363,10 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Calls update function, only once
+     * @param view
+     */
     public void on_submit(View view){
          if(changes == 1){dummy++;}
          else {
@@ -362,13 +382,20 @@ public class SettingsActivity extends AppCompatActivity {
 */
     }
 
-
+    /**
+     * Exits activity without any changes
+     * @param view
+     */
     public void on_discard(View view){
         if(document_exists > 0){
             nextActivity(99);
         }
     }
 
+    /**
+     * Deletes account, launches login activity
+     * @param view - view
+     */
     public void on_delete(View view) {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             currUser.delete();

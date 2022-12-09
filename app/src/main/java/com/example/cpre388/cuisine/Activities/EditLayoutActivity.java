@@ -28,6 +28,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Recursive EditLayout Activity
+ *
+ * Allows restaurant's to edit their table layouts, one room at a time
+ */
 public class EditLayoutActivity extends AppCompatActivity {
     private static final String EDIT_ROOM_ITERATION = "key_current_room_itr";
     public static final String KEY_RESTAURANT_ID_OWNER = "key_restaurant_id_owner";
@@ -69,6 +74,11 @@ public class EditLayoutActivity extends AppCompatActivity {
     private Map<String, Object> map;
     private List<String> current;
 
+    /**
+     * Retrieves context on which room was previously edited
+     * initializes view items
+     * @param savedInstanceState - bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,7 +137,10 @@ public class EditLayoutActivity extends AppCompatActivity {
         btn.setOnClickListener(this::onSubmit);
     }
 
-
+    /**
+     * Fills current 2D array with active (default)
+     * Calls GUI updates for default (active)
+     */
     private void init_tables() {
         int[][] toSet = new int[4][3];
 
@@ -140,6 +153,9 @@ public class EditLayoutActivity extends AppCompatActivity {
         _default_tables();
     }
 
+    /**
+     * Sets all tables to default to show to the user which tables are active
+     */
     private void _default_tables(){
         mTable_1_1.setImageResource(R.drawable.table_for_default);
         mTable_1_2.setImageResource(R.drawable.table_for_default);
@@ -159,7 +175,7 @@ public class EditLayoutActivity extends AppCompatActivity {
     }
 
     /**
-     * Returns int matrices in String format for Firestore
+     * Returns int matrices in String format for Firestore submission
      */
     private String[][] setArray(int[][] int_array){
         String[][] toReturn = new String[4][3];
@@ -174,7 +190,7 @@ public class EditLayoutActivity extends AppCompatActivity {
     }
 
     /**
-     * Prepares the Spinner List for room selection
+     * Prepares the Spinner List for room selection - depricated
      */
     private void setSpinner(){
         //String Values for View purposes:
@@ -188,6 +204,12 @@ public class EditLayoutActivity extends AppCompatActivity {
         list.add(four);
     }
 
+    /**
+     * The Following are listeners for each individual table in the room
+     *
+     * Sets either as active or inactive
+     * @param view - view
+     */
     public void on_1_1_clicked(View view){
         if(current_table_array[0][0] == 1) {
             current_table_array[0][0] = 0;
@@ -306,6 +328,11 @@ public class EditLayoutActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets 2D String array as an ArrayList<> for firestore submission
+     * @param room_array - current room's corresponding 2D array
+     * @return - returns input 2D array as ArrayList
+     */
     public ArrayList<String> _update_room(String[][] room_array){
 
         //Update the Layout of the Current Selection:
@@ -318,6 +345,10 @@ public class EditLayoutActivity extends AppCompatActivity {
         return arrayList;
     }
 
+    /**
+     * Commits the layout to the given time of the restaurant
+     * @param time - time document to update
+     */
     public void commitLayout(String time){
         //Correct Format
         current = _update_room(s_current_table_array);
@@ -345,7 +376,11 @@ public class EditLayoutActivity extends AppCompatActivity {
         userRef.update(layout);
     }
 
-
+    /**
+     * Fills all timeslots with the new layout, calls activity again to edit the next room
+     * or if all rooms have been edited, return back to the user's home hub.
+     * @param view - view
+     */
     private void onSubmit(View view){
         s_current_table_array = setArray(current_table_array);
 

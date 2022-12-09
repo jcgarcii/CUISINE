@@ -21,13 +21,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
-
+/**
+ * Customer Receipt's Activity
+ *
+ * Displays their past receipts and allows them to calculate tips
+ */
 public class CustomerRecieptsActivity extends AppCompatActivity implements
         BillAdapter.OnRestaurantSelectedListener {
 
     private static final String TAG = "RESTAURANT_SELECTION";
-
-
     private static final int LIMIT = 50;
 
     private RecyclerView mRestaurantsRecycler;

@@ -43,6 +43,10 @@ import java.util.Calendar;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
+/**
+ * Reservation Details - shows restaurant reviews, allows users to selected times
+ * and launches select a table activity
+ */
 public class RestaurantDetailActivity extends AppCompatActivity implements
         View.OnClickListener,
         EventListener<DocumentSnapshot>,
@@ -80,6 +84,12 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
 
     private AppCompatButton reserve_btn;
 
+    /**
+     * Starts query for restaurant reviews
+     *
+     * otherwise, prompts user to select a time if they are making a reservation
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +156,9 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         mRatingDialog = new RatingDialogFragment();
     }
 
+    /**
+     * starts rating adapter for ratings
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -154,6 +167,9 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         mRestaurantRegistration = mRestaurantRef.addSnapshotListener(this);
     }
 
+    /**
+     * stops rating adapter
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -166,6 +182,10 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Listens for adding a rating
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -178,6 +198,12 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * commits restaurant rating
+     * @param restaurantRef - restaurant document on firestore
+     * @param rating - their new raiting
+     * @return - null if failure to upload
+     */
     private Task<Void> addRating(final DocumentReference restaurantRef, final rating_model rating) {
         // TODO(developer): Implement
         // Create reference for new rating, for use inside the transaction
@@ -213,6 +239,11 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         });
     }
 
+    /**
+     * Launches time picker for the first click to retrieve a resrvation time from the user
+     * Launches select a table activity upon submission to view available seating at that time
+     * @param view
+     */
     private void onReservePressed(View view) {
         if (ready == 1) {
             Intent reservation = new Intent(this, SelectTableActivity.class);
@@ -273,6 +304,10 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         onRestaurantLoaded(snapshot.toObject(restaurant_model.class));
     }
 
+    /**
+     * Loads restaurant's details on the page
+     * @param restaurant - restaurant model
+     */
     private void onRestaurantLoaded(restaurant_model restaurant) {
         mNameView.setText(restaurant.getName());
         mRatingIndicator.setRating((float) restaurant.getAvgRating());
@@ -287,14 +322,26 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
                 .into(mImageView);
     }
 
+    /**
+     * Returns to the previous activity
+     * @param view - view
+     */
     public void onBackArrowClicked(View view) {
         onBackPressed();
     }
 
+    /**
+     * Creates rating fragment to allow user to add rating
+     * @param view - view
+     */
     public void onAddRatingClicked(View view) {
         mRatingDialog.show(getSupportFragmentManager(), RatingDialogFragment.TAG);
     }
 
+    /**
+     * Once a rating has been made, it hides the keyboard and starts the commit method
+     * @param rating - created ratiing by user
+     */
     @Override
     public void onRating(rating_model rating) {
         // In a transaction, add the new rating and update the aggregate totals
@@ -322,6 +369,9 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
                 });
     }
 
+    /**
+     * Hides the keyboard
+     */
     private void hideKeyboard() {
         View view = getCurrentFocus();
         if (view != null) {

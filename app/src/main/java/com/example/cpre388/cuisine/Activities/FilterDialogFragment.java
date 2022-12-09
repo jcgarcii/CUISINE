@@ -15,7 +15,7 @@ import com.example.cpre388.cuisine.Models.restaurant_model;
 import com.google.firebase.firestore.Query;
 
 /**
- * Dialog Fragment containing filter form.
+ * Dialog Fragment containing filter form. - borrowed from the Firebase Lab
  */
 public class FilterDialogFragment extends DialogFragment implements View.OnClickListener {
 

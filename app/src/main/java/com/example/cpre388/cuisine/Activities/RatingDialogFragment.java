@@ -18,7 +18,7 @@ import com.example.cpre388.cuisine.Util.FirebaseUtil;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 /**
- * Dialog Fragment containing rating form.
+ * Dialog Fragment containing rating form. - borrowed from the Firebase Lab
  */
 public class RatingDialogFragment extends DialogFragment implements View.OnClickListener {
 

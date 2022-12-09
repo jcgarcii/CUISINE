@@ -1,5 +1,8 @@
 package com.example.cpre388.cuisine.Models;
 
+/**
+ * User model - depricated
+ */
 public class user_model {
     private Float rating;
     private String uid;
