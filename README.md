@@ -1,7 +1,6 @@
-# CUISINE
-
 ![Android Studio](https://upload.wikimedia.org/wikipedia/commons/c/c1/Android_Studio_icon_%282023%29.svg)
 
+# CUISINE
 Welcome to CUISINE, the innovative Android app that revolutionizes the dining experience for both restaurant patrons and owners. Built on Java and integrated with Firebase, CUISINE offers a seamless interface for managing dining reservations, customizing restaurant layouts, and enhancing customer service.
 
 ## Features
