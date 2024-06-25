@@ -14,6 +14,6 @@ Welcome to CUISINE, the innovative Android app that revolutionizes the dining ex
 
 ## Data Management
 All user data, restaurant layouts, reservations, and other relevant information are securely stored and managed in Firestore, ensuring data integrity and easy access.
-![Android](https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AAndroid_robot.svg&psig=AOvVaw1fTH0oZjIkjzVmO-8OjGJJ&ust=1719411062240000&source=images&cd=vfe&opi=89978449&ved=0CA8QjRxqFwoTCLiTir739oYDFQAAAAAdAAAAABAE)
-![Java](https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FJava_%2528programming_language%2529&psig=AOvVaw1L916Od_sbqPfR_9wr7hBB&ust=1719411084108000&source=images&cd=vfe&opi=89978449&ved=0CA8QjRxqFwoTCKiE1Mj39oYDFQAAAAAdAAAAABAE)
-![Android Studio](https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AAndroid_Studio_icon_%25282023%2529.svg&psig=AOvVaw3euTe217tgEqgAucXnL7De&ust=1719411104919000&source=images&cd=vfe&opi=89978449&ved=0CA8QjRxqFwoTCMCi09L39oYDFQAAAAAdAAAAABAH)
+![Android](https://upload.wikimedia.org/wikipedia/commons/d/d7/Android_robot.svg)
+![Java](https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg)
+![Android Studio](https://upload.wikimedia.org/wikipedia/commons/c/c1/Android_Studio_icon_%282023%29.svg)
